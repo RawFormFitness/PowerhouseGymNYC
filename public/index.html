@@ -480,6 +480,16 @@
     .action-card.action-warm .action-what b { color: var(--warn); font-weight: 700; }
     .action-card.action-cold .action-what b { color: var(--blue); font-weight: 700; }
     .action-how { color: var(--text-dim); font-size: 0.87rem; line-height: 1.55; }
+    .action-reach {
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 10px 12px; background: rgba(255,255,255,0.03);
+      border-radius: 6px; font-size: 0.82rem; line-height: 1.4;
+    }
+    .action-reach-row { display: flex; justify-content: space-between; gap: 10px; }
+    .action-reach-label { color: var(--text-dim); }
+    .action-reach-value { color: #fff; font-variant-numeric: tabular-nums; font-weight: 600; }
+    .action-reach-row.opted-out .action-reach-label,
+    .action-reach-row.opted-out .action-reach-value { color: var(--text-dim); }
     .action-estimate {
       margin-top: auto; padding-top: 14px;
       font-size: 0.7rem; color: var(--text-dim);
@@ -1310,6 +1320,8 @@
         ...r,
         _status: (r.status || '').trim().toLowerCase(),
         _waiverSigned: (r.guest_waiver_signed || '').trim().toLowerCase() === 'yes',
+        _optedOutSms: (r.opted_out_of_sms || '').trim().toLowerCase() === 'yes',
+        _optedOutEmail: (r.opted_out_of_email || '').trim().toLowerCase() === 'yes',
         _createdAt: parseDate(r.created_at),
         _saleAt: parseDate(r.sale_at),
         _email: normEmail(r.email),
@@ -1474,6 +1486,12 @@
       /* D2 cold: web-source enquiries with waiver=No, no member match, no online-join tag.
          WEB_LEAD_NEVER_CAME_IN category already excludes online-join tagged leads by classification precedence. */
       const coldPipeline = openEnquiries.filter(r => r._category === 'WEB_LEAD_NEVER_CAME_IN');
+      /* Reachable = both channels open. Opted out = at least one channel blocked. */
+      const isReachable = r => !r._optedOutSms && !r._optedOutEmail;
+      const warmReachable = warmPipeline.filter(isReachable).length;
+      const warmOptedOut = warmPipeline.length - warmReachable;
+      const coldReachable = coldPipeline.filter(isReachable).length;
+      const coldOptedOut = coldPipeline.length - coldReachable;
 
       /* ── Velocity (D4) — across all matched-to-real-lead members ── */
       const matchedMembers = entryOrder
@@ -1569,7 +1587,11 @@
         directWalkInCount,
         /* D: Pipeline & velocity */
         warmPipeline: warmPipeline.length,
+        warmReachable,
+        warmOptedOut,
         coldPipeline: coldPipeline.length,
+        coldReachable,
+        coldOptedOut,
         openPipelineTotal: warmPipeline.length + coldPipeline.length,
         velocitySameDayPct: pct(sameDayCount, velocityDays.length),
         velocityWithin7Pct: pct(within7Count, velocityDays.length),
@@ -2268,8 +2290,8 @@
       // Open Pipeline — bounty hero + two action cards with impact math
       const warmRate = 0.40;  // Prospect Walk-in benchmark
       const coldRate = 0.10;  // conservative nurture assumption
-      const warmPotential = Math.round(d.warmPipeline * warmRate);
-      const coldPotential = Math.round(d.coldPipeline * coldRate);
+      const warmPotential = Math.round(d.warmReachable * warmRate);
+      const coldPotential = Math.round(d.coldReachable * coldRate);
       const totalPotential = warmPotential + coldPotential;
       document.getElementById('pipeline-open').outerHTML = `
         <div id="pipeline-open">
@@ -2277,7 +2299,7 @@
             <div class="bounty-value">${d.openPipelineTotal.toLocaleString()}</div>
             <div class="bounty-label">Leads Sitting in the Pipeline</div>
             <div class="bounty-impact">
-              Worked correctly, that's roughly <b>${totalPotential.toLocaleString()} members</b> still on the table — leads who raised their hand but haven't signed.
+              Worked correctly, that's roughly <b>${totalPotential.toLocaleString()} members</b> still on the table — reachable leads who raised their hand but haven't signed.
             </div>
           </div>
           <div class="action-cards">
@@ -2285,19 +2307,27 @@
               <div class="action-verb">Hand to a Rep</div>
               <div class="action-count">${d.warmPipeline.toLocaleString()}</div>
               <div class="action-what">Walked in and tapped <b>"I'm interested in joining"</b> on the iPad — explicit intent, just no purchase yet.</div>
-              <div class="action-how">Assign to a floor rep for a personal call or text within 48 hours.</div>
-              <div class="action-estimate"><b>~${warmPotential.toLocaleString()}</b> potential members at a 40% close</div>
+              <div class="action-how">Assign to a floor rep for personal outreach within 48 hours.</div>
+              <div class="action-reach">
+                <div class="action-reach-row"><span class="action-reach-label">Reachable (both channels open)</span><span class="action-reach-value">${d.warmReachable.toLocaleString()}</span></div>
+                <div class="action-reach-row opted-out"><span class="action-reach-label">Opted out of communications</span><span class="action-reach-value">${d.warmOptedOut.toLocaleString()}</span></div>
+              </div>
+              <div class="action-estimate"><b>~${warmPotential.toLocaleString()}</b> potential members — 40% close on reachable only</div>
             </div>
             <div class="action-card action-cold">
               <div class="action-verb">Feed to Nurture</div>
               <div class="action-count">${d.coldPipeline.toLocaleString()}</div>
               <div class="action-what">Web leads, never came in. Interest exists but no visit yet.</div>
               <div class="action-how">Queue into an automated email/SMS drip designed to get them through the door.</div>
-              <div class="action-estimate"><b>~${coldPotential.toLocaleString()}</b> potential members at a 10% close</div>
+              <div class="action-reach">
+                <div class="action-reach-row"><span class="action-reach-label">Reachable (both channels open)</span><span class="action-reach-value">${d.coldReachable.toLocaleString()}</span></div>
+                <div class="action-reach-row opted-out"><span class="action-reach-label">Opted out of communications</span><span class="action-reach-value">${d.coldOptedOut.toLocaleString()}</span></div>
+              </div>
+              <div class="action-estimate"><b>~${coldPotential.toLocaleString()}</b> potential members — 10% close on reachable only</div>
             </div>
           </div>
           <div class="pipeline-assumption">
-            Estimates use 40% close on warm (Prospect Walk-in benchmark) and a conservative 10% on cold nurture. Real recapture depends on speed and execution.
+            Potential members are based on <b>reachable</b> leads only (SMS and email both open). Opted-out leads are counted but excluded from the estimate — automated outreach channels are blocked. Estimates use 40% close on warm (Prospect Walk-in benchmark) and a conservative 10% on cold nurture.
           </div>
         </div>`;
 
