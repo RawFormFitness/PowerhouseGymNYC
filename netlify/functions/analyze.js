@@ -17,13 +17,82 @@ function buildFallback(s) {
     .map(k => ({ k, n: s.acquisitionByEntry[k] || 0, p: s.acquisitionByEntryPct[k] || 0 }))
     .sort((a, b) => b.n - a.n)
     .filter(x => x.n > 0);
-  const t1 = topEntry[0] ? `${ENTRY_LABELS[topEntry[0].k]} (${topEntry[0].n}, ${topEntry[0].p}%)` : 'no dominant source';
-  const t2 = topEntry[1] ? ` followed by ${ENTRY_LABELS[topEntry[1].k]} (${topEntry[1].n}, ${topEntry[1].p}%)` : '';
-  const acquisitionSummary = `The club acquired ${s.totalNewLongTermMembers} new long-term members in the period. The largest entry point was ${t1}${t2}. Direct Walk-in (${s.directWalkInCount}) captures sight-unseen buyers who signed up in person or over the phone without any lead record; it is volume only and carries no close rate. Remote Sale (${s.remoteSale.members}) captures digital-only conversions — the online join flow plus members who inquired online but never came in.`;
+  const dominant = topEntry[0] ? `${ENTRY_LABELS[topEntry[0].k]} at ${topEntry[0].p}% of new members` : 'no dominant source';
+  const trend = s.monthlyMemberTrend || [];
+  const trendDir = trend.length >= 2
+    ? (trend[trend.length - 1].count > trend[0].count ? 'rising' : trend[trend.length - 1].count < trend[0].count ? 'declining' : 'flat')
+    : 'flat';
+  const blendedVsBench = s.blended.rate >= 20
+    ? `at or above the 20% benchmark`
+    : `${(20 - s.blended.rate).toFixed(1)}pp below the 20% benchmark`;
+  const acquisitionHappened = `The club added ${s.totalNewLongTermMembers} new long-term members in the period. ${dominant.charAt(0).toUpperCase() + dominant.slice(1)} was the dominant entry point. The blended close rate was ${s.blended.rate}%, ${blendedVsBench}. The monthly trend was ${trendDir} across the period.`;
+
+  const gaps = [];
+  if (s.blended.rate < 20) {
+    gaps.push({
+      severity: 20 - s.blended.rate,
+      title: 'Blended Close Rate',
+      current: `${s.blended.rate}%`,
+      target: '20%',
+      gap: `−${(20 - s.blended.rate).toFixed(1)}pp`,
+      action: 'Audit top-of-funnel handoffs and tighten pipeline follow-up on open enquiries.',
+    });
+  }
+  if (s.prospectWalkIn.leads > 0 && s.prospectWalkIn.rate < 40) {
+    gaps.push({
+      severity: 40 - s.prospectWalkIn.rate,
+      title: 'Prospect Walk-in Close Rate',
+      current: `${s.prospectWalkIn.rate}%`,
+      target: '40%',
+      gap: `−${(40 - s.prospectWalkIn.rate).toFixed(1)}pp`,
+      action: 'Retrain the floor team on the iPad-to-tour-to-close flow so cold walk-ins convert at a higher rate.',
+    });
+  }
+  if (s.webCameIn.leads > 0 && s.webCameIn.rate < 20) {
+    gaps.push({
+      severity: 20 - s.webCameIn.rate,
+      title: 'Web Lead — Came In Close Rate',
+      current: `${s.webCameIn.rate}%`,
+      target: '20%',
+      gap: `−${(20 - s.webCameIn.rate).toFixed(1)}pp`,
+      action: 'Strengthen the in-person close when web prospects arrive — tighten scripts and handoff after they sign the iPad.',
+    });
+  }
+  const directPct = s.acquisitionByEntryPct.DIRECT_WALK_IN || 0;
+  if (directPct > 25) {
+    gaps.push({
+      severity: directPct - 25,
+      title: 'Direct Walk-in Share',
+      current: `${directPct}%`,
+      target: 'tracked',
+      gap: `${s.acquisitionByEntry.DIRECT_WALK_IN} members off-funnel`,
+      action: 'Enforce GymSales/iPad entry at point of sale so fewer members slip through without a lead record.',
+    });
+  }
+  const unknownLeads = s.unknown.leads || 0;
+  if (unknownLeads > 0) {
+    gaps.push({
+      severity: Math.min(unknownLeads / 10, 20),
+      title: 'Unknown-Entry-Point Leads',
+      current: `${unknownLeads} leads`,
+      target: 'classified',
+      gap: 'no web/iPad signal',
+      action: 'Review the source values staff are picking and retrain on consistent lead-entry tagging.',
+    });
+  }
+  gaps.sort((a, b) => b.severity - a.severity);
+  const acquisitionImprovements = gaps.slice(0, 3);
+  while (acquisitionImprovements.length < 3) {
+    acquisitionImprovements.push({
+      title: 'No additional material gap',
+      current: '',
+      target: '',
+      gap: '',
+      action: 'Maintain current execution and watch the monthly trend for early signal.',
+    });
+  }
 
   const scorecardSummary = `Blended close rate is ${s.blended.rate}% (${s.blended.members} of ${s.blended.leads} non-guest non-excluded leads) against the 20% benchmark — ${s.blended.rate >= 20 ? 'meeting' : 'below'}. Prospect Walk-in at ${s.prospectWalkIn.rate}% vs the 40% bar (${s.prospectWalkIn.rate >= 40 ? 'meeting' : 'below'}). Web Lead — Came In at ${s.webCameIn.rate}% vs 20% (${s.webCameIn.rate >= 20 ? 'meeting' : 'below'}). Remote Sale conversion is ${s.remoteSale.rate}% (${s.remoteSale.members} members / ${s.remoteSale.leads} combined online-join and web-no-visit leads) — reported for reference, no traditional benchmark. Unknown (${s.unknown.rate}%) is mixed — directional only. Direct Walk-in: ${s.directWalkInCount} members, volume only.`;
-
-  const websiteAnalysis = `Remote Sale combines two sub-groups. Online-join tagged leads contributed ${s.remoteSale.onlineJoinLeads} leads and ${s.remoteSale.onlineJoinMembers} members (with ${s.remoteSale.unfinishedCount} unfinished online joins excluded from all counts). Web inquiries that never visited contributed ${s.remoteSale.webNoVisitLeads} leads and ${s.remoteSale.webNoVisitMembers} members. Combined, Remote Sale represents ${s.remoteSale.members} long-term members at a ${s.remoteSale.rate}% conversion rate across ${s.remoteSale.leads} digital-only leads. The online-join tag was not applied consistently in early months of operation, which is why both sub-groups are reported together.`;
 
   const pipelineAnalysis = `The open pipeline holds ${s.openPipelineTotal} non-guest non-excluded leads with enquiry status and no matching member record: ${s.warmPipeline} warm (signed the iPad, haven't joined — prioritize for personal follow-up) and ${s.coldPipeline} cold (web source, waiver = No, no online-join tag — automated email/SMS nurture). Velocity on closed sales: ${s.velocitySameDayPct}% signed same or next day, ${s.velocityWithin7Pct}% within 7 days, ${s.velocityWithin30Pct}% within 30, and ${s.velocityOver30Pct}% after 30 days.`;
 
@@ -31,9 +100,9 @@ function buildFallback(s) {
 
   return {
     periodSummary,
-    acquisitionSummary,
+    acquisitionHappened,
+    acquisitionImprovements,
     scorecardSummary,
-    websiteAnalysis,
     pipelineAnalysis,
     guestNote,
     dataCaveats: [],
@@ -158,13 +227,30 @@ Data quality:
 - Partial months: ${(s.partialMonths || []).join(', ') || 'none'}
 - Members with no phone on file: ${s.noPhoneMembers}
 
+RULES FOR acquisitionImprovements:
+- Return EXACTLY 3 objects, ordered by severity (biggest gap first).
+- Only use benchmarked channels (Blended 20%, Prospect Walk-in 40%, Web Lead — Came In 20%) or operational issues (Direct Walk-in share too high, Unknown volume, tagging hygiene).
+- Never invent a benchmark for channels that don't have one.
+- If fewer than 3 real gaps exist, fill remaining slots with an operational improvement (tagging, process) or "Maintain current execution" as the action.
+- Keep "gap" field short (~15 chars, e.g., "−3.7pp" or "88 off-funnel"). Keep "action" to ONE concrete sentence.
+
 Respond with ONLY this JSON (no markdown, no prose outside JSON). Plain language for a gym owner who understands the business but is not a data analyst:
 
 {
   "periodSummary": "This is the OPENING section of the report — it's the first thing the reader sees, so do not reference anything 'above'. 3 short, plain-English sentences for a gym owner. Cover exactly these points in your own natural phrasing (don't copy a template): (1) how many prospects and guests came through the CLUB'S SYSTEM during the period — note that not all of them signed a waiver or physically visited (many are web leads who never came in); (2) these figures exclude short-term memberships and pending cancels; (3) anyone who joined during the period and already cancelled by today isn't reflected either. Use comma-formatted integers (e.g., 2,012). Never say 'came through the club' — always say 'came through the club's system' or similar. No jargon ('PIF', 'dedup', 'non-guest non-excluded', 'floor/ceiling', 'figures above').",
-  "acquisitionSummary": "3-4 sentences on new long-term members and the entry-point split. Name the dominant entry point(s) and what the mix tells us. Briefly explain Remote Sale (digital-only sale; online-join + web-no-visit combined) and Direct Walk-in (sight-unseen, no lead record).",
+  "acquisitionHappened": "PARAGRAPH 1 — 'What happened' — 3-4 factual sentences, no editorializing. Cover in one sentence each: (a) total new long-term members, (b) the dominant entry point, (c) blended close rate vs 20% benchmark, (d) the monthly new-member trend. State facts only — no recommendations in this paragraph.",
+  "acquisitionImprovements": [
+    {
+      "title": "Short name of the gap (e.g., 'Web Lead — Came In Close Rate' or 'Direct Walk-in Share')",
+      "current": "Current value with unit (e.g., '16.3%' or '113 members')",
+      "target": "Benchmark or target value (e.g., '20%' or 'tracked') — omit with empty string if not applicable",
+      "gap": "Short delta tag (e.g., '−3.7pp' or '88 off-funnel') — keep to ~15 characters",
+      "action": "One sentence, specific and actionable — the concrete next step."
+    },
+    { "title": "...", "current": "...", "target": "...", "gap": "...", "action": "..." },
+    { "title": "...", "current": "...", "target": "...", "gap": "...", "action": "..." }
+  ],
   "scorecardSummary": "3-4 sentences summarizing the conversion scorecard. Apply benchmarks only where defined (Blended 20%, Prospect Walk-in 40%, Web Came In 20%). Treat Remote Sale as a reference conversion rate, not a benchmarked one. Do NOT benchmark Unknown or Direct Walk-in.",
-  "websiteAnalysis": "3-4 sentences on the Remote Sale breakdown: the online-join sub-group vs the web-no-visit sub-group, why both are reported together, and what the combined number tells us about the digital-only sales path.",
   "pipelineAnalysis": "3-4 sentences on the open pipeline and velocity. Warm (iPad signed) needs personal follow-up; cold (web-source, never visited) needs automated nurture. Comment on velocity bucket concentration.",
   "guestNote": "2-3 sentences on guest volume, near-zero conversion expectation given Manhattan, and repeat visitors as realistic targets.",
   "dataCaveats": ["additional data-quality notes beyond the standard ones already surfaced by the app — only add if something notable"]

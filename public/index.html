@@ -317,15 +317,36 @@
       display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 14px; margin-bottom: 16px;
     }
-    /* Hero-sized metric grid — full-width tiles that expand to fill the screen */
-    .metric-grid-hero {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 20px; margin-bottom: 16px;
+    /* General Overview grid — two hero tiles flanked by two smaller side tiles */
+    .overview-grid {
+      display: grid; grid-template-columns: 1fr 1.6fr 1.6fr 1fr;
+      gap: 14px; margin-bottom: 16px; align-items: stretch;
     }
-    @media (max-width: 700px) { .metric-grid-hero { grid-template-columns: 1fr; } }
-    .metric-grid-hero .metric-card { padding: 22px 18px; }
-    .metric-grid-hero .metric-value { font-size: 2.4rem; }
-    .metric-grid-hero .metric-label { font-size: 0.8rem; margin-top: 6px; }
+    @media (max-width: 900px) { .overview-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .overview-grid { grid-template-columns: 1fr; } }
+    .overview-grid > div {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); text-align: center;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .overview-grid .overview-side { padding: 18px 14px; }
+    .overview-grid .overview-side .ov-value {
+      font-family: 'Bebas Neue', cursive; font-size: 1.9rem; color: var(--accent); line-height: 1.1;
+    }
+    .overview-grid .overview-side .ov-label {
+      font-size: 0.7rem; color: var(--text-dim); margin-top: 4px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .overview-grid .overview-hero { padding: 28px 20px; }
+    .overview-grid .overview-hero .ov-value {
+      font-family: 'Bebas Neue', cursive; font-size: 3.4rem; color: #fff; line-height: 1;
+    }
+    .overview-grid .overview-hero .ov-label {
+      font-size: 0.78rem; color: var(--text-dim); margin-top: 8px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .overview-grid .overview-hero.close-good .ov-value { color: var(--good); }
+    .overview-grid .overview-hero.close-bad .ov-value { color: var(--bad); }
     .metric-card {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 18px 14px; text-align: center;
@@ -413,6 +434,175 @@
     .insight-dot.good { background: var(--good); }
     .insight-dot.warn { background: var(--warn); }
     .insight-dot.bad { background: var(--bad); }
+
+    /* Scorecard hero + channel cards */
+    .score-hero {
+      position: relative; padding: 28px 32px; text-align: center;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(234,88,12,0.1) 0%, var(--surface) 65%);
+      margin-bottom: 16px;
+    }
+    .score-hero.meets {
+      background: linear-gradient(135deg, rgba(22,163,74,0.18) 0%, var(--surface) 65%);
+      border-color: rgba(22,163,74,0.4);
+    }
+    .score-hero.misses {
+      background: linear-gradient(135deg, rgba(220,38,38,0.18) 0%, var(--surface) 65%);
+      border-color: rgba(220,38,38,0.4);
+    }
+    .score-hero .hero-label {
+      font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 2.5px; font-weight: 700;
+    }
+    .score-hero .hero-rate {
+      font-family: 'Bebas Neue', cursive; font-size: 5rem; line-height: 1; margin: 6px 0 2px;
+    }
+    .score-hero.meets .hero-rate { color: var(--good); }
+    .score-hero.misses .hero-rate { color: var(--bad); }
+    .score-hero .hero-sub { color: var(--text-dim); font-size: 0.88rem; margin-bottom: 18px; }
+    .score-hero .hero-bar { max-width: 520px; margin: 0 auto; }
+    .score-hero .hero-bar-track {
+      position: relative; height: 14px; background: var(--surface2);
+      border-radius: 7px; overflow: visible;
+    }
+    .score-hero .hero-bar-fill {
+      position: absolute; left: 0; top: 0; bottom: 0; border-radius: 7px;
+    }
+    .score-hero.meets .hero-bar-fill {
+      background: linear-gradient(90deg, #16a34a, #4ade80);
+    }
+    .score-hero.misses .hero-bar-fill {
+      background: linear-gradient(90deg, #dc2626, #f87171);
+    }
+    .score-hero .hero-bar-tick {
+      position: absolute; top: -3px; width: 3px; height: 20px;
+      background: #fff; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+    }
+    .score-hero .hero-bar-legend {
+      display: flex; justify-content: space-between; font-size: 0.7rem;
+      color: var(--text-dim); margin-top: 6px; letter-spacing: 0.5px;
+    }
+    .score-hero .hero-badge {
+      display: inline-block; margin-top: 14px; padding: 6px 16px;
+      border-radius: 20px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.3px;
+    }
+    .score-hero.meets .hero-badge { background: rgba(22,163,74,0.2); color: var(--good); }
+    .score-hero.misses .hero-badge { background: rgba(220,38,38,0.2); color: var(--bad); }
+
+    .score-channels-primary {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 14px; margin-bottom: 14px;
+    }
+    .score-channels-secondary {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-bottom: 16px;
+    }
+    @media (max-width: 900px) { .score-channels-primary { grid-template-columns: 1fr; } }
+    @media (max-width: 750px) { .score-channels-secondary { grid-template-columns: 1fr; } }
+    .score-channel {
+      background: var(--surface); border: 1px solid var(--border);
+      border-top: 4px solid var(--channel-color, var(--accent));
+      border-radius: var(--radius); padding: 18px 20px;
+      transition: transform 0.15s;
+    }
+    .score-channel:hover { transform: translateY(-1px); }
+    .score-channel .chan-header {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 10px; margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .score-channel .chan-name { font-weight: 700; color: #fff; font-size: 0.9rem; line-height: 1.3; }
+    .score-channel .chan-badge {
+      font-size: 0.65rem; font-weight: 700; padding: 3px 10px; border-radius: 10px;
+      text-transform: uppercase; letter-spacing: 0.6px; white-space: nowrap;
+      background: var(--surface2); color: var(--text-dim);
+    }
+    .score-channel .chan-badge.good { background: rgba(22,163,74,0.18); color: var(--good); }
+    .score-channel .chan-badge.bad { background: rgba(220,38,38,0.18); color: var(--bad); }
+    .score-channel .chan-rate {
+      font-family: 'Bebas Neue', cursive; font-size: 2.8rem; line-height: 1;
+      color: var(--channel-color, #fff);
+    }
+    .score-channel .chan-sub {
+      color: var(--text-dim); font-size: 0.77rem; margin: 4px 0 10px;
+    }
+    .score-channel .chan-def {
+      color: var(--text-dim); font-size: 0.78rem; line-height: 1.5;
+      padding: 8px 12px; margin-bottom: 14px;
+      background: var(--surface2); border-radius: 6px;
+      border-left: 3px solid var(--channel-color, var(--accent));
+    }
+    .score-channel .chan-bar-track {
+      position: relative; height: 8px; background: var(--surface2); border-radius: 4px;
+    }
+    .score-channel .chan-bar-fill {
+      position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px;
+      background: var(--channel-color, var(--accent));
+    }
+    .score-channel .chan-bar-tick {
+      position: absolute; top: -3px; width: 2px; height: 14px;
+      background: #fff; border-radius: 1px;
+    }
+    .score-channel .chan-bar-legend {
+      display: flex; justify-content: space-between; color: var(--text-dim);
+      font-size: 0.65rem; margin-top: 4px; letter-spacing: 0.3px;
+    }
+
+    /* "Where to improve" — structured cards */
+    .improvements-block { margin-bottom: 16px; }
+    .improvements-block h4 {
+      font-size: 0.75rem; color: var(--accent); text-transform: uppercase;
+      letter-spacing: 1.5px; margin: 0 0 14px; font-weight: 700;
+    }
+    .improvements-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+    .improve-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--border); border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .improve-card:hover { transform: translateY(-1px); }
+    .improve-card.sev-high { border-left-color: var(--bad); }
+    .improve-card.sev-mid { border-left-color: var(--warn); }
+    .improve-card.sev-low { border-left-color: var(--blue); }
+    .improve-head { display: flex; align-items: baseline; gap: 12px; }
+    .improve-num {
+      font-family: 'Bebas Neue', cursive; font-size: 2rem; line-height: 0.9;
+      color: var(--accent); min-width: 28px;
+    }
+    .improve-title {
+      font-weight: 700; color: #fff; font-size: 0.92rem;
+      letter-spacing: 0.2px; line-height: 1.3;
+    }
+    .improve-metric {
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    }
+    .improve-current {
+      font-family: 'Bebas Neue', cursive; font-size: 2rem; line-height: 1;
+    }
+    .improve-card.sev-high .improve-current { color: var(--bad); }
+    .improve-card.sev-mid .improve-current { color: var(--warn); }
+    .improve-card.sev-low .improve-current { color: var(--blue); }
+    .improve-card:not([class*="sev-"]) .improve-current { color: #fff; }
+    .improve-target {
+      color: var(--text-dim); font-size: 0.82rem;
+    }
+    .improve-gap {
+      font-size: 0.72rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 12px;
+      background: var(--surface2); color: var(--text-dim);
+      margin-left: auto; letter-spacing: 0.5px;
+    }
+    .improve-card.sev-high .improve-gap { background: rgba(248,113,113,0.15); color: var(--bad); }
+    .improve-card.sev-mid .improve-gap { background: rgba(250,204,21,0.15); color: var(--warn); }
+    .improve-card.sev-low .improve-gap { background: rgba(96,165,250,0.15); color: var(--blue); }
+    .improve-action {
+      color: var(--text-dim); font-size: 0.85rem; line-height: 1.5;
+      padding-top: 4px; border-top: 1px solid var(--border);
+    }
 
     /* Caveats */
     .caveat-list { list-style: none; padding: 0; }
@@ -522,11 +712,11 @@
       <h1 class="dash-title">POWERHOUSE GYM NYC — LEADS ANALYSIS</h1>
       <p class="dash-period" id="dash-period"></p>
 
-      <!-- 1. Period Summary (A1-A6) -->
+      <!-- 1. General Overview -->
       <div class="section">
-        <h2 class="section-title">1. Period Summary</h2>
+        <h2 class="section-title">1. General Overview</h2>
         <div class="narrative" id="period-narrative"></div>
-        <div class="metric-grid-hero" id="period-metrics"></div>
+        <div class="overview-grid" id="period-metrics"></div>
       </div>
 
       <!-- New Members by Source — hero view -->
@@ -538,40 +728,28 @@
         </div>
       </div>
 
-      <!-- 2. Membership Acquisition (B1-B3) -->
+      <!-- 2. Membership Acquisition -->
       <div class="section">
         <h2 class="section-title">2. Membership Acquisition</h2>
-        <div class="narrative" id="acquisition-narrative"></div>
-        <div class="metric-grid" id="acquisition-metrics"></div>
-        <table class="scorecard-table" id="acquisition-source-table" style="margin-top:16px;">
-          <thead><tr><th>Source</th><th>New Members</th><th>% of Total</th><th>Period Leads</th><th>Conversion Rate</th></tr></thead>
-          <tbody id="acquisition-source-tbody"></tbody>
-        </table>
-        <div id="monthly-member-trend" style="margin-top:16px;"></div>
+        <div class="narrative" id="acquisition-happened"></div>
+        <div id="monthly-member-trend" style="margin-bottom:16px;"></div>
+        <div class="improvements-block">
+          <h4>Growth Opportunities</h4>
+          <div class="improvements-grid" id="acquisition-improvements"></div>
+        </div>
       </div>
 
-      <!-- 3. Close Rate Scorecard (C1-C8) -->
+      <!-- 3. Close Rate Scorecard -->
       <div class="section">
         <h2 class="section-title">3. Close Rate Scorecard</h2>
-        <div class="narrative" id="scorecard-narrative"></div>
-        <table class="scorecard-table" id="scorecard-table">
-          <thead>
-            <tr><th>Channel</th><th>Leads</th><th>Matched Members</th><th>Close Rate</th><th>vs Benchmark</th><th class="bar-cell">Bar</th></tr>
-          </thead>
-          <tbody id="scorecard-tbody"></tbody>
-        </table>
+        <div id="scorecard-hero"></div>
+        <div class="score-channels-primary" id="scorecard-primary"></div>
+        <div class="score-channels-secondary" id="scorecard-secondary"></div>
       </div>
 
-      <!-- 4. Remote Sale Breakdown -->
+      <!-- 4. Pipeline Health -->
       <div class="section">
-        <h2 class="section-title">4. Remote Sale Breakdown</h2>
-        <div class="narrative" id="website-narrative"></div>
-        <div class="two-col" id="website-panels"></div>
-      </div>
-
-      <!-- 5. Pipeline Health (D1-D4) -->
-      <div class="section">
-        <h2 class="section-title">5. Pipeline Health</h2>
+        <h2 class="section-title">4. Pipeline Health</h2>
         <div class="narrative" id="pipeline-narrative"></div>
         <div class="metric-grid" id="pipeline-metrics"></div>
         <h3 class="subsection-title">Lead-to-Membership Velocity</h3>
@@ -580,14 +758,14 @@
 
       <!-- 6. Guest Summary (E1-E3) -->
       <div class="section">
-        <h2 class="section-title">6. Guest Summary</h2>
+        <h2 class="section-title">5. Guest Summary</h2>
         <div class="narrative" id="guest-narrative"></div>
         <div class="metric-grid" id="guest-metrics"></div>
       </div>
 
       <!-- 7. Data Quality Flags (F1-F4) -->
       <div class="section">
-        <h2 class="section-title">7. Data Quality Flags</h2>
+        <h2 class="section-title">6. Data Quality Flags</h2>
         <ul class="caveat-list" id="caveats-list"></ul>
       </div>
 
@@ -1063,6 +1241,12 @@
         } else { m.dropFlag = null; }
       });
 
+      /* Day-of-week signups — counts per day (Sun..Sat) */
+      const signupsByDay = [0, 0, 0, 0, 0, 0, 0];
+      newLongTermMembers.forEach(m => {
+        if (m._beginDate) signupsByDay[m._beginDate.getDay()]++;
+      });
+
       /* ── Member status breakdown + current active count ── */
       const memberStatusBreakdown = {};
       longTermAll.forEach(m => {
@@ -1111,6 +1295,7 @@
         acquisitionByEntry,
         acquisitionByEntryPct,
         monthlyMemberTrend,
+        signupsByDay,
         /* C: Close rates */
         blended,
         prospectWalkIn,
@@ -1326,6 +1511,92 @@
       <div style="text-align:center;color:var(--text-dim);font-size:0.75rem;margin-top:10px;">Each person = 1% of new members</div>`;
     }
 
+    /* Line chart — monthly trend with filled gradient under the curve */
+    function lineChart(data) {
+      if (!data.length) return '<div style="color:var(--text-dim);text-align:center;padding:40px;">No data</div>';
+      const w = 520, h = 220;
+      const padL = 36, padR = 20, padT = 28, padB = 44;
+      const chartW = w - padL - padR;
+      const chartH = h - padT - padB;
+      const max = Math.max(...data.map(d => d.count), 1);
+      const xStep = data.length > 1 ? chartW / (data.length - 1) : 0;
+      const points = data.map((d, i) => {
+        const [yr, mo] = d.month.split('-').map(Number);
+        const short = new Date(yr, mo - 1, 1).toLocaleString('en-US', { month: 'short' });
+        return {
+          x: padL + i * xStep,
+          y: padT + chartH - (d.count / max) * chartH,
+          label: short,
+          value: d.count,
+          dropFlag: d.dropFlag,
+        };
+      });
+      const lineD = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
+      const bottomY = padT + chartH;
+      const fillD = points.length
+        ? `M${points[0].x},${bottomY} ` + points.map(p => `L${p.x},${p.y}`).join(' ') + ` L${points[points.length - 1].x},${bottomY} Z`
+        : '';
+      const gridLines = [0, 0.25, 0.5, 0.75, 1].map(f =>
+        `<line x1="${padL}" x2="${w - padR}" y1="${padT + chartH * f}" y2="${padT + chartH * f}" stroke="var(--border)" stroke-width="1"/>`
+      ).join('');
+      const dotsAndLabels = points.map(p => {
+        const dotColor = p.dropFlag ? 'var(--bad)' : 'var(--accent)';
+        return `
+          <circle cx="${p.x}" cy="${p.y}" r="5" fill="${dotColor}" stroke="var(--surface)" stroke-width="2"/>
+          <text x="${p.x}" y="${p.y - 12}" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">${p.value}</text>
+          <text x="${p.x}" y="${h - 18}" text-anchor="middle" fill="var(--text-dim)" font-size="11">${p.label}</text>
+          ${p.dropFlag ? `<text x="${p.x}" y="${h - 4}" text-anchor="middle" fill="var(--bad)" font-size="9" font-weight="700">−${p.dropFlag}%</text>` : ''}
+        `;
+      }).join('');
+      return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="auto" style="display:block;">
+        <defs>
+          <linearGradient id="line-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        ${gridLines}
+        <path d="${fillD}" fill="url(#line-grad)"/>
+        <path d="${lineD}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>
+        ${dotsAndLabels}
+      </svg>`;
+    }
+
+    /* Day-of-week bar chart — best day highlighted green */
+    function dowChart(counts) {
+      const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const max = Math.max(...counts, 1);
+      const total = counts.reduce((a, b) => a + b, 0);
+      const w = 520, h = 220;
+      const padL = 24, padR = 20, padT = 28, padB = 44;
+      const chartW = w - padL - padR;
+      const chartH = h - padT - padB;
+      const step = chartW / 7;
+      const barW = step - 10;
+      const gridLines = [0, 0.25, 0.5, 0.75, 1].map(f =>
+        `<line x1="${padL}" x2="${w - padR}" y1="${padT + chartH * f}" y2="${padT + chartH * f}" stroke="var(--border)" stroke-width="1"/>`
+      ).join('');
+      const bars = counts.map((c, i) => {
+        const isBest = max > 0 && c === max;
+        const color = isBest ? 'var(--good)' : 'var(--accent)';
+        const x = padL + i * step + (step - barW) / 2;
+        const barH = (c / max) * chartH;
+        const y = padT + chartH - barH;
+        const pctOfTotal = total > 0 ? Math.round((c / total) * 100) : 0;
+        return `
+          <rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="4" fill="${color}">
+            <title>${labels[i]}: ${c} members (${pctOfTotal}%)</title>
+          </rect>
+          <text x="${x + barW / 2}" y="${y - 6}" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">${c}</text>
+          <text x="${x + barW / 2}" y="${h - 18}" text-anchor="middle" fill="${isBest ? 'var(--good)' : 'var(--text-dim)'}" font-size="11" font-weight="${isBest ? 700 : 400}">${labels[i]}</text>
+        `;
+      }).join('');
+      return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="auto" style="display:block;">
+        ${gridLines}
+        ${bars}
+      </svg>`;
+    }
+
     function scorecardRow(channel, leads, members, rate, benchmark) {
       const hasBench = benchmark != null;
       const isAbove = hasBench && rate >= benchmark;
@@ -1361,27 +1632,50 @@
       };
       const ENTRY_ORDER = ['PROSPECT_WALK_IN', 'WEB_LEAD_CAME_IN', 'REMOTE_SALE', 'UNKNOWN', 'DIRECT_WALK_IN'];
 
-      /* ── 1. Period Summary ── */
+      /* ── 1. General Overview — 2 hero tiles flanked by 2 side tiles ── */
       document.getElementById('period-narrative').textContent = d.periodSummary || '';
-      document.getElementById('period-metrics').innerHTML =
-        mc(d.totalNonGuestLeads?.toLocaleString(), 'Real Leads (in period)') +
-        mc(d.activeMemberCount?.toLocaleString(), 'Active Members — Current Snapshot', '#ffffff') +
-        mc(d.totalGuests?.toLocaleString(), 'Guests (in period)');
+      const rateTone = d.blended.rate >= 20 ? 'close-good' : 'close-bad';
+      document.getElementById('period-metrics').innerHTML = `
+        <div class="overview-side">
+          <div class="ov-value">${(d.totalNonGuestLeads ?? 0).toLocaleString()}</div>
+          <div class="ov-label">Real Leads (in period)</div>
+        </div>
+        <div class="overview-hero">
+          <div class="ov-value">${(d.activeMemberCount ?? 0).toLocaleString()}</div>
+          <div class="ov-label">Active Members — Current Snapshot</div>
+        </div>
+        <div class="overview-hero ${rateTone}">
+          <div class="ov-value">${d.blended.rate}%</div>
+          <div class="ov-label">Close Rate</div>
+        </div>
+        <div class="overview-side">
+          <div class="ov-value">${(d.totalNewLongTermMembers ?? 0).toLocaleString()}</div>
+          <div class="ov-label">New Members (in period)</div>
+        </div>`;
 
       /* ── 2. Membership Acquisition ── */
-      document.getElementById('acquisition-narrative').textContent = d.acquisitionSummary || '';
-      document.getElementById('acquisition-metrics').innerHTML =
-        mc(d.totalNewLongTermMembers, 'New Long-Term Members', '#ffffff') +
-        mc(d.blended.rate + '%', 'Blended Close Rate');
+      document.getElementById('acquisition-happened').textContent = d.acquisitionHappened || '';
+      const sevClass = ['sev-high', 'sev-mid', 'sev-low'];
+      document.getElementById('acquisition-improvements').innerHTML =
+        (d.acquisitionImprovements || []).map((b, i) => {
+          const sev = sevClass[i] || 'sev-low';
+          const gap = b.gap ? `<span class="improve-gap">${b.gap}</span>` : '';
+          const target = b.target ? `<span class="improve-target">vs ${b.target}</span>` : '';
+          const current = b.current ? `<span class="improve-current">${b.current}</span>` : '';
+          const metricRow = (current || target || gap)
+            ? `<div class="improve-metric">${current}${target}${gap}</div>`
+            : '';
+          return `<div class="improve-card ${sev}">
+            <div class="improve-head">
+              <span class="improve-num">${i + 1}</span>
+              <span class="improve-title">${b.title || ''}</span>
+            </div>
+            ${metricRow}
+            <div class="improve-action">${b.action || ''}</div>
+          </div>`;
+        }).join('');
 
-      // B2: New members by entry point — sorted by % of total desc
-      const entryLeadSrc = {
-        PROSPECT_WALK_IN: { leads: d.prospectWalkIn.leads, rate: d.prospectWalkIn.rate },
-        WEB_LEAD_CAME_IN: { leads: d.webCameIn.leads, rate: d.webCameIn.rate },
-        REMOTE_SALE: { leads: d.remoteSale.leads, rate: d.remoteSale.rate },
-        UNKNOWN: { leads: d.unknown.leads, rate: d.unknown.rate },
-        DIRECT_WALK_IN: { leads: null, rate: null },
-      };
+      // New members by entry point — sorted by % of total desc (drives waffle + legend)
       const sortedEntries = [...ENTRY_ORDER].sort((a, b) =>
         (d.acquisitionByEntryPct[b] || 0) - (d.acquisitionByEntryPct[a] || 0)
       );
@@ -1413,85 +1707,100 @@
           </div>`;
         }).join('');
 
-      document.getElementById('acquisition-source-tbody').innerHTML = sortedEntries.map(k => {
-        const count = d.acquisitionByEntry[k] || 0;
-        const p = d.acquisitionByEntryPct[k] || 0;
-        const src = entryLeadSrc[k];
-        const leadsCell = src.leads == null ? '—' : src.leads;
-        const rateCell = src.rate == null ? '—' : `${src.rate}%`;
-        return `<tr>
-          <td><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${ENTRY_COLORS[k]};margin-right:8px;"></span>${ENTRY_LABELS[k]}</td>
-          <td>${count}</td>
-          <td class="rate">${p}%</td>
-          <td>${leadsCell}</td>
-          <td class="rate">${rateCell}</td>
-        </tr>`;
-      }).join('');
 
-      // Monthly new member trend
-      const trendHtml = d.monthlyMemberTrend.length ? `
-        <div class="panel">
-          <h3>Monthly New Member Trend</h3>
-          <table class="trend-table">
-            <thead><tr><th>Month</th><th>New Members</th><th>Change vs Prior</th></tr></thead>
-            <tbody>${d.monthlyMemberTrend.map(m => {
-              const [mty, mtm] = m.month.split('-').map(Number);
-              const monthName = new Date(mty, mtm - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
-              const note = m.dropFlag ? `<span class="drop-flag">-${m.dropFlag}% vs prior month</span>` : '';
-              return `<tr><td>${monthName}</td><td>${m.count}</td><td>${note}</td></tr>`;
-            }).join('')}</tbody>
-          </table>
-        </div>` : '';
-      document.getElementById('monthly-member-trend').innerHTML = trendHtml;
-
-      /* ── 3. Close Rate Scorecard (C1-C8) ── */
-      document.getElementById('scorecard-narrative').textContent = d.scorecardSummary || '';
-      document.getElementById('scorecard-tbody').innerHTML =
-        `<tr style="font-weight:700;background:rgba(255,255,255,0.03)">
-          <td>Blended</td><td>${d.blended.leads}</td><td>${d.blended.members}</td>
-          <td class="rate ${d.blended.rate >= 20 ? 'rate-good' : 'rate-bad'}">${d.blended.rate}%</td>
-          <td>${benchmarkBadge(d.blended.rate, 20)}</td>
-          <td class="bar-cell"><div class="bar-wrap"><div class="bar-fill bar-accent" style="width:${Math.min(d.blended.rate * 2, 100)}%"></div></div></td>
-        </tr>` +
-        scorecardRow('Prospect Walk-in', d.prospectWalkIn.leads, d.prospectWalkIn.members, d.prospectWalkIn.rate, 40) +
-        scorecardRow('Web Lead — Came In', d.webCameIn.leads, d.webCameIn.members, d.webCameIn.rate, 20) +
-        `<tr>
-          <td>Remote Sale</td><td>${d.remoteSale.leads}</td><td>${d.remoteSale.members}</td>
-          <td class="rate">${d.remoteSale.rate}%</td>
-          <td><span class="benchmark-badge neutral">reference only</span></td>
-          <td class="bar-cell"><div class="bar-wrap"><div class="bar-fill bar-accent" style="width:${Math.min(d.remoteSale.rate * 2, 100)}%"></div></div></td>
-        </tr>` +
-        scorecardRow('Unknown', d.unknown.leads, d.unknown.members, d.unknown.rate, null) +
-        `<tr>
-          <td>Direct Walk-in (volume only)</td><td>—</td><td>${d.directWalkInCount}</td>
-          <td class="rate">—</td>
-          <td><span class="benchmark-badge neutral">no close rate</span></td>
-          <td class="bar-cell">—</td>
-        </tr>`;
-
-      /* ── 4. Website Funnel Breakdown (C3, C4, C5) ── */
-      document.getElementById('website-narrative').textContent = d.websiteAnalysis || '';
-      document.getElementById('website-panels').innerHTML = `
-        <div class="panel">
-          <h3>Online Join (tagged)</h3>
-          <div class="panel-row"><span>Leads (completed online join)</span><span class="panel-val">${d.remoteSale.onlineJoinLeads}</span></div>
-          <div class="panel-row"><span>Unfinished online joins (excluded from counts)</span><span class="panel-val">${d.remoteSale.unfinishedCount}</span></div>
-          <div class="panel-row"><span>Matched Members</span><span class="panel-val">${d.remoteSale.onlineJoinMembers}</span></div>
-        </div>
-        <div class="panel">
-          <h3>Web Inquiry, Never Visited</h3>
-          <div class="panel-row"><span>Leads (web source, waiver = No)</span><span class="panel-val">${d.remoteSale.webNoVisitLeads}</span></div>
-          <div class="panel-row"><span>Matched Members</span><span class="panel-val">${d.remoteSale.webNoVisitMembers}</span></div>
-        </div>
-        <div class="panel" style="grid-column:1/-1;">
-          <h3>Combined Remote Sale</h3>
-          <div class="panel-row"><span>Total Leads (both sub-groups)</span><span class="panel-val">${d.remoteSale.leads}</span></div>
-          <div class="panel-row"><span>Total Members</span><span class="panel-val">${d.remoteSale.members}</span></div>
-          <div class="panel-row"><span>Conversion Rate</span><span class="panel-val">${d.remoteSale.rate}%</span></div>
-          <div class="panel-row"><span>Benchmark</span><span class="panel-val" style="color:var(--text-dim)">reference only — no traditional benchmark</span></div>
+      // Monthly trend (line chart) + day-of-week distribution (bar chart)
+      const dowBest = (d.signupsByDay || []).reduce((best, c, i) => c > (d.signupsByDay[best] || 0) ? i : best, 0);
+      const dowLabels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dowBestLabel = (d.signupsByDay && d.signupsByDay[dowBest] > 0) ? dowLabels[dowBest] : null;
+      document.getElementById('monthly-member-trend').innerHTML = `
+        <div class="two-col">
+          <div class="panel">
+            <h3>Monthly New Member Trend</h3>
+            ${lineChart(d.monthlyMemberTrend || [])}
+          </div>
+          <div class="panel">
+            <h3>Best Days to Close</h3>
+            ${dowChart(d.signupsByDay || [0,0,0,0,0,0,0])}
+            ${dowBestLabel
+              ? `<div style="text-align:center;color:var(--good);font-weight:700;margin-top:8px;font-size:0.88rem;">Strongest sign-up day: ${dowBestLabel}</div>`
+              : ''}
+          </div>
         </div>`;
 
-      /* ── 5. Pipeline Health ── */
+      /* ── 3. Close Rate Scorecard ── */
+      // Hero: Blended
+      {
+        const meets = d.blended.rate >= 20;
+        const delta = (d.blended.rate - 20).toFixed(1);
+        const heroScale = 50; // 50% rate = full bar
+        const fillPct = Math.min((d.blended.rate / heroScale) * 100, 100);
+        const tickPct = (20 / heroScale) * 100;
+        document.getElementById('scorecard-hero').innerHTML = `
+          <div class="score-hero ${meets ? 'meets' : 'misses'}">
+            <div class="hero-label">Blended Close Rate</div>
+            <div class="hero-rate">${d.blended.rate}%</div>
+            <div class="hero-sub">${d.blended.members.toLocaleString()} members converted from ${d.blended.leads.toLocaleString()} real leads</div>
+            <div class="hero-bar">
+              <div class="hero-bar-track">
+                <div class="hero-bar-fill" style="width:${fillPct}%"></div>
+                <div class="hero-bar-tick" style="left:${tickPct}%;" title="20% benchmark"></div>
+              </div>
+              <div class="hero-bar-legend"><span>0%</span><span>20% benchmark</span><span>50%+</span></div>
+            </div>
+            <div class="hero-badge">${meets ? '✓' : '✗'} ${meets ? '+' : ''}${delta}pp ${meets ? 'above' : 'below'} benchmark</div>
+          </div>`;
+      }
+
+      // Channel cards
+      function channelCard(cfg) {
+        const { color, name, rate, members, leads, benchmark, mode, definition } = cfg;
+        const scale = mode === 'reference' || mode === 'volume' ? 100 : 50;
+        const fillPct = rate != null ? Math.min((rate / scale) * 100, 100) : 0;
+        const tickPct = benchmark != null ? (benchmark / scale) * 100 : null;
+        let badge;
+        if (mode === 'volume') badge = '<span class="chan-badge">volume only</span>';
+        else if (mode === 'reference') badge = '<span class="chan-badge">reference</span>';
+        else {
+          const delta = (rate - benchmark).toFixed(1);
+          const good = rate >= benchmark;
+          badge = `<span class="chan-badge ${good ? 'good' : 'bad'}">${good ? '+' : ''}${delta}pp vs ${benchmark}%</span>`;
+        }
+        const rateText = rate != null ? `${rate}%` : members.toLocaleString();
+        const subText = mode === 'volume'
+          ? `${members} members · no lead record to measure against`
+          : `${members.toLocaleString()} of ${leads.toLocaleString()} leads`;
+        const defBlock = definition ? `<div class="chan-def">${definition}</div>` : '';
+        const bar = mode === 'volume' ? '' : `
+          <div class="chan-bar-track">
+            <div class="chan-bar-fill" style="width:${fillPct}%"></div>
+            ${tickPct != null ? `<div class="chan-bar-tick" style="left:${tickPct}%" title="${benchmark}% benchmark"></div>` : ''}
+          </div>
+          <div class="chan-bar-legend">
+            <span>0%</span>${benchmark != null ? `<span>${benchmark}%</span>` : '<span>&nbsp;</span>'}<span>${scale}%${scale === 100 ? '' : '+'}</span>
+          </div>`;
+        return `<div class="score-channel" style="--channel-color:${color};">
+          <div class="chan-header"><span class="chan-name">${name}</span>${badge}</div>
+          <div class="chan-rate">${rateText}</div>
+          <div class="chan-sub">${subText}</div>
+          ${defBlock}
+          ${bar}
+        </div>`;
+      }
+
+      // Primary (benchmarked) — two cards stacked on top
+      document.getElementById('scorecard-primary').innerHTML = [
+        channelCard({ color: ENTRY_COLORS.PROSPECT_WALK_IN, name: 'Prospect Walk-in', rate: d.prospectWalkIn.rate, members: d.prospectWalkIn.members, leads: d.prospectWalkIn.leads, benchmark: 40, mode: 'benchmarked', definition: ENTRY_DEFINITIONS.PROSPECT_WALK_IN }),
+        channelCard({ color: ENTRY_COLORS.WEB_LEAD_CAME_IN, name: 'Web Lead — Came In', rate: d.webCameIn.rate, members: d.webCameIn.members, leads: d.webCameIn.leads, benchmark: 20, mode: 'benchmarked', definition: ENTRY_DEFINITIONS.WEB_LEAD_CAME_IN }),
+      ].join('');
+
+      // Secondary (no benchmark) — three cards below
+      document.getElementById('scorecard-secondary').innerHTML = [
+        channelCard({ color: ENTRY_COLORS.REMOTE_SALE, name: 'Remote Sale', rate: d.remoteSale.rate, members: d.remoteSale.members, leads: d.remoteSale.leads, benchmark: null, mode: 'reference', definition: ENTRY_DEFINITIONS.REMOTE_SALE }),
+        channelCard({ color: ENTRY_COLORS.UNKNOWN, name: 'Unknown', rate: d.unknown.rate, members: d.unknown.members, leads: d.unknown.leads, benchmark: null, mode: 'reference', definition: ENTRY_DEFINITIONS.UNKNOWN }),
+        channelCard({ color: ENTRY_COLORS.DIRECT_WALK_IN, name: 'Direct Walk-in', rate: null, members: d.directWalkInCount, leads: null, benchmark: null, mode: 'volume', definition: ENTRY_DEFINITIONS.DIRECT_WALK_IN }),
+      ].join('');
+
+      /* ── 4. Pipeline Health ── */
       document.getElementById('pipeline-narrative').textContent = d.pipelineAnalysis || '';
       document.getElementById('pipeline-metrics').innerHTML =
         mc(d.warmPipeline, 'Warm — Came In', 'var(--warn)') +
