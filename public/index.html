@@ -6,7 +6,7 @@
   <title>Powerhouse Gym NYC — Leads Analyzer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,7 +21,9 @@
       --text: #f0f0f0;
       --text-dim: #999;
       --good: #4ade80;
+      --lime: #a3e635;
       --warn: #facc15;
+      --orange: #fb923c;
       --bad: #f87171;
       --blue: #60a5fa;
       --radius: 12px;
@@ -238,8 +240,12 @@
     .dash-title { font-size: 1.8rem; color: #ffffff; text-align: center; margin-bottom: 4px; }
     .dash-period { color: var(--text-dim); text-align: center; font-size: 0.9rem; margin-bottom: 32px; }
 
-    .section { margin-bottom: 36px; }
-    .section-title { font-size: 1.3rem; color: var(--accent); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .section { margin-bottom: 56px; }
+    .section-title {
+      font-size: 1rem; color: var(--accent); margin-bottom: 20px;
+      padding-bottom: 0; border-bottom: none;
+      text-transform: uppercase; letter-spacing: 2.5px; font-weight: 700;
+    }
 
     /* Collapsible Data Quality section */
     .dq-details > summary { list-style: none; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -260,8 +266,9 @@
       text-align: center;
     }
     .subsection-title {
-      font-size: 1.1rem; color: var(--accent); margin: 20px 0 12px;
-      padding-bottom: 6px; border-bottom: 1px solid var(--border);
+      font-size: 0.82rem; color: var(--text-dim); margin: 28px 0 14px;
+      padding-bottom: 0; border-bottom: none;
+      text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
     }
 
     /* KPI cards (Club Performance highlights) */
@@ -270,7 +277,7 @@
       gap: 16px; margin-bottom: 20px;
     }
     .kpi-card {
-      background: var(--surface); border: 1px solid var(--border);
+      background: var(--surface); border: none;
       border-left: 4px solid var(--accent);
       border-radius: var(--radius); padding: 20px 18px;
       display: flex; flex-direction: column; gap: 8px;
@@ -297,7 +304,7 @@
     .verdict-banner {
       background: var(--surface); border-left: 4px solid var(--accent);
       border-radius: var(--radius); padding: 18px 22px; margin-bottom: 20px;
-      font-size: 1.05rem; color: #fff; font-weight: 500; line-height: 1.5;
+      font-size: 1.05rem; color: #fff; font-weight: 400; line-height: 1.5;
     }
 
     /* Highlight list (winners, losers, leaks, risks) */
@@ -329,51 +336,311 @@
     }
 
     .narrative {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 18px 20px; font-size: 0.9rem; line-height: 1.7; color: var(--text-dim); margin-bottom: 16px;
+      background: var(--surface); border: none; border-radius: var(--radius);
+      padding: 20px 24px; font-size: 0.9rem; line-height: 1.7; color: var(--text-dim); margin-bottom: 20px;
     }
+    .narrative b { color: #fff; font-weight: 700; }
 
     /* Metric cards */
     .metric-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 14px; margin-bottom: 16px;
     }
-    /* General Overview grid — two hero tiles flanked by two smaller side tiles */
+    /* General Overview grid — three equal side tiles supporting the hero above */
     .overview-grid {
-      display: grid; grid-template-columns: 1fr 1.6fr 1.6fr 1fr;
+      display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 14px; margin-bottom: 16px; align-items: stretch;
     }
-    @media (max-width: 900px) { .overview-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 500px) { .overview-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 700px) { .overview-grid { grid-template-columns: 1fr; } }
     .overview-grid > div {
-      background: var(--surface); border: 1px solid var(--border);
+      background: var(--surface); border: none;
       border-radius: var(--radius); text-align: center;
       display: flex; flex-direction: column; justify-content: center;
     }
-    .overview-grid .overview-side { padding: 18px 14px; }
+    .overview-grid .overview-side { padding: 22px 16px; }
     .overview-grid .overview-side .ov-value {
-      font-family: 'Bebas Neue', cursive; font-size: 1.9rem; color: var(--accent); line-height: 1.1;
+      font-family: 'Bebas Neue', cursive; font-size: 2rem; color: #fff; line-height: 1.1; letter-spacing: 1px;
     }
     .overview-grid .overview-side .ov-label {
-      font-size: 0.7rem; color: var(--text-dim); margin-top: 4px;
-      text-transform: uppercase; letter-spacing: 0.5px;
+      font-size: 0.7rem; color: var(--text-dim); margin-top: 6px;
+      text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
     }
-    .overview-grid .overview-hero { padding: 28px 20px; }
-    .overview-grid .overview-hero .ov-value {
-      font-family: 'Bebas Neue', cursive; font-size: 3.4rem; color: #fff; line-height: 1;
+
+    /* Section hero — single dominant number per section */
+    .section-hero {
+      background: var(--surface); border: none; border-radius: var(--radius);
+      padding: 40px 24px; margin-bottom: 20px; text-align: center;
     }
-    .overview-grid .overview-hero .ov-label {
-      font-size: 0.78rem; color: var(--text-dim); margin-top: 8px;
-      text-transform: uppercase; letter-spacing: 0.5px;
+    .section-hero .hero-value {
+      font-family: 'Bebas Neue', cursive; font-size: 5.5rem; line-height: 1;
+      color: #fff; letter-spacing: 1px;
     }
-    .overview-grid .overview-hero.close-good .ov-value { color: var(--good); }
-    .overview-grid .overview-hero.close-bad .ov-value { color: var(--bad); }
+    .section-hero.good .hero-value { color: var(--good); }
+    .section-hero.bad .hero-value { color: var(--bad); }
+    .section-hero.warn .hero-value { color: var(--warn); }
+    .section-hero .hero-label {
+      font-size: 0.75rem; color: var(--text-dim); margin-top: 12px;
+      text-transform: uppercase; letter-spacing: 2.5px; font-weight: 700;
+    }
+    .section-hero .hero-sub { color: var(--text-dim); font-size: 0.88rem; margin-top: 8px; }
+
+    /* Velocity ribbon — stacked horizontal bar showing close-time distribution */
+    .velocity-ribbon {
+      background: var(--surface); border-radius: var(--radius);
+      padding: 52px 28px 28px; margin-bottom: 20px;
+    }
+    .ribbon-ticks { position: relative; height: 44px; margin-bottom: 10px; }
+    .ribbon-tick {
+      position: absolute; top: 0; transform: translateX(-50%);
+      text-align: center; white-space: nowrap;
+    }
+    .ribbon-tick::after {
+      content: ''; display: block; width: 2px; height: 10px;
+      background: var(--text-dim); margin: 6px auto 0; opacity: 0.5;
+    }
+    .ribbon-tick-label {
+      font-size: 0.65rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;
+    }
+    .ribbon-tick-value {
+      display: block; font-family: 'Bebas Neue', cursive;
+      font-size: 1.3rem; color: var(--good); letter-spacing: 1px;
+      line-height: 1; margin-bottom: 2px;
+    }
+    .ribbon-bar {
+      display: flex; height: 52px; border-radius: 8px; overflow: hidden;
+    }
+    .ribbon-seg {
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', cursive; font-size: 1.4rem;
+      color: #0a0a0a; font-weight: 700; letter-spacing: 1px;
+      overflow: hidden; min-width: 0;
+      transition: filter 0.2s;
+    }
+    .ribbon-seg:hover { filter: brightness(1.1); }
+    .ribbon-seg-1 { background: var(--good); }
+    .ribbon-seg-2 { background: #a3e635; }
+    .ribbon-seg-3 { background: var(--warn); }
+    .ribbon-seg-4 { background: var(--bad); color: #fff; }
+    .ribbon-labels { display: flex; margin-top: 12px; }
+    .ribbon-labels > div {
+      text-align: center; font-size: 0.65rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;
+      overflow: hidden; min-width: 0;
+    }
+    .ribbon-caption {
+      text-align: center; color: var(--text-dim);
+      font-size: 0.9rem; line-height: 1.6; margin-top: 24px;
+    }
+    .ribbon-caption b { color: #fff; font-weight: 700; }
+
+    /* Open Pipeline — bounty hero + two action cards */
+    .pipeline-bounty {
+      background: linear-gradient(135deg, var(--accent-dim) 0%, var(--surface) 60%);
+      border-radius: var(--radius); padding: 44px 28px 36px;
+      text-align: center; margin-bottom: 16px;
+    }
+    .bounty-value {
+      font-family: 'Bebas Neue', cursive; font-size: 5.5rem; line-height: 1;
+      color: #fff; letter-spacing: 1px;
+    }
+    .bounty-label {
+      font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 2.5px; font-weight: 700; margin-top: 12px;
+    }
+    .bounty-impact {
+      color: #fff; font-size: 1.05rem; margin: 20px auto 0;
+      max-width: 580px; line-height: 1.5;
+    }
+    .bounty-impact b { color: var(--accent); font-weight: 700; }
+
+    .action-cards {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-bottom: 12px;
+    }
+    @media (max-width: 700px) { .action-cards { grid-template-columns: 1fr; } }
+    .action-card {
+      background: var(--surface); border-radius: var(--radius);
+      padding: 26px 28px; border-left: 4px solid var(--accent);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .action-card.action-warm { border-left-color: var(--warn); }
+    .action-card.action-cold { border-left-color: var(--blue); }
+    .action-verb {
+      font-family: 'Bebas Neue', cursive; font-size: 1.5rem;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .action-card.action-warm .action-verb { color: var(--warn); }
+    .action-card.action-cold .action-verb { color: var(--blue); }
+    .action-count {
+      font-family: 'Bebas Neue', cursive; font-size: 4rem;
+      line-height: 1; color: #fff; letter-spacing: 1px;
+    }
+    .action-what { color: #fff; font-size: 0.95rem; line-height: 1.5; }
+    .action-card.action-warm .action-what b { color: var(--warn); font-weight: 700; }
+    .action-card.action-cold .action-what b { color: var(--blue); font-weight: 700; }
+    .action-how { color: var(--text-dim); font-size: 0.87rem; line-height: 1.55; }
+    .action-estimate {
+      margin-top: auto; padding-top: 14px;
+      font-size: 0.7rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;
+      display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+    }
+    .action-estimate b {
+      font-family: 'Bebas Neue', cursive; font-size: 1.6rem;
+      letter-spacing: 1.5px;
+    }
+    .action-card.action-warm .action-estimate b { color: var(--warn); }
+    .action-card.action-cold .action-estimate b { color: var(--blue); }
+    .pipeline-assumption {
+      font-size: 0.72rem; color: var(--text-dim); text-align: center;
+      line-height: 1.5; margin-top: 4px;
+    }
+
+    /* Report Card — overall letter grade hero */
+    .report-card {
+      background: var(--surface); border-radius: var(--radius);
+      padding: 36px 32px; margin-bottom: 20px;
+    }
+    .report-card-top {
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 32px; align-items: center; margin-bottom: 28px;
+    }
+    @media (max-width: 700px) {
+      .report-card-top { grid-template-columns: 1fr; text-align: center; gap: 16px; }
+    }
+    .grade-display { text-align: center; }
+    .grade-letter {
+      font-family: 'Bebas Neue', cursive; font-size: 7.5rem; line-height: 0.9;
+      letter-spacing: 2px; color: #fff;
+    }
+    .grade-letter.grade-a { color: var(--good); }
+    .grade-letter.grade-b { color: var(--lime); }
+    .grade-letter.grade-c { color: var(--warn); }
+    .grade-letter.grade-d { color: var(--orange); }
+    .grade-letter.grade-f { color: var(--bad); }
+    .grade-score {
+      font-family: 'Bebas Neue', cursive; font-size: 1.4rem;
+      color: var(--text-dim); letter-spacing: 2px; margin-top: 4px;
+    }
+    .grade-score span { font-size: 1rem; }
+    .grade-eyebrow {
+      font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 2.5px; font-weight: 700; margin-bottom: 8px;
+    }
+    .grade-headline {
+      color: #fff; font-size: 1.15rem; line-height: 1.5; font-weight: 400;
+    }
+    .grade-action {
+      color: var(--text-dim); font-size: 0.92rem; line-height: 1.6;
+      margin-top: 12px;
+    }
+    .grade-action b { color: #fff; font-weight: 700; }
+    .grade-components {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 700px) { .grade-components { grid-template-columns: 1fr; } }
+
+    .grade-gauge {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: #fff;
+    }
+    .grade-gauge.grade-a { color: var(--good); }
+    .grade-gauge.grade-b { color: var(--lime); }
+    .grade-gauge.grade-c { color: var(--warn); }
+    .grade-gauge.grade-d { color: var(--orange); }
+    .grade-gauge.grade-f { color: var(--bad); }
+
+    .gauge-wrap { position: relative; width: 140px; height: 140px; }
+    .gauge-ring { width: 100%; height: 100%; display: block; }
+    .gauge-ring .ring-bg { fill: none; stroke: var(--bg); stroke-width: 10; }
+    .gauge-ring .ring-fg {
+      fill: none; stroke: currentColor; stroke-width: 10;
+      stroke-linecap: round;
+      transform: rotate(-90deg); transform-origin: 50% 50%;
+      transition: stroke-dashoffset 0.9s ease-out;
+    }
+    .gauge-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .gauge-letter {
+      font-family: 'Bebas Neue', cursive; font-size: 2.8rem;
+      line-height: 1; letter-spacing: 1px; color: currentColor;
+    }
+    .gauge-score {
+      font-family: 'Bebas Neue', cursive; font-size: 0.85rem;
+      color: var(--text-dim); letter-spacing: 2px; margin-top: 2px;
+    }
+    .gauge-label {
+      font-size: 0.78rem; color: #fff;
+      text-transform: uppercase; letter-spacing: 2px;
+      font-weight: 700; text-align: center; margin-top: 4px;
+    }
+    .gauge-weight {
+      font-size: 0.62rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      font-weight: 700;
+    }
+
+    /* Grading model rubric in data quality section */
+    .grading-model {
+      background: var(--surface2); border-radius: var(--radius);
+      padding: 20px 24px; margin-bottom: 20px;
+    }
+    .grading-model h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .grading-model h5 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;
+      margin: 16px 0 8px;
+    }
+    .grading-model p { font-size: 0.87rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 8px; }
+    .grading-model ul { list-style: none; padding: 0; }
+    .grading-model li {
+      font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;
+      padding: 4px 0;
+    }
+    .grading-model li b { color: #fff; }
+    .grading-model code {
+      font-family: 'DM Sans', sans-serif; background: var(--bg);
+      padding: 1px 6px; border-radius: 4px; color: #fff; font-size: 0.82rem;
+    }
+    .grading-scale {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 6px; margin-top: 8px;
+    }
+    .grading-scale-tile {
+      text-align: center; padding: 8px; border-radius: 6px;
+      background: var(--bg); font-size: 0.78rem;
+    }
+    .grading-scale-tile b {
+      display: block; font-family: 'Bebas Neue', cursive; font-size: 1.3rem;
+      letter-spacing: 1px; line-height: 1;
+    }
+    .grading-scale-tile.grade-a b { color: var(--good); }
+    .grading-scale-tile.grade-b b { color: var(--lime); }
+    .grading-scale-tile.grade-c b { color: var(--warn); }
+    .grading-scale-tile.grade-d b { color: var(--orange); }
+    .grading-scale-tile.grade-f b { color: var(--bad); }
+
     .metric-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 18px 14px; text-align: center;
+      background: var(--surface); border: none;
+      border-radius: var(--radius); padding: 20px 14px; text-align: center;
     }
-    .metric-value { font-family: 'Bebas Neue', cursive; font-size: 2rem; color: var(--accent); line-height: 1.1; }
-    .metric-label { font-size: 0.72rem; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-value { font-family: 'Bebas Neue', cursive; font-size: 2rem; color: #fff; line-height: 1.1; letter-spacing: 1px; }
+    .metric-value.good { color: var(--good); }
+    .metric-value.bad { color: var(--bad); }
+    .metric-value.warn { color: var(--warn); }
+    .metric-value.dim { color: var(--text-dim); }
+    .metric-label { font-size: 0.7rem; color: var(--text-dim); margin-top: 6px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
 
     .benchmark-badge {
       display: inline-block; padding: 3px 10px; border-radius: 20px;
@@ -389,10 +656,10 @@
     }
     .scorecard-table th {
       text-align: left; padding: 10px 12px; color: var(--text-dim);
-      font-weight: 600; text-transform: uppercase; font-size: 0.72rem;
-      letter-spacing: 0.5px; border-bottom: 1px solid var(--border);
+      font-weight: 700; text-transform: uppercase; font-size: 0.7rem;
+      letter-spacing: 1.5px; border-bottom: none;
     }
-    .scorecard-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .scorecard-table td { padding: 10px 12px; border-bottom: none; }
     .scorecard-table .rate { font-weight: 700; }
     .rate-good { color: var(--good); }
     .rate-bad { color: var(--bad); }
@@ -410,16 +677,18 @@
     @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
 
     .panel {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 20px;
+      background: var(--surface); border: none;
+      border-radius: var(--radius); padding: 24px;
     }
-    .panel h3 { font-size: 1.1rem; color: var(--accent); margin-bottom: 14px; }
+    .panel h3 {
+      font-size: 0.82rem; color: var(--text-dim); margin-bottom: 16px;
+      text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+    }
     .panel-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem;
+      padding: 10px 0; border-bottom: none; font-size: 0.88rem;
     }
-    .panel-row:last-child { border-bottom: none; }
-    .panel-val { font-weight: 700; color: var(--accent); }
+    .panel-val { font-weight: 700; color: #fff; }
 
     .pipeline-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
     .dot-warm { background: var(--warn); }
@@ -430,10 +699,10 @@
     .trend-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     .trend-table th {
       text-align: left; padding: 8px 12px; color: var(--text-dim);
-      font-weight: 600; text-transform: uppercase; font-size: 0.72rem;
-      border-bottom: 1px solid var(--border);
+      font-weight: 700; text-transform: uppercase; font-size: 0.7rem;
+      letter-spacing: 1.5px; border-bottom: none;
     }
-    .trend-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    .trend-table td { padding: 8px 12px; border-bottom: none; }
     .drop-flag { color: var(--bad); font-size: 0.78rem; font-weight: 600; }
 
     /* Engagement tier bars */
@@ -445,7 +714,7 @@
 
     /* Insights */
     .insight-card {
-      background: var(--surface); border: 1px solid var(--border);
+      background: var(--surface); border: none;
       border-radius: 10px; padding: 14px 18px; margin-bottom: 10px;
       display: flex; align-items: flex-start; gap: 12px; font-size: 0.88rem; line-height: 1.5;
     }
@@ -458,18 +727,16 @@
 
     /* Scorecard hero + channel cards */
     .score-hero {
-      position: relative; padding: 28px 32px; text-align: center;
-      border: 1px solid var(--border); border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(234,88,12,0.1) 0%, var(--surface) 65%);
+      position: relative; padding: 32px 32px; text-align: center;
+      border: none; border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(234,88,12,0.08) 0%, var(--surface) 65%);
       margin-bottom: 16px;
     }
     .score-hero.meets {
-      background: linear-gradient(135deg, rgba(22,163,74,0.18) 0%, var(--surface) 65%);
-      border-color: rgba(22,163,74,0.4);
+      background: linear-gradient(135deg, rgba(22,163,74,0.15) 0%, var(--surface) 65%);
     }
     .score-hero.misses {
-      background: linear-gradient(135deg, rgba(220,38,38,0.18) 0%, var(--surface) 65%);
-      border-color: rgba(220,38,38,0.4);
+      background: linear-gradient(135deg, rgba(220,38,38,0.15) 0%, var(--surface) 65%);
     }
     .score-hero .hero-label {
       font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;
@@ -521,9 +788,9 @@
     @media (max-width: 900px) { .score-channels-primary { grid-template-columns: 1fr; } }
     @media (max-width: 750px) { .score-channels-secondary { grid-template-columns: 1fr; } }
     .score-channel {
-      background: var(--surface); border: 1px solid var(--border);
+      background: var(--surface); border: none;
       border-top: 4px solid var(--channel-color, var(--accent));
-      border-radius: var(--radius); padding: 18px 20px;
+      border-radius: var(--radius); padding: 20px 22px;
       transition: transform 0.15s;
     }
     .score-channel:hover { transform: translateY(-1px); }
@@ -568,70 +835,13 @@
       font-size: 0.65rem; margin-top: 4px; letter-spacing: 0.3px;
     }
 
-    /* "Where to improve" — structured cards */
-    .improvements-block { margin-bottom: 16px; }
-    .improvements-block h4 {
-      font-size: 0.75rem; color: var(--accent); text-transform: uppercase;
-      letter-spacing: 1.5px; margin: 0 0 14px; font-weight: 700;
-    }
-    .improvements-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-    }
-    .improve-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 4px solid var(--border); border-radius: var(--radius);
-      padding: 18px 20px;
-      display: flex; flex-direction: column; gap: 12px;
-      transition: transform 0.15s, border-color 0.15s;
-    }
-    .improve-card:hover { transform: translateY(-1px); }
-    .improve-card.sev-high { border-left-color: var(--bad); }
-    .improve-card.sev-mid { border-left-color: var(--warn); }
-    .improve-card.sev-low { border-left-color: var(--blue); }
-    .improve-head { display: flex; align-items: baseline; gap: 12px; }
-    .improve-num {
-      font-family: 'Bebas Neue', cursive; font-size: 2rem; line-height: 0.9;
-      color: var(--accent); min-width: 28px;
-    }
-    .improve-title {
-      font-weight: 700; color: #fff; font-size: 0.92rem;
-      letter-spacing: 0.2px; line-height: 1.3;
-    }
-    .improve-metric {
-      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
-    }
-    .improve-current {
-      font-family: 'Bebas Neue', cursive; font-size: 2rem; line-height: 1;
-    }
-    .improve-card.sev-high .improve-current { color: var(--bad); }
-    .improve-card.sev-mid .improve-current { color: var(--warn); }
-    .improve-card.sev-low .improve-current { color: var(--blue); }
-    .improve-card:not([class*="sev-"]) .improve-current { color: #fff; }
-    .improve-target {
-      color: var(--text-dim); font-size: 0.82rem;
-    }
-    .improve-gap {
-      font-size: 0.72rem; font-weight: 700;
-      padding: 3px 10px; border-radius: 12px;
-      background: var(--surface2); color: var(--text-dim);
-      margin-left: auto; letter-spacing: 0.5px;
-    }
-    .improve-card.sev-high .improve-gap { background: rgba(248,113,113,0.15); color: var(--bad); }
-    .improve-card.sev-mid .improve-gap { background: rgba(250,204,21,0.15); color: var(--warn); }
-    .improve-card.sev-low .improve-gap { background: rgba(96,165,250,0.15); color: var(--blue); }
-    .improve-action {
-      color: var(--text-dim); font-size: 0.85rem; line-height: 1.5;
-      padding-top: 4px; border-top: 1px solid var(--border);
-    }
 
     /* Caveats */
     .caveat-list { list-style: none; padding: 0; }
     .caveat-list li {
-      padding: 8px 0; font-size: 0.85rem; color: var(--text-dim);
-      border-bottom: 1px solid var(--border);
+      padding: 10px 0; font-size: 0.85rem; color: var(--text-dim);
+      border-bottom: none;
     }
-    .caveat-list li:last-child { border-bottom: none; }
     .caveat-list li::before {
       content: '!'; display: inline-block; width: 20px; height: 20px; line-height: 20px;
       text-align: center; background: var(--warn); color: var(--bg); border-radius: 50%;
@@ -738,13 +948,20 @@
       <h1 class="dash-title">POWERHOUSE GYM NYC — LEADS ANALYSIS</h1>
       <p class="dash-period" id="dash-period"></p>
 
-      <!-- 1. General Overview -->
+      <!-- Report Card -->
       <div class="section">
-        <h2 class="section-title">1. General Overview</h2>
+        <h2 class="section-title">Club Report Card</h2>
+        <div class="report-card" id="report-card"></div>
+      </div>
+
+      <!-- General Overview -->
+      <div class="section">
+        <h2 class="section-title">General Overview</h2>
+        <div class="section-hero" id="overview-hero"></div>
         <div class="overview-grid" id="period-metrics"></div>
       </div>
 
-      <!-- New Members by Source — hero view -->
+      <!-- New Members by Source -->
       <div class="section">
         <h2 class="section-title">New Members by Source</h2>
         <div class="two-col" id="acquisition-pie-wrap">
@@ -753,44 +970,35 @@
         </div>
       </div>
 
-      <!-- 2. Membership Acquisition -->
+      <!-- Membership Acquisition -->
       <div class="section">
-        <h2 class="section-title">2. Membership Acquisition</h2>
+        <h2 class="section-title">Membership Acquisition</h2>
         <div id="monthly-member-trend" style="margin-bottom:16px;"></div>
       </div>
 
-      <!-- 3. Close Rate Scorecard -->
+      <!-- Close Rate Scorecard -->
       <div class="section">
-        <h2 class="section-title">3. Close Rate Scorecard</h2>
+        <h2 class="section-title">Close Rate Scorecard</h2>
         <div id="scorecard-hero"></div>
         <div class="score-channels-primary" id="scorecard-primary"></div>
         <div class="score-channels-secondary" id="scorecard-secondary"></div>
       </div>
 
-      <!-- 4. Pipeline Health -->
+      <!-- Pipeline Health -->
       <div class="section">
-        <h2 class="section-title">4. Pipeline Health</h2>
-
+        <h2 class="section-title">Pipeline Health</h2>
         <h3 class="subsection-title">Speed to Close</h3>
-        <p class="narrative" id="velocity-narrative"></p>
-        <div class="metric-grid" id="velocity-metrics"></div>
-
-        <h3 class="subsection-title">Open Pipeline</h3>
-        <p class="narrative" id="pipeline-narrative"></p>
-        <div class="metric-grid" id="pipeline-metrics"></div>
+        <div id="velocity-ribbon"></div>
+        <h3 class="subsection-title">Open Pipeline — Your Work List</h3>
+        <div id="pipeline-open"></div>
       </div>
 
-      <!-- 5. Growth Opportunities -->
-      <div class="section">
-        <h2 class="section-title">5. Growth Opportunities</h2>
-        <p class="narrative" id="growth-narrative"></p>
-        <div class="improvements-grid" id="acquisition-improvements"></div>
-      </div>
-
-      <!-- 6. Data Quality Flags -->
+      <!-- Data Quality Flags + Grading Model -->
       <div class="section">
         <details class="dq-details">
-          <summary class="section-title dq-summary">6. Data Quality Flags</summary>
+          <summary class="section-title dq-summary">Methodology &amp; Data Quality</summary>
+          <div id="grading-model-box"></div>
+          <h4 style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin:20px 0 12px;">Data Quality Flags</h4>
           <ul class="caveat-list" id="caveats-list"></ul>
         </details>
       </div>
@@ -1452,9 +1660,10 @@
     /* ═══════════════════════════════════════════
        RENDER HELPERS
        ═══════════════════════════════════════════ */
-    function mc(value, label, color) {
-      const style = color ? ` style="color:${color}"` : '';
-      return `<div class="metric-card"><div class="metric-value"${style}>${value}</div><div class="metric-label">${label}</div></div>`;
+    function mc(value, label, tone) {
+      // tone: 'good' | 'bad' | 'warn' | 'dim' | undefined (neutral white)
+      const cls = tone ? ` ${tone}` : '';
+      return `<div class="metric-card"><div class="metric-value${cls}">${value}</div><div class="metric-label">${label}</div></div>`;
     }
 
     function benchmarkBadge(rate, benchmark) {
@@ -1675,8 +1884,188 @@
       return new Date(y, m - 1, day).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     }
 
+    /* ═══════════════════════════════════════════
+       CLUB GRADE
+       ═══════════════════════════════════════════ */
+    function scoreComponent(actual, benchmark) {
+      // Hitting benchmark = 85 (a solid B). Exceeding scales up, falling short scales down. Cap 100.
+      if (benchmark <= 0) return 85;
+      return Math.min(100, (actual / benchmark) * 85);
+    }
+    function scoreToGrade(s) {
+      if (s >= 97) return 'A+';
+      if (s >= 93) return 'A';
+      if (s >= 90) return 'A-';
+      if (s >= 87) return 'B+';
+      if (s >= 83) return 'B';
+      if (s >= 80) return 'B-';
+      if (s >= 77) return 'C+';
+      if (s >= 73) return 'C';
+      if (s >= 70) return 'C-';
+      if (s >= 67) return 'D+';
+      if (s >= 63) return 'D';
+      if (s >= 60) return 'D-';
+      return 'F';
+    }
+    function gradeTier(letter) {
+      return letter.charAt(0).toLowerCase();  // 'a' | 'b' | 'c' | 'd' | 'f'
+    }
+    function calcClubGrade(d) {
+      const blendedScore = scoreComponent(d.blended.rate, 20);
+      const pwScore = d.prospectWalkIn.leads > 0 ? scoreComponent(d.prospectWalkIn.rate, 40) : null;
+      const wcScore = d.webCameIn.leads > 0 ? scoreComponent(d.webCameIn.rate, 20) : null;
+      const channelParts = [pwScore, wcScore].filter(x => x !== null);
+      const channelScore = channelParts.length
+        ? channelParts.reduce((a, b) => a + b, 0) / channelParts.length
+        : 85;
+      const velocityScore = scoreComponent(d.velocityWithin30Pct, 80);
+      const total = blendedScore * 0.40 + channelScore * 0.35 + velocityScore * 0.25;
+      return {
+        total: Math.round(total),
+        letter: scoreToGrade(total),
+        components: [
+          { label: 'Close Rate', score: Math.round(blendedScore), weight: 40, letter: scoreToGrade(blendedScore) },
+          { label: 'Floor Conversion',  score: Math.round(channelScore), weight: 35, letter: scoreToGrade(channelScore) },
+          { label: 'Pipeline Velocity',  score: Math.round(velocityScore), weight: 25, letter: scoreToGrade(velocityScore) },
+        ],
+      };
+    }
+    const PILLAR_ACTION = {
+      'Close Rate': {
+        low: 'Too many leads are walking away without signing. Audit the close itself — is the ask clear on the iPad, during the tour, and at the desk? Sharpen objection handling and create more urgency at the moment of decision.',
+        mid: "Close rate is right around the 20% target — solid, but every point is real revenue. Look for small leaks between the lead landing in the system and the member signing up.",
+      },
+      'Floor Conversion': {
+        low: "People are getting through the door but not signing up. That's a floor-team execution issue — retrain on the iPad-to-tour-to-close flow, and make sure web prospects who come in feel the same in-person urgency as cold walk-ins.",
+        mid: 'Walk-ins and web visitors are closing near target. Small tweaks to the tour script or the handoff after someone signs the iPad could push these numbers up and move the overall grade into A territory.',
+      },
+      'Pipeline Velocity': {
+        low: "Leads are going cold before they sign. Speed is the lever — first contact inside 24 hours, push for a same-day tour, and treat any lead older than a week as at risk of disappearing.",
+        mid: "Most new members sign within 30 days, which is healthy — the club is closing fast. Protect this by keeping follow-up cadence tight on fresh leads; the velocity edge disappears quickly if staff lets leads age.",
+      },
+    };
+    function gradeHeadlineFor(d, weakest) {
+      if (weakest.label === 'Close Rate') {
+        const r = d.blended.rate;
+        return r < 20
+          ? `Your biggest opportunity is close rate — only <b>${r}% of leads</b> are becoming members, below the 20% target.`
+          : `Close rate is at <b>${r}%</b>, right at target — but it's still the weakest of the three.`;
+      }
+      if (weakest.label === 'Floor Conversion') {
+        const pw = d.prospectWalkIn.rate;
+        const wc = d.webCameIn.rate;
+        return `Your biggest opportunity is how the floor team closes — walk-ins are signing at <b>${pw}%</b> (aim for 40%) and web visitors at <b>${wc}%</b> (aim for 20%).`;
+      }
+      if (weakest.label === 'Pipeline Velocity') {
+        return `Your biggest opportunity is speed — only <b>${d.velocityWithin30Pct}%</b> of sales close within 30 days (aim for 80%+). Leads are aging out before they sign.`;
+      }
+      return `Your biggest opportunity is ${weakest.label.toLowerCase()}.`;
+    }
+    function gradeNarrative(d, g) {
+      const sorted = [...g.components].sort((a, b) => b.score - a.score);
+      const weakest = sorted[sorted.length - 1];
+      const strongest = sorted[0];
+
+      if (weakest.score >= 85) {
+        return {
+          headline: 'The club is executing well across the board.',
+          action: `Your strongest number is <b>${strongest.label.toLowerCase()}</b>. Keep feeding the top of the funnel, protect the follow-up cadence, and watch the monthly trend for early drift.`,
+        };
+      }
+
+      if (g.total < 70) {
+        return {
+          headline: 'The club has work to do on multiple fronts — this is not a single-fix situation.',
+          action: `The biggest drag is <b>${weakest.label.toLowerCase()}</b>. ${PILLAR_ACTION[weakest.label].low}`,
+        };
+      }
+
+      const severity = weakest.score < 70 ? 'low' : 'mid';
+      return {
+        headline: gradeHeadlineFor(d, weakest),
+        action: PILLAR_ACTION[weakest.label][severity],
+      };
+    }
+    function renderReportCard(d) {
+      const g = calcClubGrade(d);
+      const tier = gradeTier(g.letter);
+      const narrative = gradeNarrative(d, g);
+      const RING_CIRC = 326.73;  // 2 * PI * r where r = 52
+      const comps = g.components.map(c => {
+        const t = gradeTier(c.letter);
+        const offset = RING_CIRC * (1 - c.score / 100);
+        return `
+          <div class="grade-gauge grade-${t}">
+            <div class="gauge-wrap">
+              <svg class="gauge-ring" viewBox="0 0 120 120">
+                <circle class="ring-bg" cx="60" cy="60" r="52"/>
+                <circle class="ring-fg" cx="60" cy="60" r="52"
+                        stroke-dasharray="${RING_CIRC}"
+                        stroke-dashoffset="${offset.toFixed(2)}"/>
+              </svg>
+              <div class="gauge-center">
+                <div class="gauge-letter">${c.letter}</div>
+                <div class="gauge-score">${c.score} / 100</div>
+              </div>
+            </div>
+            <div class="gauge-label">${c.label}</div>
+            <div class="gauge-weight">${c.weight}% of grade</div>
+          </div>`;
+      }).join('');
+      document.getElementById('report-card').innerHTML = `
+        <div class="report-card-top">
+          <div class="grade-display">
+            <div class="grade-letter grade-${tier}">${g.letter}</div>
+            <div class="grade-score">${g.total}<span>/100</span></div>
+          </div>
+          <div>
+            <div class="grade-eyebrow">Overall Grade · ${formatPeriodDate(d.periodStart)} – ${formatPeriodDate(d.periodEnd)}</div>
+            <div class="grade-headline">${narrative.headline}</div>
+            <div class="grade-action">${narrative.action}</div>
+          </div>
+        </div>
+        <div class="grade-components">${comps}</div>`;
+    }
+    function renderGradingModel() {
+      document.getElementById('grading-model-box').innerHTML = `
+        <div class="grading-model">
+          <h4>How the Club Grade is Calculated</h4>
+          <p>Three pillars, weighted and scored against objective benchmarks. Each pillar is scored <code>min(100, (actual / benchmark) × 85)</code> — so hitting the benchmark = <b>85 (a solid B)</b>, exceeding it scales up toward 100, falling short scales down proportionally.</p>
+          <h5>The three pillars</h5>
+          <ul>
+            <li><b>Close Rate — 40% weight.</b> All new long-term members ÷ all non-guest non-excluded leads, versus the 20% industry benchmark.</li>
+            <li><b>Floor Conversion — 35% weight.</b> Average of two benchmarked channel close rates: Prospect Walk-in (vs. 40%) and Web Lead — Came In (vs. 20%). Channels with no period leads are excluded.</li>
+            <li><b>Pipeline Velocity — 25% weight.</b> Share of closed sales that signed within 30 days of lead creation, versus an 80% target. Measures funnel freshness and speed.</li>
+          </ul>
+          <h5>Letter grade from total score</h5>
+          <div class="grading-scale">
+            <div class="grading-scale-tile grade-a"><b>A+</b>97+</div>
+            <div class="grading-scale-tile grade-a"><b>A</b>93–96</div>
+            <div class="grading-scale-tile grade-a"><b>A−</b>90–92</div>
+            <div class="grading-scale-tile grade-b"><b>B+</b>87–89</div>
+            <div class="grading-scale-tile grade-b"><b>B</b>83–86</div>
+            <div class="grading-scale-tile grade-b"><b>B−</b>80–82</div>
+            <div class="grading-scale-tile grade-c"><b>C+</b>77–79</div>
+            <div class="grading-scale-tile grade-c"><b>C</b>73–76</div>
+            <div class="grading-scale-tile grade-c"><b>C−</b>70–72</div>
+            <div class="grading-scale-tile grade-d"><b>D+</b>67–69</div>
+            <div class="grading-scale-tile grade-d"><b>D</b>63–66</div>
+            <div class="grading-scale-tile grade-d"><b>D−</b>60–62</div>
+            <div class="grading-scale-tile grade-f"><b>F</b>below 60</div>
+          </div>
+          <h5>Notes</h5>
+          <ul>
+            <li>Pillars are weighted by how much they reflect sales execution. Close rate dominates because it's the single best measure of whether leads are converting.</li>
+            <li>The 85-at-benchmark design rewards excellence (exceeding benchmark is rare and should push into A territory) while keeping hitting benchmark a strong but not perfect result.</li>
+            <li>Active member count, monthly growth trend, and guest conversion are intentionally not graded — they're context, not execution signals.</li>
+          </ul>
+        </div>`;
+    }
+
     function renderDashboard(d) {
       document.getElementById('dash-period').textContent = formatPeriodDate(d.periodStart) + ' to ' + formatPeriodDate(d.periodEnd);
+      renderReportCard(d);
+      renderGradingModel();
 
       /* Entry-point display order + labels */
       const ENTRY_LABELS = {
@@ -1688,54 +2077,25 @@
       };
       const ENTRY_ORDER = ['PROSPECT_WALK_IN', 'WEB_LEAD_CAME_IN', 'REMOTE_SALE', 'UNKNOWN', 'DIRECT_WALK_IN'];
 
-      /* ── 1. General Overview — 2 hero tiles flanked by 2 side tiles ── */
-      const rateTone = d.blended.rate >= 20 ? 'close-good' : 'close-bad';
+      /* ── General Overview — single hero (Close Rate) + 3 side tiles ── */
+      const heroTone = d.blended.rate >= 20 ? 'good' : 'bad';
+      document.getElementById('overview-hero').className = `section-hero ${heroTone}`;
+      document.getElementById('overview-hero').innerHTML = `
+        <div class="hero-value">${d.blended.rate}%</div>
+        <div class="hero-label">Close Rate · vs 20% Benchmark</div>`;
       document.getElementById('period-metrics').innerHTML = `
         <div class="overview-side">
           <div class="ov-value">${(d.totalNonGuestLeads ?? 0).toLocaleString()}</div>
           <div class="ov-label">Real Leads (in period)</div>
         </div>
-        <div class="overview-hero">
+        <div class="overview-side">
           <div class="ov-value">${(d.activeMemberCount ?? 0).toLocaleString()}</div>
-          <div class="ov-label">Active Members — Current Snapshot</div>
-        </div>
-        <div class="overview-hero ${rateTone}">
-          <div class="ov-value">${d.blended.rate}%</div>
-          <div class="ov-label">Close Rate</div>
+          <div class="ov-label">Active Members — Current</div>
         </div>
         <div class="overview-side">
           <div class="ov-value">${(d.totalNewLongTermMembers ?? 0).toLocaleString()}</div>
           <div class="ov-label">New Members (in period)</div>
         </div>`;
-
-      /* ── 5. Growth Opportunities ── */
-      const sevClass = ['sev-high', 'sev-mid', 'sev-low'];
-      const imps = d.acquisitionImprovements || [];
-      const realImps = imps.filter(b => b.title && b.title !== 'No additional material gap');
-      const top = realImps[0];
-      const growthNarrative = top
-        ? `The three cards below are the highest-impact levers for the next period, ranked by the size of the gap versus benchmark. Start with <b>${top.title}</b> — it carries the largest delta and is where a single focused effort will move the blended close rate and new-member total the most. Treat the remaining two as parallel workstreams, not afterthoughts: together, closing all three compounds the lift.`
-        : 'No material gaps surfaced this period — performance is tracking at or above benchmark across the scored channels. Maintain current execution, watch the monthly trend for early drift, and revisit once the next full period of data is in.';
-      document.getElementById('growth-narrative').innerHTML = growthNarrative;
-
-      document.getElementById('acquisition-improvements').innerHTML =
-        (d.acquisitionImprovements || []).map((b, i) => {
-          const sev = sevClass[i] || 'sev-low';
-          const gap = b.gap ? `<span class="improve-gap">${b.gap}</span>` : '';
-          const target = b.target ? `<span class="improve-target">vs ${b.target}</span>` : '';
-          const current = b.current ? `<span class="improve-current">${b.current}</span>` : '';
-          const metricRow = (current || target || gap)
-            ? `<div class="improve-metric">${current}${target}${gap}</div>`
-            : '';
-          return `<div class="improve-card ${sev}">
-            <div class="improve-head">
-              <span class="improve-num">${i + 1}</span>
-              <span class="improve-title">${b.title || ''}</span>
-            </div>
-            ${metricRow}
-            <div class="improve-action">${b.action || ''}</div>
-          </div>`;
-        }).join('');
 
       // New members by entry point — sorted by % of total desc (drives waffle + legend)
       const sortedEntries = [...ENTRY_ORDER].sort((a, b) =>
@@ -1799,7 +2159,7 @@
         const tickPct = (20 / heroScale) * 100;
         document.getElementById('scorecard-hero').innerHTML = `
           <div class="score-hero ${meets ? 'meets' : 'misses'}">
-            <div class="hero-label">Blended Close Rate</div>
+            <div class="hero-label">Close Rate</div>
             <div class="hero-rate">${d.blended.rate}%</div>
             <div class="hero-sub">${d.blended.members.toLocaleString()} members converted from ${d.blended.leads.toLocaleString()} real leads</div>
             <div class="hero-bar">
@@ -1862,24 +2222,84 @@
         channelCard({ color: ENTRY_COLORS.DIRECT_WALK_IN, name: 'Direct Walk-in', rate: null, members: d.directWalkInCount, leads: null, benchmark: null, mode: 'volume', definition: ENTRY_DEFINITIONS.DIRECT_WALK_IN }),
       ].join('');
 
-      /* ── 4. Pipeline Health ── */
-      // Speed to Close (velocity) — framed around the 30-day close window
-      const fastClose = d.velocitySameDayPct + d.velocityWithin7Pct;
-      const velocityNarrative = `Closed sales move fast at this club: <b>${d.velocitySameDayPct}%</b> sign the same or next day, <b>${d.velocityWithin7Pct}%</b> close within a week, and <b>${d.velocityWithin30Pct}%</b> are on the books inside 30 days. Only <b>${d.velocityOver30Pct}%</b> drag past the 30-day mark — meaning a lead that hasn't converted in a month is statistically very unlikely to, and the team's time is best spent on fresh pipeline.`;
-      document.getElementById('velocity-narrative').innerHTML = velocityNarrative;
-      document.getElementById('velocity-metrics').innerHTML =
-        mc(d.velocitySameDayPct + '%', 'Same / Next Day (0–1d)', 'var(--good)') +
-        mc(d.velocityWithin7Pct + '%', 'Within 7 Days', 'var(--good)') +
-        mc(d.velocityWithin30Pct + '%', 'Within 30 Days') +
-        mc(d.velocityOver30Pct + '%', 'After 30 Days');
+      /* ── Pipeline Health ── */
+      // Velocity ribbon — stacked horizontal bar sliced by close-time bucket
+      const v1 = d.velocitySameDayPct;
+      const v7 = d.velocityWithin7Pct;
+      const v30 = d.velocityWithin30Pct;
+      const vOver = d.velocityOver30Pct;
+      const d1 = v1;
+      const d7 = Math.max(0, v7 - v1);
+      const d30 = Math.max(0, v30 - v7);
+      const dOver = vOver;
+      document.getElementById('velocity-ribbon').outerHTML = `
+        <div class="velocity-ribbon" id="velocity-ribbon">
+          <div class="ribbon-ticks">
+            <div class="ribbon-tick" style="left:${v1}%">
+              <span class="ribbon-tick-value">${v1}%</span>
+              <span class="ribbon-tick-label">By Day 1</span>
+            </div>
+            <div class="ribbon-tick" style="left:${v7}%">
+              <span class="ribbon-tick-value">${v7}%</span>
+              <span class="ribbon-tick-label">By Day 7</span>
+            </div>
+            <div class="ribbon-tick" style="left:${v30}%">
+              <span class="ribbon-tick-value">${v30}%</span>
+              <span class="ribbon-tick-label">By Day 30</span>
+            </div>
+          </div>
+          <div class="ribbon-bar">
+            <div class="ribbon-seg ribbon-seg-1" style="width:${d1}%" title="Same or next day: ${d1.toFixed(1)}%">${d1 >= 8 ? d1.toFixed(1) + '%' : ''}</div>
+            <div class="ribbon-seg ribbon-seg-2" style="width:${d7}%" title="2–7 days: ${d7.toFixed(1)}%">${d7 >= 8 ? d7.toFixed(1) + '%' : ''}</div>
+            <div class="ribbon-seg ribbon-seg-3" style="width:${d30}%" title="8–30 days: ${d30.toFixed(1)}%">${d30 >= 8 ? d30.toFixed(1) + '%' : ''}</div>
+            <div class="ribbon-seg ribbon-seg-4" style="width:${dOver}%" title="31+ days: ${dOver.toFixed(1)}%">${dOver >= 8 ? dOver.toFixed(1) + '%' : ''}</div>
+          </div>
+          <div class="ribbon-labels">
+            <div style="width:${d1}%">Same / Next Day</div>
+            <div style="width:${d7}%">2–7 Days</div>
+            <div style="width:${d30}%">8–30 Days</div>
+            <div style="width:${dOver}%">31+ Days</div>
+          </div>
+          <div class="ribbon-caption">
+            <b>${v30}% on the books within a month.</b> A lead that hasn't converted in 30 days is statistically unlikely to — fresh pipeline pays.
+          </div>
+        </div>`;
 
-      // Open Pipeline — forward-looking, action-oriented
-      const pipelineNarrative = `The open pipeline holds <b>${d.openPipelineTotal}</b> non-guest leads in enquiry status with no matching member record. <b>${d.warmPipeline}</b> are warm — they signed the iPad but haven't joined, and should be prioritized for personal follow-up. <b>${d.coldPipeline}</b> are cold — web-source leads who never came in, best handled by automated email/SMS nurture. Given the velocity above, focus effort on leads created within the last 30 days.`;
-      document.getElementById('pipeline-narrative').innerHTML = pipelineNarrative;
-      document.getElementById('pipeline-metrics').innerHTML =
-        mc(d.warmPipeline, 'Warm — Came In', 'var(--warn)') +
-        mc(d.coldPipeline, 'Cold — Never Came In', 'var(--blue)') +
-        mc(d.openPipelineTotal, 'Open Pipeline Total');
+      // Open Pipeline — bounty hero + two action cards with impact math
+      const warmRate = 0.40;  // Prospect Walk-in benchmark
+      const coldRate = 0.10;  // conservative nurture assumption
+      const warmPotential = Math.round(d.warmPipeline * warmRate);
+      const coldPotential = Math.round(d.coldPipeline * coldRate);
+      const totalPotential = warmPotential + coldPotential;
+      document.getElementById('pipeline-open').outerHTML = `
+        <div id="pipeline-open">
+          <div class="pipeline-bounty">
+            <div class="bounty-value">${d.openPipelineTotal.toLocaleString()}</div>
+            <div class="bounty-label">Leads Sitting in the Pipeline</div>
+            <div class="bounty-impact">
+              Worked correctly, that's roughly <b>${totalPotential.toLocaleString()} members</b> still on the table — leads who raised their hand but haven't signed.
+            </div>
+          </div>
+          <div class="action-cards">
+            <div class="action-card action-warm">
+              <div class="action-verb">Hand to a Rep</div>
+              <div class="action-count">${d.warmPipeline.toLocaleString()}</div>
+              <div class="action-what">Walked in and tapped <b>"I'm interested in joining"</b> on the iPad — explicit intent, just no purchase yet.</div>
+              <div class="action-how">Assign to a floor rep for a personal call or text within 48 hours.</div>
+              <div class="action-estimate"><b>~${warmPotential.toLocaleString()}</b> potential members at a 40% close</div>
+            </div>
+            <div class="action-card action-cold">
+              <div class="action-verb">Feed to Nurture</div>
+              <div class="action-count">${d.coldPipeline.toLocaleString()}</div>
+              <div class="action-what">Web leads, never came in. Interest exists but no visit yet.</div>
+              <div class="action-how">Queue into an automated email/SMS drip designed to get them through the door.</div>
+              <div class="action-estimate"><b>~${coldPotential.toLocaleString()}</b> potential members at a 10% close</div>
+            </div>
+          </div>
+          <div class="pipeline-assumption">
+            Estimates use 40% close on warm (Prospect Walk-in benchmark) and a conservative 10% on cold nurture. Real recapture depends on speed and execution.
+          </div>
+        </div>`;
 
       /* ── 6. Data Quality Flags ── */
       const caveats = [];
