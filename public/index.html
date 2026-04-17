@@ -188,6 +188,16 @@
       display: inline-block; width: auto; max-width: none; margin: 0;
       padding: 6px 20px; font-size: 0.9rem; border-radius: 6px;
     }
+    .compact-setup .preset-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim);
+      padding: 6px 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px;
+      text-transform: uppercase; border-radius: 6px; cursor: pointer;
+      font-family: inherit; transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .compact-setup .preset-btn:hover { border-color: var(--accent); color: #fff; background: var(--accent-dim); }
+    .compact-setup .preset-btn.active { border-color: var(--accent); color: #fff; background: var(--accent-dim); }
+    .compact-setup .custom-range { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .compact-setup .custom-range[hidden] { display: none; }
 
     /* ── LOADING ANIMATION ── */
     #loading-section { display: none; padding: 60px 0; text-align: center; }
@@ -230,6 +240,17 @@
 
     .section { margin-bottom: 36px; }
     .section-title { font-size: 1.3rem; color: var(--accent); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+    /* Collapsible Data Quality section */
+    .dq-details > summary { list-style: none; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .dq-details > summary::-webkit-details-marker { display: none; }
+    .dq-details > summary::after {
+      content: '+'; font-size: 1.4rem; color: var(--accent); font-weight: 400;
+      line-height: 1; transition: transform 0.2s;
+    }
+    .dq-details[open] > summary::after { content: '−'; }
+    .dq-details > summary:hover { color: #fff; }
+    .dq-details[open] > summary { margin-bottom: 14px; }
 
     .major-section { margin-bottom: 48px; padding-top: 12px; }
     .major-title {
@@ -676,13 +697,18 @@
       </div>
 
       <div class="setup-row">
-        <div class="date-chip">
-          <label for="date-start">Start</label>
-          <input type="date" id="date-start" />
-        </div>
-        <div class="date-chip">
-          <label for="date-end">End</label>
-          <input type="date" id="date-end" />
+        <button class="preset-btn" id="preset-ytd" type="button">YTD</button>
+        <button class="preset-btn" id="preset-mtd" type="button">MTD</button>
+        <button class="preset-btn preset-toggle" id="preset-custom" type="button" aria-expanded="false">Custom ▾</button>
+        <div class="custom-range" id="custom-range" hidden>
+          <div class="date-chip">
+            <label for="date-start">Start</label>
+            <input type="date" id="date-start" />
+          </div>
+          <div class="date-chip">
+            <label for="date-end">End</label>
+            <input type="date" id="date-end" />
+          </div>
         </div>
         <button class="btn" id="run-btn" disabled>Run</button>
       </div>
@@ -715,7 +741,6 @@
       <!-- 1. General Overview -->
       <div class="section">
         <h2 class="section-title">1. General Overview</h2>
-        <div class="narrative" id="period-narrative"></div>
         <div class="overview-grid" id="period-metrics"></div>
       </div>
 
@@ -731,12 +756,7 @@
       <!-- 2. Membership Acquisition -->
       <div class="section">
         <h2 class="section-title">2. Membership Acquisition</h2>
-        <div class="narrative" id="acquisition-happened"></div>
         <div id="monthly-member-trend" style="margin-bottom:16px;"></div>
-        <div class="improvements-block">
-          <h4>Growth Opportunities</h4>
-          <div class="improvements-grid" id="acquisition-improvements"></div>
-        </div>
       </div>
 
       <!-- 3. Close Rate Scorecard -->
@@ -750,23 +770,29 @@
       <!-- 4. Pipeline Health -->
       <div class="section">
         <h2 class="section-title">4. Pipeline Health</h2>
-        <div class="narrative" id="pipeline-narrative"></div>
-        <div class="metric-grid" id="pipeline-metrics"></div>
-        <h3 class="subsection-title">Lead-to-Membership Velocity</h3>
+
+        <h3 class="subsection-title">Speed to Close</h3>
+        <p class="narrative" id="velocity-narrative"></p>
         <div class="metric-grid" id="velocity-metrics"></div>
+
+        <h3 class="subsection-title">Open Pipeline</h3>
+        <p class="narrative" id="pipeline-narrative"></p>
+        <div class="metric-grid" id="pipeline-metrics"></div>
       </div>
 
-      <!-- 6. Guest Summary (E1-E3) -->
+      <!-- 5. Growth Opportunities -->
       <div class="section">
-        <h2 class="section-title">5. Guest Summary</h2>
-        <div class="narrative" id="guest-narrative"></div>
-        <div class="metric-grid" id="guest-metrics"></div>
+        <h2 class="section-title">5. Growth Opportunities</h2>
+        <p class="narrative" id="growth-narrative"></p>
+        <div class="improvements-grid" id="acquisition-improvements"></div>
       </div>
 
-      <!-- 7. Data Quality Flags (F1-F4) -->
+      <!-- 6. Data Quality Flags -->
       <div class="section">
-        <h2 class="section-title">6. Data Quality Flags</h2>
-        <ul class="caveat-list" id="caveats-list"></ul>
+        <details class="dq-details">
+          <summary class="section-title dq-summary">6. Data Quality Flags</summary>
+          <ul class="caveat-list" id="caveats-list"></ul>
+        </details>
       </div>
 
       <div class="reset-wrap">
@@ -938,6 +964,36 @@
     }
     document.getElementById('date-start').addEventListener('change', updateRunBtn);
     document.getElementById('date-end').addEventListener('change', updateRunBtn);
+
+    function applyPreset(startDate) {
+      const today = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const fmt = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+      document.getElementById('date-start').value = fmt(startDate);
+      document.getElementById('date-end').value = fmt(today);
+      updateRunBtn();
+    }
+    document.getElementById('preset-ytd').addEventListener('click', () => {
+      applyPreset(new Date(new Date().getFullYear(), 0, 1));
+    });
+    document.getElementById('preset-mtd').addEventListener('click', () => {
+      const now = new Date();
+      applyPreset(new Date(now.getFullYear(), now.getMonth(), 1));
+    });
+    document.getElementById('preset-custom').addEventListener('click', (e) => {
+      const panel = document.getElementById('custom-range');
+      const btn = e.currentTarget;
+      const isHidden = panel.hasAttribute('hidden');
+      if (isHidden) {
+        panel.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.textContent = 'Custom ▴';
+      } else {
+        panel.setAttribute('hidden', '');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = 'Custom ▾';
+      }
+    });
 
     /* ═══════════════════════════════════════════
        UTILITY FUNCTIONS
@@ -1633,7 +1689,6 @@
       const ENTRY_ORDER = ['PROSPECT_WALK_IN', 'WEB_LEAD_CAME_IN', 'REMOTE_SALE', 'UNKNOWN', 'DIRECT_WALK_IN'];
 
       /* ── 1. General Overview — 2 hero tiles flanked by 2 side tiles ── */
-      document.getElementById('period-narrative').textContent = d.periodSummary || '';
       const rateTone = d.blended.rate >= 20 ? 'close-good' : 'close-bad';
       document.getElementById('period-metrics').innerHTML = `
         <div class="overview-side">
@@ -1653,9 +1708,16 @@
           <div class="ov-label">New Members (in period)</div>
         </div>`;
 
-      /* ── 2. Membership Acquisition ── */
-      document.getElementById('acquisition-happened').textContent = d.acquisitionHappened || '';
+      /* ── 5. Growth Opportunities ── */
       const sevClass = ['sev-high', 'sev-mid', 'sev-low'];
+      const imps = d.acquisitionImprovements || [];
+      const realImps = imps.filter(b => b.title && b.title !== 'No additional material gap');
+      const top = realImps[0];
+      const growthNarrative = top
+        ? `The three cards below are the highest-impact levers for the next period, ranked by the size of the gap versus benchmark. Start with <b>${top.title}</b> — it carries the largest delta and is where a single focused effort will move the blended close rate and new-member total the most. Treat the remaining two as parallel workstreams, not afterthoughts: together, closing all three compounds the lift.`
+        : 'No material gaps surfaced this period — performance is tracking at or above benchmark across the scored channels. Maintain current execution, watch the monthly trend for early drift, and revisit once the next full period of data is in.';
+      document.getElementById('growth-narrative').innerHTML = growthNarrative;
+
       document.getElementById('acquisition-improvements').innerHTML =
         (d.acquisitionImprovements || []).map((b, i) => {
           const sev = sevClass[i] || 'sev-low';
@@ -1801,27 +1863,25 @@
       ].join('');
 
       /* ── 4. Pipeline Health ── */
-      document.getElementById('pipeline-narrative').textContent = d.pipelineAnalysis || '';
+      // Speed to Close (velocity) — framed around the 30-day close window
+      const fastClose = d.velocitySameDayPct + d.velocityWithin7Pct;
+      const velocityNarrative = `Closed sales move fast at this club: <b>${d.velocitySameDayPct}%</b> sign the same or next day, <b>${d.velocityWithin7Pct}%</b> close within a week, and <b>${d.velocityWithin30Pct}%</b> are on the books inside 30 days. Only <b>${d.velocityOver30Pct}%</b> drag past the 30-day mark — meaning a lead that hasn't converted in a month is statistically very unlikely to, and the team's time is best spent on fresh pipeline.`;
+      document.getElementById('velocity-narrative').innerHTML = velocityNarrative;
+      document.getElementById('velocity-metrics').innerHTML =
+        mc(d.velocitySameDayPct + '%', 'Same / Next Day (0–1d)', 'var(--good)') +
+        mc(d.velocityWithin7Pct + '%', 'Within 7 Days', 'var(--good)') +
+        mc(d.velocityWithin30Pct + '%', 'Within 30 Days') +
+        mc(d.velocityOver30Pct + '%', 'After 30 Days');
+
+      // Open Pipeline — forward-looking, action-oriented
+      const pipelineNarrative = `The open pipeline holds <b>${d.openPipelineTotal}</b> non-guest leads in enquiry status with no matching member record. <b>${d.warmPipeline}</b> are warm — they signed the iPad but haven't joined, and should be prioritized for personal follow-up. <b>${d.coldPipeline}</b> are cold — web-source leads who never came in, best handled by automated email/SMS nurture. Given the velocity above, focus effort on leads created within the last 30 days.`;
+      document.getElementById('pipeline-narrative').innerHTML = pipelineNarrative;
       document.getElementById('pipeline-metrics').innerHTML =
         mc(d.warmPipeline, 'Warm — Came In', 'var(--warn)') +
         mc(d.coldPipeline, 'Cold — Never Came In', 'var(--blue)') +
         mc(d.openPipelineTotal, 'Open Pipeline Total');
 
-      document.getElementById('velocity-metrics').innerHTML =
-        mc(d.velocitySameDayPct + '%', 'Same / Next Day (0-1d)') +
-        mc(d.velocityWithin7Pct + '%', 'Within 7 Days') +
-        mc(d.velocityWithin30Pct + '%', 'Within 30 Days') +
-        mc(d.velocityOver30Pct + '%', 'After 30 Days');
-
-      /* ── 6. Guest Summary ── */
-      document.getElementById('guest-narrative').textContent = d.guestNote || '';
-      document.getElementById('guest-metrics').innerHTML =
-        mc(d.guestCount?.toLocaleString(), 'Total Guests') +
-        mc(d.guestConverted, 'Guests → Members') +
-        mc(d.guestConvRate + '%', 'Guest Conversion Rate') +
-        mc(d.repeatGuests, 'Repeat Visitors');
-
-      /* ── 7. Data Quality Flags ── */
+      /* ── 6. Data Quality Flags ── */
       const caveats = [];
       caveats.push(`Duplicates removed during dedup: ${d.duplicatesRemoved} records (raw ${d.totalLeadRecordsRaw.toLocaleString()} → ${d.totalLeadRecords.toLocaleString()} unique).`);
       const unknownLeadCount = d.unknown.leads;
