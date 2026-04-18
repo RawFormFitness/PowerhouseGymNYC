@@ -1254,6 +1254,9 @@
     if (!raw.length) return null;
     const row0 = (raw[0] || []).map(c => (c || '').toString().trim().toLowerCase());
     if (row0.includes('id') && row0.includes('created_at')) return 'leads';
+    // NEW: member export now has headers on row 0, with "Member Name (last, first)"
+    if (row0.includes('agreement #') && row0.some(c => c.startsWith('member name'))) return 'members';
+    // Legacy format (headers on row 2) — keep for safety
     if (raw.length >= 3) {
       const row2 = (raw[2] || []).map(c => hlower(c));
       if (row2.includes('agreement #')) return 'members';
@@ -1289,30 +1292,52 @@
   }
 
   const REQUIRED_MEMBERS = [
-    'Agreement #', 'Member Name', 'Email', 'Primary Phone', 'Begin Date',
-    'Member Status', 'Agreement Payment Plan',
+    'Agreement #', 'Primary Phone', 'Begin Date',
+    'Member Status', 'Agreement Payment Plan', 'Email',
+    // "Member Name" removed from required — handled specially below
   ];
 
   function parseMembersFromRaw(raw) {
-    if (raw.length < 3) return { error: 'Unable to read this file. Please verify it matches the expected CRM export format.' };
-    const rawHeaders = (raw[2] || []).map(h => (h || '').toString());
+    if (!raw.length) return { error: 'Unable to read this file. Please verify it matches the expected CRM export format.' };
+
+    // Find the header row: row 0 (new format) or row 2 (legacy format)
+    let headerIdx = -1;
+    for (const candidate of [0, 2]) {
+      const row = (raw[candidate] || []).map(h => hlower(h));
+      if (row.includes('agreement #')) { headerIdx = candidate; break; }
+    }
+    if (headerIdx === -1) {
+      return { error: 'Unable to read this file. Please verify it matches the expected CRM export format.' };
+    }
+
+    const rawHeaders = (raw[headerIdx] || []).map(h => (h || '').toString());
     const normHeaders = rawHeaders.map(h => normHeader(h));
     const lowerNorm = normHeaders.map(h => h.toLowerCase());
+
     for (const req of REQUIRED_MEMBERS) {
       if (!lowerNorm.includes(req.toLowerCase())) {
         return { error: `Members file is missing required column: \`${req}\`. Please check your export.` };
       }
     }
+    // Member Name can be either "Member Name" or "Member Name (last, first)"
+    const nameColIdx = lowerNorm.findIndex(h => h.startsWith('member name'));
+    if (nameColIdx === -1) {
+      return { error: 'Members file is missing required column: `Member Name`. Please check your export.' };
+    }
+    const nameColHeader = rawHeaders[nameColIdx];
+
     const rows = [];
-    for (let i = 3; i < raw.length; i++) {
+    for (let i = headerIdx + 1; i < raw.length; i++) {
       const r = raw[i];
       if (!r) continue;
       const obj = {};
       rawHeaders.forEach((h, j) => {
         const v = r[j] != null ? r[j].toString() : '';
-        obj[h] = v;                  // original header (may have doubled spaces)
-        obj[normHeaders[j]] = v;     // normalized header (single-spaced)
+        obj[h] = v;
+        obj[normHeaders[j]] = v;
       });
+      // Alias so the rest of the app can keep reading `Member Name`
+      obj['Member Name'] = obj[nameColHeader] || '';
       const ag = (obj['Agreement #'] || '').toString().trim();
       if (!/^\d+$/.test(ag)) continue;
       rows.push(obj);
