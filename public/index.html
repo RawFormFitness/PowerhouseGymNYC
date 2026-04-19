@@ -383,24 +383,6 @@
       height: 100%; background: var(--origin-color, var(--accent));
       border-radius: 3px; transition: width 0.6s ease-out;
     }
-    .origin-card-foot {
-      margin-top: auto; padding-top: 14px;
-      border-top: 1px solid var(--border);
-      display: flex; flex-direction: column; gap: 4px;
-      font-size: 0.82rem; color: var(--text-dim);
-      font-variant-numeric: tabular-nums;
-    }
-    .origin-card-foot-label {
-      font-size: 0.62rem; color: var(--text-dim);
-      text-transform: uppercase; letter-spacing: 1.8px; font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .origin-card-foot .reach-line b { color: var(--good); font-weight: 700; }
-    .origin-card-foot-sub {
-      margin-top: 6px; padding-top: 6px;
-      border-top: 1px dashed rgba(255,255,255,0.06);
-      font-size: 0.74rem; color: var(--text-dim); opacity: 0.75;
-    }
 
 
 
@@ -421,6 +403,12 @@
       margin-bottom: 12px;
     }
     .chart-panel.full { grid-column: 1 / -1; }
+    .chart-panel-sub {
+      font-size: 0.78rem; color: var(--text-dim);
+      margin: -4px 0 12px; line-height: 1.45;
+      opacity: 0.85;
+    }
+    .chart-panel-sub b { color: #fff; font-weight: 600; }
     .chart-panel-head {
       display: flex; justify-content: space-between; align-items: center;
       gap: 12px; flex-wrap: wrap; margin-bottom: 10px;
@@ -563,6 +551,49 @@
     }
     .action-card.action-warm .action-estimate b { color: var(--warn); }
     .action-card.action-cold .action-estimate b { color: var(--blue); }
+    .action-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 2px;
+    }
+    .action-tag {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 9px; border-radius: 999px;
+      background: var(--surface2); color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .action-card.action-warm .action-tag { border-color: rgba(250, 204, 21, 0.35); color: var(--warn); }
+    .action-card.action-cold .action-tag { border-color: rgba(96, 165, 250, 0.35); color: var(--blue); }
+    .graveyard-card {
+      background: var(--surface); border-radius: var(--radius);
+      border-left: 4px solid #525252;
+      padding: 22px 26px; margin-top: 14px;
+      display: flex; flex-direction: column; gap: 12px;
+      opacity: 0.88;
+    }
+    .graveyard-label {
+      font-family: 'Bebas Neue', cursive; font-size: 0.82rem;
+      letter-spacing: 2px; color: #9ca3af;
+      text-transform: uppercase;
+    }
+    .graveyard-row {
+      display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap;
+    }
+    .graveyard-count {
+      font-family: 'Bebas Neue', cursive; font-size: 3.2rem;
+      line-height: 1; color: #d1d5db; letter-spacing: 1px;
+    }
+    .graveyard-reach {
+      color: var(--text-dim); font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .graveyard-reach b { color: #d1d5db; font-weight: 600; }
+    .graveyard-what { color: var(--text-dim); font-size: 0.88rem; line-height: 1.5; }
+    .graveyard-what b { color: #d1d5db; }
+    .graveyard-how {
+      color: var(--text-dim); font-size: 0.82rem; line-height: 1.55;
+      font-style: italic; opacity: 0.85;
+    }
     .pipeline-assumption {
       font-size: 0.72rem; color: var(--text-dim); text-align: center;
       line-height: 1.5; margin-top: 4px;
@@ -1445,15 +1476,6 @@
     return KNOWN_POS_SOURCES.has(s);
   }
 
-  /* Legacy broad web definition — preserved ONLY for Pipeline Cold filter (per spec "copy verbatim"). */
-  function legacyWebSource(src) {
-    const s = (src || '').toString().trim().toLowerCase();
-    if (!s) return false;
-    if (s === 'website' || s === 'powerhouse website' || s.includes('powerhousegymnyc.com')) return true;
-    if (s === 'google' || s === 'instagram' || s === 'facebook' || s === 'facebook post') return true;
-    return false;
-  }
-
   /* ═══════════════════════════════════════════ DEDUPE (UNION-FIND) ═══════════════════════════════════════════ */
 
   function buildGroups(leads) {
@@ -1941,6 +1963,7 @@
     addLeadMonth(guestGroups, 'guestLeads');
     const monthly = Object.keys(byMonth).sort().map(k => ({ key: k, label: formatMonth(k), ...byMonth[k] }));
 
+
     /* ══════════════════════════════════════════════════════════
        PIPELINE (verbatim behavior from prior app, rebuilt against
        raw fields so it doesn't rely on dropped category constants).
@@ -1950,6 +1973,13 @@
       if (l._phone && memberPhoneSet.has(l._phone)) return true;
       return false;
     };
+    /* Graveyard threshold = 90 days before period end. Leads/groups older
+       than this are excluded from warm/cold pipeline (they belong in the
+       graveyard, not the active pile) and counted separately below. */
+    const graveyardThreshold = new Date(endD);
+    graveyardThreshold.setDate(graveyardThreshold.getDate() - 90);
+    const isFresh = (d) => d && d >= graveyardThreshold;
+
     /* Base: in-period, status=enquiry, not guest, no 'unfinished online join' tag, no member match. */
     const pipelineBase = periodLeads.filter(l => {
       if (l._status === 'guest') return false;
@@ -1958,19 +1988,46 @@
       if (hasMatchingMember(l)) return false;
       return true;
     });
-    /* Warm (D1): + waiver signed. */
-    const warmPipeline = pipelineBase.filter(l => l._waiverSigned);
-    /* Cold (D2): + legacy-web source, waiver NOT signed, no online-join tag. */
-    const coldPipeline = pipelineBase.filter(l => {
-      if (l._waiverSigned) return false;
-      if (l._tagsL.includes('online join')) return false;
-      return legacyWebSource(l.source);
-    });
     const isReachable = l => !l._optedOutSms && !l._optedOutEmail;
-    const warmReachable = warmPipeline.filter(isReachable).length;
-    const warmOptedOut = warmPipeline.length - warmReachable;
-    const coldReachable = coldPipeline.filter(isReachable).length;
-    const coldOptedOut = coldPipeline.length - coldReachable;
+
+    /* Warm (D1) — fresh + reachable + waiver signed. Opted-out leads are
+       unreachable via automated outreach, so they move to the graveyard
+       even if fresh. Warm is now "actionable walk-in pipeline only." */
+    const warmPipeline = pipelineBase.filter(l =>
+      l._waiverSigned && isFresh(l._createdAt) && isReachable(l)
+    );
+    const warmReachable = warmPipeline.length;
+    const warmOptedOut = 0;
+
+    /* Cold (D2) — fresh + reachable + unconverted web-never-came-in groups. */
+    const coldGroups = webNeverCameInGroups
+      .filter(groupIsUnconverted)
+      .filter(g => isFresh(groupEarliestDate(g)))
+      .filter(groupReachable);
+    const coldPipelineCount = coldGroups.length;
+    const coldReachable = coldGroups.length;
+    const coldOptedOut = 0;
+
+    /* Lead Graveyard — unconverted leads that are dead or unreachable:
+       (a) older than 90 days (any status), OR (b) opted out of SMS or
+       email at any age. Either condition means the lead can't be worked
+       via automated outreach. Day-pass "guest" status and unfinished
+       online joins still excluded — they're not sales leads.
+       Not period-filtered: stale leads show up regardless of reporting
+       window. A person can only be in one bucket — warm/cold filter
+       themselves to exclude anyone graveyard-qualifies. */
+    const graveyardBase = allLeads.filter(l => {
+      if (!l._createdAt) return false;
+      if (l._status === 'guest') return false;
+      if (l._tagsL.includes('unfinished online join')) return false;
+      const isOld = l._createdAt < graveyardThreshold;
+      const isOpted = l._optedOutSms || l._optedOutEmail;
+      return isOld || isOpted;
+    });
+    const graveyardGroups = buildGroups(graveyardBase).filter(groupIsUnconverted);
+    const graveyardReachable = graveyardGroups.filter(groupReachable).length;
+    const graveyardTotal = graveyardGroups.length;
+    const graveyardOptedOut = graveyardTotal - graveyardReachable;
 
     /* ══════════════════════════════════════════════════════════
        VELOCITY (verbatim; phantom members — those without a real
@@ -2088,9 +2145,10 @@
 
       warmPipeline: warmPipeline.length,
       warmReachable, warmOptedOut,
-      coldPipeline: coldPipeline.length,
+      coldPipeline: coldPipelineCount,
       coldReachable, coldOptedOut,
-      openPipelineTotal: warmPipeline.length + coldPipeline.length,
+      openPipelineTotal: warmPipeline.length + coldPipelineCount,
+      graveyardTotal, graveyardReachable, graveyardOptedOut,
 
       velocitySameDayPct:  pct(sameDayCount,  velocityDays.length),
       velocityWithin7Pct:  pct(within7Count,  velocityDays.length),
@@ -2422,7 +2480,7 @@
       return '<span class="origin-card-status bad" title="Below target">✗</span>';
     }
 
-    function originCard(title, data, benchmark, extraFooterLines = '') {
+    function originCard(title, data, benchmark) {
       const color = ORIGIN_COLORS[title];
       const rateStr = data.leads ? `${data.rate}%` : '—';
       const subText = benchmark ? `vs ${benchmark}% target` : 'Not graded';
@@ -2445,30 +2503,13 @@
           <div class="origin-card-bar">
             <div class="origin-card-bar-fill" style="width:${fillPct}%;"></div>
           </div>
-          <div class="origin-card-foot">
-            <div class="origin-card-foot-label">Growth Opportunity</div>
-            <div class="reach-line"><b>${n(data.reachable)}</b> reachable</div>
-            <div>${n(data.optedOut)} opted out</div>
-            <div class="origin-card-foot-sub">${n(data.alreadyMembers || 0)} already members</div>
-            ${extraFooterLines}
-          </div>
         </div>`;
     }
-
-    /* Extra Web-only footer lines: the came-in / never-came-in split covers
-       ALL web leads (converted + unconverted) so the two counts sum to the
-       Web lead total and reconcile with the row header. */
-    const webExtraFooter = `
-      <div style="margin-top:6px;padding-top:6px;border-top:1px dashed rgba(255,255,255,0.06);"></div>
-      <div class="origin-card-foot-label" style="margin-top:0;margin-bottom:4px;">Came into the gym?</div>
-      <div><b>${n(d.web.cameIn.leads)}</b> came in <span style="color:var(--text-dim);font-size:0.72rem;">(${n(d.web.cameIn.reachable)} reachable · ${n(d.web.cameIn.optedOut)} opted out)</span></div>
-      <div>${n(d.web.neverCameIn.leads)} never came in <span style="color:var(--text-dim);font-size:0.72rem;">(${n(d.web.neverCameIn.reachable)} reachable · ${n(d.web.neverCameIn.optedOut)} opted out)</span></div>
-    `;
 
     document.getElementById('conversion-table').innerHTML = `
       <div class="origin-grid">
         ${originCard('Walk In', d.walkin, 40)}
-        ${originCard('Web', d.web, 10, webExtraFooter)}
+        ${originCard('Web', d.web, 10)}
         ${originCard('Guest Visit', d.guest, null)}
       </div>`;
   }
@@ -2493,10 +2534,12 @@ function renderMonthlyCharts(d) {
               <label class="chart-toggle"><input type="checkbox" id="toggle-walkin-leads"/><span class="chart-toggle-dot" style="background:#dc2626;"></span>Walk-in leads</label>
             </div>
           </div>
+          <div class="chart-panel-sub">Bucketed by <b>Begin Date</b> — when members actually joined. Answers "how many people signed up each month." Toggle the pills to overlay <b>incoming Web or Walk-in leads</b> (by earliest lead date) and compare signup volume against lead volume month over month.</div>
           <div class="chart-canvas-wrap"><canvas id="chart-sales-count"></canvas></div>
         </div>
         <div class="chart-panel">
           <h3>Monthly Sales by Origin</h3>
+          <div class="chart-panel-sub">Same <b>Begin Date</b> buckets, normalized to 100% so you can see <b>how the origin mix is shifting</b> month over month. Hover any bar to see absolute member counts and monthly total.</div>
           <div class="chart-canvas-wrap"><canvas id="chart-sales-by-origin"></canvas></div>
         </div>
       </div>`;
@@ -2585,11 +2628,47 @@ function renderMonthlyCharts(d) {
     wireToggle('toggle-web-leads', 1);
     wireToggle('toggle-walkin-leads', 2);
 
-    const stackOpts = {
+    /* Monthly Sales by Origin — 100% stacked bar so each month normalizes
+       to 100% and the origin mix-shift is the visible story. Tooltip keeps
+       the absolute counts + monthly total so numbers aren't lost. */
+    const monthTotals = d.monthly.map(m =>
+      (m.walkin || 0) + (m.web || 0) + (m.guestvisit || 0)
+    );
+    const pctOf = (v, i) => monthTotals[i] ? Math.round((v / monthTotals[i]) * 1000) / 10 : 0;
+    const walkinsPct = walkins.map((v, i) => pctOf(v, i));
+    const websPct    = webs.map((v, i) => pctOf(v, i));
+    const guestsPct  = guests.map((v, i) => pctOf(v, i));
+
+    const stackPctOpts = {
       ...baseOpts,
+      plugins: {
+        ...baseOpts.plugins,
+        tooltip: {
+          ...baseOpts.plugins.tooltip,
+          callbacks: {
+            label: (ctx) => {
+              const origin = ctx.dataset.label;
+              const i = ctx.dataIndex;
+              const abs = origin === 'Walk In' ? walkins[i]
+                        : origin === 'Web' ? webs[i]
+                        : guests[i];
+              return `${origin}: ${ctx.parsed.y}% (${abs} members)`;
+            },
+            afterBody: (ctxs) => {
+              if (!ctxs.length) return '';
+              return `\nTotal: ${monthTotals[ctxs[0].dataIndex]} members`;
+            },
+          },
+        },
+      },
       scales: {
         x: { ...baseOpts.scales.x, stacked: true },
-        y: { ...baseOpts.scales.y, stacked: true },
+        y: {
+          ...baseOpts.scales.y,
+          stacked: true,
+          min: 0, max: 100,
+          ticks: { ...baseOpts.scales.y.ticks, callback: (v) => v + '%' },
+        },
       },
     };
     chartInstances.push(new Chart(document.getElementById('chart-sales-by-origin'), {
@@ -2597,12 +2676,12 @@ function renderMonthlyCharts(d) {
       data: {
         labels,
         datasets: [
-          { label: 'Walk In', data: walkins, backgroundColor: '#dc2626' },
-          { label: 'Web', data: webs, backgroundColor: '#2563eb' },
-          { label: 'Guest Visit', data: guests, backgroundColor: '#16a34a' },
+          { label: 'Walk In', data: walkinsPct, backgroundColor: '#dc2626' },
+          { label: 'Web', data: websPct, backgroundColor: '#2563eb' },
+          { label: 'Guest Visit', data: guestsPct, backgroundColor: '#16a34a' },
         ],
       },
-      options: stackOpts,
+      options: stackPctOpts,
     }));
 
   }
@@ -2658,28 +2737,39 @@ function renderMonthlyCharts(d) {
         <div class="action-card action-warm">
           <div class="action-verb">Hand to a Rep</div>
           <div class="action-count">${d.warmPipeline.toLocaleString()}</div>
-          <div class="action-what">Walked in and tapped <b>"I'm interested in joining"</b> on the iPad — explicit intent, just no purchase yet.</div>
-          <div class="action-how">Assign to a floor rep for personal outreach within 48 hours.</div>
-          <div class="action-reach">
-            <div class="action-reach-row"><span class="action-reach-label">Reachable (both channels open)</span><span class="action-reach-value">${d.warmReachable.toLocaleString()}</span></div>
-            <div class="action-reach-row opted-out"><span class="action-reach-label">Opted out of communications</span><span class="action-reach-value">${d.warmOptedOut.toLocaleString()}</span></div>
+          <div class="action-tags">
+            <span class="action-tag">Fresh · &lt;90d</span>
+            <span class="action-tag">Reachable</span>
+            <span class="action-tag">Waiver signed</span>
           </div>
-          <div class="action-estimate"><b>~${warmPotential.toLocaleString()}</b> potential members — 40% close on reachable only</div>
+          <div class="action-what">Walked in and tapped <b>"I'm interested in joining"</b> on the iPad — explicit intent, just no purchase yet. Opted-out and older leads live in the graveyard below.</div>
+          <div class="action-how">Assign to a floor rep for personal outreach within 48 hours.</div>
+          <div class="action-estimate"><b>~${warmPotential.toLocaleString()}</b> potential members — 40% close</div>
         </div>
         <div class="action-card action-cold">
           <div class="action-verb">Feed to Nurture</div>
           <div class="action-count">${d.coldPipeline.toLocaleString()}</div>
-          <div class="action-what">Web leads, never came in. Interest exists but no visit yet.</div>
-          <div class="action-how">Queue into an automated email/SMS drip designed to get them through the door.</div>
-          <div class="action-reach">
-            <div class="action-reach-row"><span class="action-reach-label">Reachable (both channels open)</span><span class="action-reach-value">${d.coldReachable.toLocaleString()}</span></div>
-            <div class="action-reach-row opted-out"><span class="action-reach-label">Opted out of communications</span><span class="action-reach-value">${d.coldOptedOut.toLocaleString()}</span></div>
+          <div class="action-tags">
+            <span class="action-tag">Fresh · &lt;90d</span>
+            <span class="action-tag">Reachable</span>
+            <span class="action-tag">Never came in</span>
           </div>
-          <div class="action-estimate"><b>~${coldPotential.toLocaleString()}</b> potential members — 10% close on reachable only</div>
+          <div class="action-what">Web leads, never came in. Interest exists but no visit yet. Opted-out and older leads live in the graveyard below.</div>
+          <div class="action-how">Queue into an automated email/SMS drip designed to get them through the door.</div>
+          <div class="action-estimate"><b>~${coldPotential.toLocaleString()}</b> potential members — 10% close</div>
         </div>
       </div>
+      <div class="graveyard-card">
+        <div class="graveyard-label">The Graveyard · Dead or unreachable</div>
+        <div class="graveyard-row">
+          <div class="graveyard-count">${d.graveyardTotal.toLocaleString()}</div>
+          <div class="graveyard-reach"><b>${d.graveyardReachable.toLocaleString()}</b> old but reachable · ${d.graveyardOptedOut.toLocaleString()} opted out</div>
+        </div>
+        <div class="graveyard-what">Unconverted leads that are either <b>older than 90 days</b> or <b>opted out</b> of SMS/email. Both mean the lead can't be worked via automated outreach. Across all time, not just the reporting period.</div>
+        <div class="graveyard-how">Archive them, or run a one-time re-engagement offer with a clear deadline. Don't keep "working" these as active leads — chasing dead pipeline drags down hit rates and muddies your real numbers.</div>
+      </div>
       <div class="pipeline-assumption">
-        Potential members are based on <b>reachable</b> leads only (SMS and email both open). Opted-out leads are counted but excluded from the estimate — automated outreach channels are blocked. Estimates use 40% close on warm (Walk In benchmark) and a conservative 10% on cold nurture.
+        Warm and cold pipelines only contain <b>reachable</b> leads now (both SMS and email open). Opted-out leads move to the graveyard — they can't be worked via automated outreach regardless of age. Estimates use 40% close on warm (Walk In benchmark) and a conservative 10% on cold nurture.
       </div>`;
   }
 
@@ -2768,6 +2858,7 @@ function renderMonthlyCharts(d) {
       `<tr><td>${m.label}</td><td class="num">${n(m.total)}</td><td class="num">${n(m.walkin || 0)}</td><td class="num">${n(m.web || 0)}</td><td class="num">${n(m.guestvisit || 0)}</td></tr>`
     ).join('');
 
+
     const velRows = [
       ['Same-day or next-day (≤1 day)', d.velocitySameDayPct],
       ['Within 7 days', d.velocityWithin7Pct],
@@ -2813,8 +2904,6 @@ function renderMonthlyCharts(d) {
             <tr><td><b>Walk In</b></td><td class="num">${n(d.walkin.leads)}</td><td class="num">${n(d.walkin.members)}</td><td class="num">${d.walkin.leads ? r(d.walkin.rate) : '—'}</td><td class="num">${n(d.walkin.reachable)}</td><td class="num">${n(d.walkin.optedOut)}</td></tr>
             <tr><td><b>Web</b></td><td class="num">${n(d.web.leads)}</td><td class="num">${n(d.web.members)}</td><td class="num">${d.web.leads ? r(d.web.rate) : '—'}</td><td class="num">${n(d.web.reachable)}</td><td class="num">${n(d.web.optedOut)}</td></tr>
             ${subtypeRows}
-            <tr class="pv-subrow"><td>└ Came into the gym (waiver signed)</td><td class="num">${n(d.web.cameIn.leads)}</td><td class="num">${n(d.web.cameIn.members)}</td><td class="num">${d.web.cameIn.leads ? r(d.web.cameIn.rate) : '—'}</td><td class="num">${n(d.web.cameIn.reachable)}</td><td class="num">${n(d.web.cameIn.optedOut)}</td></tr>
-            <tr class="pv-subrow"><td>└ Never came in (no waiver)</td><td class="num">${n(d.web.neverCameIn.leads)}</td><td class="num">${n(d.web.neverCameIn.members)}</td><td class="num">${d.web.neverCameIn.leads ? r(d.web.neverCameIn.rate) : '—'}</td><td class="num">${n(d.web.neverCameIn.reachable)}</td><td class="num">${n(d.web.neverCameIn.optedOut)}</td></tr>
             <tr><td><b>Guest Visit</b></td><td class="num">${n(d.guest.leads)}</td><td class="num">${n(d.guest.members)}</td><td class="num">${d.guest.leads ? r(d.guest.rate) : '—'}</td><td class="num">${n(d.guest.reachable)}</td><td class="num">${n(d.guest.optedOut)}</td></tr>
           </tbody>
         </table>
@@ -2839,19 +2928,22 @@ function renderMonthlyCharts(d) {
 
       <div class="pv-section">
         <h2>Pipeline Health — Open Work List</h2>
-        <h3>Hand to a Rep (warm)</h3>
+        <h3>Hand to a Rep (warm) — reachable only</h3>
         <table>
           <tr><td>Total open warm leads</td><td class="num">${n(d.warmPipeline)}</td></tr>
-          <tr><td>Reachable</td><td class="num">${n(d.warmReachable)}</td></tr>
-          <tr><td>Opted out</td><td class="num">${n(d.warmOptedOut)}</td></tr>
         </table>
-        <h3>Feed to Nurture (cold)</h3>
+        <h3>Feed to Nurture (cold) — reachable only</h3>
         <table>
           <tr><td>Total open cold leads</td><td class="num">${n(d.coldPipeline)}</td></tr>
-          <tr><td>Reachable</td><td class="num">${n(d.coldReachable)}</td></tr>
-          <tr><td>Opted out</td><td class="num">${n(d.coldOptedOut)}</td></tr>
         </table>
         <p>Open pipeline total: <b>${n(d.openPipelineTotal)}</b></p>
+        <h3>The Graveyard (old or opted out)</h3>
+        <table>
+          <tr><td>Total open enquiries &gt;90 days old</td><td class="num">${n(d.graveyardTotal)}</td></tr>
+          <tr><td>Reachable</td><td class="num">${n(d.graveyardReachable)}</td></tr>
+          <tr><td>Opted out</td><td class="num">${n(d.graveyardOptedOut)}</td></tr>
+        </table>
+        <p style="font-size:8pt;color:#888;margin-top:4pt;">Not period-filtered. These are stale leads across the full history — archive or run a deadline-bound re-engagement, don't keep working them.</p>
       </div>
 
       <div class="pv-section">
@@ -3043,6 +3135,10 @@ function renderMonthlyCharts(d) {
         cold_reachable: d.coldReachable,
         cold_opted_out: d.coldOptedOut,
         open_total: d.openPipelineTotal,
+        graveyard_total: d.graveyardTotal,
+        graveyard_reachable: d.graveyardReachable,
+        graveyard_opted_out: d.graveyardOptedOut,
+        graveyard_note: 'Unconverted leads that are either older than 90 days OR opted out of SMS/email. Either condition means they cannot be worked via automated outreach. warm_total and cold_total are now reachable-only; opted-out fresh leads moved into the graveyard.',
       },
       velocity: {
         same_or_next_day_pct: d.velocitySameDayPct,
