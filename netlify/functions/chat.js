@@ -49,6 +49,27 @@ Guest Visit does NOT factor into the grade (it's a retention/day-pass metric, no
 
 Letter thresholds: A ≥ 90, B ≥ 80, C ≥ 70, D ≥ 60, F < 60.
 
+## Calculators
+
+The dashboard has a Calculators panel with three cards (CPL/CPA, Lead Value, Churn). The user plugs in assumptions; the dashboard returns live numbers. When the user asks about lead value, CPL/CPA, ad spend ROI, member value, cancellations in dollars, MRR lost, LTV lost, or "is my web advertising profitable" — read from the \`calculators\` block in the stats object.
+
+Structure of \`calculators\`:
+
+- \`defaults_from_roster\` — avg monthly revenue per member, blended retention (weighted by 12-mo × 9 mo + MTM × 6 mo), pending cancels currently in the roster, active members at the start of both the period window and the MTD window, and the agreement mix (12-mo vs MTM vs other plans).
+- \`pricing_assumptions\` — fixed pricing: 12-mo is $129.99/mo, MTM is $159/mo, $99 enrollment one-time, $99 annual billed on day 60 then yearly.
+- \`current_inputs\` — what the user has typed in. \`null\` means they haven't entered it. Don't invent values.
+- \`card_scopes\` — which window each card is using (\`period\` or \`mtd\`). If scopes disagree across cards, note it when comparing numbers.
+- \`lead_value\` — present only if the user entered avg revenue + retention. Includes member_value (total a new member pays), a breakdown (recurring dues + enrollment + annual), and per-origin lead value (close rate × member value).
+- \`cpl_cpa\` — present only if ad spend is entered. Cost per web lead, cost per web member.
+- \`churn\` — present only if finalized cancels or collections are entered. Total lost, gross churn rate, net member change, MRR lost, and LTV lost.
+
+Rules:
+
+- If a calculator sub-block is missing or has \`null\` fields, the user hasn't filled those inputs yet — say so, don't make up numbers.
+- Core comparison: if CPL is less than Web lead value, web ads are profitable. Flag it when either way.
+- LTV Lost is always larger than MRR Lost because it captures remaining tenure, not one month. When ownership is the audience, frame cancellations as the LTV hit, not the MRR hit.
+- Lead value ≠ channel profitability on its own. Walk In has the highest lead value but costs floor staff and rent; Web costs ad dollars; Guest Visit has its own acquisition cost. Compare lead value to the actual channel cost before calling one channel "better."
+
 ## Current data — {PERIOD_LABEL}
 
 {STATS_JSON}

@@ -671,6 +671,188 @@
       padding: 1px 6px; border-radius: 4px; color: #fff; font-size: 0.82rem;
     }
 
+    /* ── Calculators ── */
+    .calc-shared {
+      background: var(--surface); border-radius: var(--radius);
+      padding: 18px 22px; margin-bottom: 14px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .calc-shared .calc-field { max-width: 360px; }
+    .calc-presets {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .calc-preset-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim);
+      padding: 6px 12px; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase; border-radius: 6px; cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .calc-preset-btn:hover { border-color: var(--accent); color: #fff; background: var(--accent-dim); }
+    .calc-preset-btn.active { border-color: var(--accent); color: #fff; background: var(--accent-dim); }
+    .calc-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 860px) { .calc-grid { grid-template-columns: 1fr; } }
+    .calc-card {
+      background: var(--surface); border-radius: var(--radius);
+      padding: 22px 20px 20px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .calc-card-head {
+      font-family: 'Bebas Neue', cursive; font-size: 1.15rem;
+      color: #fff; letter-spacing: 1.5px; text-transform: uppercase;
+    }
+    .calc-card-top {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 10px; flex-wrap: wrap;
+    }
+    .calc-card-desc {
+      font-size: 0.78rem; color: var(--text-dim); line-height: 1.5;
+      margin-top: -4px;
+    }
+    .calc-details {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    .calc-details > summary {
+      cursor: pointer; user-select: none;
+      list-style: none;
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      padding: 8px 12px;
+      font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.2px;
+      color: var(--text-dim);
+    }
+    .calc-details > summary::-webkit-details-marker { display: none; }
+    .calc-details > summary::after {
+      content: '+'; font-size: 1rem; color: var(--accent);
+      transition: transform 0.2s;
+    }
+    .calc-details[open] > summary::after { content: '−'; }
+    .calc-details > summary:hover { color: #fff; }
+    .calc-details-body {
+      padding: 0 12px 10px; line-height: 1.6;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .calc-details-body p { margin: 0; }
+    .calc-details-rows {
+      font-variant-numeric: tabular-nums;
+      display: flex; flex-direction: column; gap: 3px;
+      padding: 4px 0;
+    }
+    .calc-details-row {
+      display: grid; grid-template-columns: 110px 1fr; gap: 8px;
+      align-items: baseline;
+    }
+    .calc-details-row .origin { font-weight: 700; }
+    .calc-details-row .origin.walkin { color: var(--walkin); }
+    .calc-details-row .origin.web    { color: var(--web); }
+    .calc-details-row .origin.guest  { color: var(--guest); }
+    .calc-scope {
+      display: inline-flex; border: 1px solid var(--border); border-radius: 6px;
+      overflow: hidden; align-self: flex-start;
+    }
+    .calc-scope-btn {
+      background: var(--surface2); border: none; color: var(--text-dim);
+      padding: 4px 10px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase; cursor: pointer;
+      font-family: inherit;
+      transition: color 0.15s, background 0.15s;
+    }
+    .calc-scope-btn + .calc-scope-btn { border-left: 1px solid var(--border); }
+    .calc-scope-btn:hover { color: #fff; }
+    .calc-scope-btn.active { background: var(--accent-dim); color: #fff; }
+
+    .calc-scope-bar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 8px 14px; margin-bottom: 10px;
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+      font-size: 0.72rem; color: var(--text-dim);
+      letter-spacing: 0.4px;
+    }
+    .calc-scope-bar-label {
+      text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
+    }
+    .calc-scope-bar-items { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .calc-scope-bar-item {
+      font-weight: 600; color: var(--text-dim);
+      white-space: nowrap;
+    }
+    .calc-scope-bar-item.warn { color: var(--warn); }
+    .calc-scope-bar-sep { color: var(--border); }
+    .calc-scope-bar-actions { display: flex; gap: 6px; margin-left: auto; }
+    .calc-align-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 3px 9px; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.6px;
+      text-transform: uppercase; border-radius: 4px; cursor: pointer;
+      font-family: inherit;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .calc-align-btn:hover { color: #fff; border-color: var(--accent); }
+    .calc-scope-warn {
+      width: 100%; color: var(--warn); font-size: 0.72rem;
+      margin-top: 2px;
+    }
+
+    .calc-lv-row { display: flex; flex-direction: column; gap: 3px; }
+    .calc-lv-top {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 10px; font-variant-numeric: tabular-nums;
+    }
+    .calc-lv-breakdown {
+      font-size: 0.7rem; color: var(--text-dim); line-height: 1.4;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .calc-field { display: flex; flex-direction: column; gap: 4px; }
+    .calc-label {
+      font-size: 0.68rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
+    }
+    .calc-input {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; color: #fff; padding: 8px 12px; outline: none;
+      font-family: inherit; font-size: 0.95rem;
+      font-variant-numeric: tabular-nums;
+      transition: border-color 0.15s;
+      color-scheme: dark;
+    }
+    .calc-input:focus { border-color: var(--accent); }
+    .calc-hint {
+      font-size: 0.72rem; color: var(--text-dim);
+      line-height: 1.4;
+    }
+    .calc-outputs {
+      display: flex; flex-direction: column; gap: 10px;
+      border-top: 1px solid var(--border); padding-top: 14px; margin-top: 4px;
+    }
+    .calc-out-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 10px; font-variant-numeric: tabular-nums;
+    }
+    .calc-out-label {
+      font-size: 0.72rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
+    }
+    .calc-out-label.walkin { color: var(--walkin); }
+    .calc-out-label.web    { color: var(--web); }
+    .calc-out-label.guest  { color: var(--guest); }
+    .calc-out-value {
+      font-family: 'Bebas Neue', cursive; font-size: 1.8rem;
+      color: #fff; letter-spacing: 1px; line-height: 1;
+      text-align: right;
+    }
+    .calc-out-value.pos { color: var(--good); }
+    .calc-out-value.neg { color: var(--bad); }
+    .calc-out-foot {
+      font-size: 0.72rem; color: var(--text-dim);
+      line-height: 1.5; margin-top: auto;
+    }
+
     /* Reset button */
     .reset-wrap { text-align: center; margin-top: 40px; }
     .btn-outline {
@@ -984,6 +1166,12 @@
         <div id="velocity-ribbon"></div>
         <h3 class="section-title" style="color:var(--text-dim);font-size:0.8rem;margin:28px 0 10px;">Open Pipeline — Your Work List</h3>
         <div id="pipeline-open"></div>
+      </div>
+
+      <!-- Calculators -->
+      <div class="section">
+        <h2 class="section-title">Calculators</h2>
+        <div id="calculators"></div>
       </div>
 
       <!-- Data Quality -->
@@ -2321,6 +2509,23 @@
     renderPipelineHealth(d);
     renderDataQuality(d);
     renderPrintView(d);
+    const mtdEnd = dataToday;
+    const mtdStart = new Date(mtdEnd.getFullYear(), mtdEnd.getMonth(), 1);
+    const mtdStats = computeStats(leadsRaw, membersRaw, mtdStart, mtdEnd);
+    const agreementMix = computeRosterAgreementMix(membersRaw);
+    const calcContext = {
+      period: d,
+      mtd: mtdStats,
+      pendingCancelCount: computePendingCancels(membersRaw),
+      activeAtStartPeriod: computeActiveAtStart(membersRaw, d.periodStart),
+      activeAtStartMTD: computeActiveAtStart(membersRaw, mtdStart),
+      avgMonthlyRevenueDefault: computeAvgMonthlyRevenue(membersRaw),
+      agreementMix,
+      blendedRetentionDefault: blendedRetention(agreementMix),
+      periodLabel: d.periodLabel,
+      mtdLabel: `MTD through ${formatFullDate(mtdEnd)}`,
+    };
+    renderCalculators(d, calcContext);
     primeChatContext(d);
 
     document.getElementById('dashboard').style.display = 'block';
@@ -2959,7 +3164,648 @@ function renderMonthlyCharts(d) {
         <p>${d.repeatGuests} people registered as Guest Visit more than once in this period.</p>
       </div>
 
+      <div id="pv-calculators"></div>
+
       <div class="pv-footer">Generated ${new Date().toLocaleString()} · Powerhouse Gym NYC Leads Analyzer</div>`;
+  }
+
+  /* ═══════════════════════════════════════════ CALCULATORS ═══════════════════════════════════════════ */
+
+  function isLongTermActiveMemberRow(r) {
+    const status = normHeader(r['Member Status'] || '').toLowerCase();
+    if (status === 'pending cancel') return false;
+    const plan = normHeader(r['Agreement Payment Plan'] || '').toLowerCase().replace(/\s+/g, ' ').trim();
+    if (SHORT_TERM_PLANS.has(plan)) return false;
+    return true;
+  }
+
+  function computePendingCancels(rows) {
+    if (!Array.isArray(rows)) return 0;
+    let count = 0;
+    rows.forEach(r => {
+      const status = normHeader(r['Member Status'] || '').toLowerCase();
+      if (status === 'pending cancel') count++;
+    });
+    return count;
+  }
+
+  function computeActiveAtStart(rows, startD) {
+    if (!Array.isArray(rows) || !startD) return 0;
+    let count = 0;
+    rows.forEach(r => {
+      if (!isLongTermActiveMemberRow(r)) return;
+      const bd = parseMemberDate(r['Begin Date']);
+      if (bd && bd < startD) count++;
+    });
+    return count;
+  }
+
+  function computeAvgMonthlyRevenue(rows) {
+    if (!Array.isArray(rows) || !rows.length) return 0;
+    let sum = 0;
+    let n = 0;
+    rows.forEach(r => {
+      if (!isLongTermActiveMemberRow(r)) return;
+      const raw = (r['Next Due Amount'] != null ? r['Next Due Amount'] : '')
+                    .toString().replace(/[$,\s]/g, '');
+      const v = parseFloat(raw);
+      if (!isNaN(v)) { sum += v; n++; }
+    });
+    return n === 0 ? 0 : Math.round((sum / n) * 100) / 100;
+  }
+
+  const PRICING = {
+    twelveMo: 129.99,
+    mtm: 159,
+    enrollmentFee: 99,
+    annualFee: 99,
+  };
+  const ASSUMED_RETENTION = {
+    twelveMo: 9,
+    mtm: 6,
+  };
+
+  function classifyAgreementType(plan) {
+    const p = (plan || '').toString().toLowerCase().replace(/\s+/g, ' ').trim();
+    if (!p) return 'unknown';
+    if (/\bmtm\b|month[- ]?to[- ]?month/.test(p)) return 'mtm';
+    if (/\b12\b|12[- ]?mo(nth)?/.test(p)) return 'twelveMo';
+    return 'other';
+  }
+
+  function computeRosterAgreementMix(rows) {
+    const mix = { twelveMo: 0, mtm: 0, other: 0, total: 0 };
+    if (!Array.isArray(rows)) return mix;
+    rows.forEach(r => {
+      if (!isLongTermActiveMemberRow(r)) return;
+      const t = classifyAgreementType(r['Agreement Payment Plan']);
+      if (t === 'twelveMo') mix.twelveMo++;
+      else if (t === 'mtm') mix.mtm++;
+      else mix.other++;
+      mix.total++;
+    });
+    return mix;
+  }
+
+  function blendedRetention(mix) {
+    const identified = mix.twelveMo + mix.mtm;
+    if (identified === 0) return null;
+    return ((mix.twelveMo * ASSUMED_RETENTION.twelveMo)
+          + (mix.mtm * ASSUMED_RETENTION.mtm))
+          / identified;
+  }
+
+  const calcState = {
+    d: null,
+    ctx: null,
+    scopes: { card1: 'mtd', card2: 'period', card3: 'period' },
+  };
+
+  function scopeStats(scope) {
+    return scope === 'mtd' ? calcState.ctx.mtd : calcState.ctx.period;
+  }
+  function scopeLabel(scope) {
+    return scope === 'mtd' ? calcState.ctx.mtdLabel : calcState.ctx.periodLabel;
+  }
+  function scopeActiveAtStart(scope) {
+    return scope === 'mtd' ? calcState.ctx.activeAtStartMTD : calcState.ctx.activeAtStartPeriod;
+  }
+
+  function retentionHint(ctx) {
+    const mix = ctx.agreementMix;
+    if (!mix || mix.total === 0) {
+      return 'No roster data yet. Default is the 12-month retention assumption.';
+    }
+    const identified = mix.twelveMo + mix.mtm;
+    if (identified === 0) {
+      return `Can't detect 12-mo vs MTM from plan names in the roster — pick a preset or override.`;
+    }
+    const pct12 = Math.round((mix.twelveMo / identified) * 100);
+    const pctMtm = 100 - pct12;
+    const blended = blendedRetention(mix);
+    const otherNote = mix.other > 0 ? ` · ${mix.other} other` : '';
+    return `Roster mix: ${pct12}% 12-mo × ${ASSUMED_RETENTION.twelveMo} mo + ${pctMtm}% MTM × ${ASSUMED_RETENTION.mtm} mo ≈ ${blended.toFixed(1)} mo blended${otherNote}.`;
+  }
+
+  function scopeToggle(cardKey) {
+    const s = calcState.scopes[cardKey];
+    return `
+      <div class="calc-scope" data-card="${cardKey}">
+        <button type="button" class="calc-scope-btn ${s === 'period' ? 'active' : ''}" data-scope="period">Period</button>
+        <button type="button" class="calc-scope-btn ${s === 'mtd' ? 'active' : ''}" data-scope="mtd">MTD</button>
+      </div>`;
+  }
+
+  function renderCalculators(d, ctx) {
+    const container = document.getElementById('calculators');
+    if (!container) return;
+
+    calcState.d = d;
+    calcState.ctx = ctx;
+    calcState.scopes = { card1: 'mtd', card2: 'period', card3: 'period' };
+
+    const defaultRev = ctx.avgMonthlyRevenueDefault;
+    const defaultRevDisplay = '$' + (defaultRev || 0).toLocaleString(undefined, {
+      minimumFractionDigits: 2, maximumFractionDigits: 2,
+    });
+    const defaultRevAttr = defaultRev > 0 ? defaultRev.toFixed(2) : '';
+
+    const rosterLabel = defaultRev > 0 ? defaultRevDisplay : 'no data';
+    container.innerHTML = `
+      <div class="calc-shared">
+        <div class="calc-field">
+          <label class="calc-label" for="calc-avg-revenue">Avg Monthly Revenue Per Member ($)</label>
+          <input type="number" class="calc-input" id="calc-avg-revenue"
+                 step="0.01" min="0" value="${defaultRevAttr}" />
+        </div>
+        <div class="calc-presets">
+          <button type="button" class="calc-preset-btn" data-rev="${PRICING.twelveMo}" data-ret="9">12-Mo ($${PRICING.twelveMo.toFixed(2)} · 9 mo)</button>
+          <button type="button" class="calc-preset-btn" data-rev="${PRICING.mtm}" data-ret="6">MTM ($${PRICING.mtm.toFixed(2)} · 6 mo)</button>
+          <button type="button" class="calc-preset-btn" data-rev="${defaultRev || 0}" ${ctx.blendedRetentionDefault != null ? `data-ret="${Math.round(ctx.blendedRetentionDefault)}"` : ''} ${defaultRev > 0 ? '' : 'disabled'}>Roster Avg (${rosterLabel})</button>
+        </div>
+        <div class="calc-hint">Presets fill both monthly rate and retention. 12-mo contracts assume 9-month retention; MTM assumes 6.</div>
+      </div>
+      <div class="calc-scope-bar" id="calc-scope-bar">
+        <span class="calc-scope-bar-label">Scopes:</span>
+        <div class="calc-scope-bar-items">
+          <span class="calc-scope-bar-item" data-card="card1"></span>
+          <span class="calc-scope-bar-sep">|</span>
+          <span class="calc-scope-bar-item" data-card="card2"></span>
+          <span class="calc-scope-bar-sep">|</span>
+          <span class="calc-scope-bar-item" data-card="card3"></span>
+        </div>
+        <div class="calc-scope-bar-actions">
+          <button type="button" class="calc-align-btn" data-align="period">Align All To Period</button>
+          <button type="button" class="calc-align-btn" data-align="mtd">Align All To MTD</button>
+        </div>
+        <div class="calc-scope-warn" id="calc-scope-warn">⚠ Comparing across cards will mix time windows.</div>
+      </div>
+      <div class="calc-grid">
+        <div class="calc-card">
+          <div class="calc-card-top">
+            <div class="calc-card-head">CPL / CPA — Web</div>
+            ${scopeToggle('card1')}
+          </div>
+          <div class="calc-card-desc">
+            What each web enquiry (CPL) and each new web member (CPA) cost you in ad spend. Enter ad spend — it divides by web leads and members in the selected scope.
+          </div>
+          <div class="calc-field">
+            <label class="calc-label" for="calc-ad-spend">Ad Spend ($)</label>
+            <input type="number" class="calc-input" id="calc-ad-spend"
+                   step="0.01" min="0" placeholder="Enter ad spend" />
+          </div>
+          <div class="calc-outputs">
+            <div class="calc-out-row">
+              <span class="calc-out-label">Cost Per Lead</span>
+              <span class="calc-out-value" id="calc-cpl-value">—</span>
+            </div>
+            <div class="calc-out-row">
+              <span class="calc-out-label">Cost Per Acquisition</span>
+              <span class="calc-out-value" id="calc-cpa-value">—</span>
+            </div>
+          </div>
+          <div class="calc-out-foot" id="calc-card1-foot"></div>
+        </div>
+
+        <div class="calc-card">
+          <div class="calc-card-top">
+            <div class="calc-card-head">Lead Value</div>
+            ${scopeToggle('card2')}
+          </div>
+          <div class="calc-card-desc">
+            What an enquiry is worth, on average, before it closes. Think of it as your ad-spend ceiling: spend less than this per lead and you profit.
+          </div>
+          <details class="calc-details">
+            <summary>Show breakdown &amp; guidance</summary>
+            <div class="calc-details-body">
+              <div class="calc-details-rows" id="calc-lv-details-rows"></div>
+              <p id="calc-lv-member-value-summary"></p>
+              <p>Higher lead value ≠ better channel. It just means a higher share close. A Walk In costs you floor staff + rent. Web costs ad dollars. Guest Visits cost whatever pulls in day-pass traffic. Compare each channel's lead value to what it actually costs you to drive — that's where profit hides.</p>
+            </div>
+          </details>
+          <div class="calc-field">
+            <label class="calc-label" for="calc-retention">Expected Retention (Months)</label>
+            <input type="number" class="calc-input" id="calc-retention"
+                   step="1" min="0" placeholder="e.g., 12"
+                   value="${ctx.blendedRetentionDefault != null ? Math.round(ctx.blendedRetentionDefault) : ''}" />
+            <div class="calc-hint">${retentionHint(ctx)}</div>
+          </div>
+          <div class="calc-outputs">
+            <div class="calc-lv-row">
+              <div class="calc-lv-top">
+                <span class="calc-out-label walkin">Walk In</span>
+                <span class="calc-out-value" id="calc-lv-walkin">—</span>
+              </div>
+              <div class="calc-lv-breakdown" id="calc-lv-walkin-bd"></div>
+            </div>
+            <div class="calc-lv-row">
+              <div class="calc-lv-top">
+                <span class="calc-out-label web">Web</span>
+                <span class="calc-out-value" id="calc-lv-web">—</span>
+              </div>
+              <div class="calc-lv-breakdown" id="calc-lv-web-bd"></div>
+            </div>
+            <div class="calc-lv-row">
+              <div class="calc-lv-top">
+                <span class="calc-out-label guest">Guest Visit</span>
+                <span class="calc-out-value" id="calc-lv-guest">—</span>
+              </div>
+              <div class="calc-lv-breakdown" id="calc-lv-guest-bd"></div>
+            </div>
+          </div>
+          <div class="calc-out-foot" id="calc-card2-foot"></div>
+        </div>
+
+        <div class="calc-card">
+          <div class="calc-card-top">
+            <div class="calc-card-head">Churn</div>
+            ${scopeToggle('card3')}
+          </div>
+          <div class="calc-card-desc">
+            How much the club is losing to cancellations. MRR Lost is the next-month hit; LTV Lost puts a price tag on the full lifetime hit — the number worth showing ownership.
+          </div>
+          <div class="calc-field">
+            <label class="calc-label" for="calc-finalized">Finalized Cancels</label>
+            <input type="number" class="calc-input" id="calc-finalized"
+                   step="1" min="0" placeholder="Enter count" />
+          </div>
+          <div class="calc-field">
+            <label class="calc-label" for="calc-collections">Returned For Collections</label>
+            <input type="number" class="calc-input" id="calc-collections"
+                   step="1" min="0" placeholder="Enter count" />
+          </div>
+          <div class="calc-outputs">
+            <div class="calc-out-row">
+              <span class="calc-out-label">Total Lost</span>
+              <span class="calc-out-value" id="calc-total-lost">—</span>
+            </div>
+            <div class="calc-out-row">
+              <span class="calc-out-label">Gross Churn Rate</span>
+              <span class="calc-out-value" id="calc-gross-churn">—</span>
+            </div>
+            <div class="calc-out-row">
+              <span class="calc-out-label">Net Member Change</span>
+              <span class="calc-out-value" id="calc-net-change">—</span>
+            </div>
+            <div class="calc-out-row">
+              <span class="calc-out-label">MRR Lost</span>
+              <span class="calc-out-value" id="calc-mrr-lost">—</span>
+            </div>
+            <div class="calc-out-row">
+              <span class="calc-out-label">LTV Lost</span>
+              <span class="calc-out-value" id="calc-ltv-lost">—</span>
+            </div>
+          </div>
+          <div class="calc-out-foot" id="calc-card3-foot"></div>
+        </div>
+      </div>`;
+
+    ['calc-avg-revenue', 'calc-ad-spend', 'calc-retention', 'calc-finalized', 'calc-collections']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', recomputeCalculators);
+      });
+
+    container.querySelectorAll('.calc-preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const v = parseFloat(btn.dataset.rev);
+        if (isNaN(v) || v <= 0) return;
+        document.getElementById('calc-avg-revenue').value = v.toFixed(2);
+        const ret = parseFloat(btn.dataset.ret);
+        if (!isNaN(ret) && ret > 0) {
+          document.getElementById('calc-retention').value = ret;
+        }
+        recomputeCalculators();
+      });
+    });
+
+    container.querySelectorAll('.calc-scope').forEach(group => {
+      const cardKey = group.dataset.card;
+      group.querySelectorAll('.calc-scope-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          calcState.scopes[cardKey] = btn.dataset.scope;
+          group.querySelectorAll('.calc-scope-btn').forEach(b =>
+            b.classList.toggle('active', b === btn)
+          );
+          recomputeCalculators();
+        });
+      });
+    });
+
+    container.querySelectorAll('.calc-align-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const s = btn.dataset.align;
+        if (s !== 'period' && s !== 'mtd') return;
+        calcState.scopes = { card1: s, card2: s, card3: s };
+        container.querySelectorAll('.calc-scope').forEach(group => {
+          group.querySelectorAll('.calc-scope-btn').forEach(b =>
+            b.classList.toggle('active', b.dataset.scope === s)
+          );
+        });
+        recomputeCalculators();
+      });
+    });
+
+    recomputeCalculators();
+  }
+
+  function cardDisplayName(cardKey) {
+    return cardKey === 'card1' ? 'CPL/CPA'
+         : cardKey === 'card2' ? 'Lead Value'
+         : 'Churn';
+  }
+
+  function updateScopeBar() {
+    const scopes = calcState.scopes;
+    const values = Object.values(scopes);
+    const allSame = values.every(v => v === values[0]);
+    const counts = values.reduce((a, v) => { a[v] = (a[v] || 0) + 1; return a; }, {});
+    const majority = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+
+    document.querySelectorAll('.calc-scope-bar-item').forEach(el => {
+      const card = el.dataset.card;
+      const s = scopes[card];
+      el.textContent = `${cardDisplayName(card)} · ${s === 'mtd' ? 'MTD' : 'Period'}`;
+      el.classList.toggle('warn', !allSame && s !== majority);
+    });
+    const warn = document.getElementById('calc-scope-warn');
+    if (warn) warn.style.display = allSame ? 'none' : '';
+  }
+
+  function annualBillingsFor(retention) {
+    return retention >= 2 ? Math.floor((retention - 2) / 12) + 1 : 0;
+  }
+
+  function getCalcInputs() {
+    const num = (id) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const raw = el.value.trim();
+      if (raw === '') return null;
+      const v = parseFloat(raw);
+      return isNaN(v) ? null : v;
+    };
+    return {
+      avgRev: num('calc-avg-revenue'),
+      adSpend: num('calc-ad-spend'),
+      retention: num('calc-retention'),
+      finalized: num('calc-finalized'),
+      collections: num('calc-collections'),
+    };
+  }
+
+  function fmtMoney(v) {
+    return '$' + v.toLocaleString(undefined, {
+      minimumFractionDigits: 2, maximumFractionDigits: 2,
+    });
+  }
+
+  function recomputeCalculators() {
+    const ctx = calcState.ctx;
+    if (!ctx) return;
+    const inp = getCalcInputs();
+    const scopes = calcState.scopes;
+
+    /* Card 1 — CPL / CPA (scoped) */
+    const cplEl  = document.getElementById('calc-cpl-value');
+    const cpaEl  = document.getElementById('calc-cpa-value');
+    const foot1  = document.getElementById('calc-card1-foot');
+    if (cplEl && cpaEl) {
+      const s1 = scopeStats(scopes.card1);
+      const leads   = s1.web.leads   || 0;
+      const members = s1.web.members || 0;
+      if (inp.adSpend == null || inp.adSpend <= 0) {
+        cplEl.textContent = '—';
+        cpaEl.textContent = '—';
+      } else {
+        cplEl.textContent = leads   > 0 ? `${fmtMoney(inp.adSpend / leads)} per lead`     : '—';
+        cpaEl.textContent = members > 0 ? `${fmtMoney(inp.adSpend / members)} per member` : '—';
+      }
+      if (foot1) {
+        foot1.textContent =
+          `Based on ${leads.toLocaleString()} web leads → ${members.toLocaleString()} members (${scopeLabel(scopes.card1)}).`;
+      }
+    }
+
+    /* Card 2 — Lead Value (scoped close rates + per-origin breakdown) */
+    const lvWalkinEl = document.getElementById('calc-lv-walkin');
+    const lvWebEl    = document.getElementById('calc-lv-web');
+    const lvGuestEl  = document.getElementById('calc-lv-guest');
+    const bdWalkin   = document.getElementById('calc-lv-walkin-bd');
+    const bdWeb      = document.getElementById('calc-lv-web-bd');
+    const bdGuest    = document.getElementById('calc-lv-guest-bd');
+    const foot2      = document.getElementById('calc-card2-foot');
+    const lvDetailsRows   = document.getElementById('calc-lv-details-rows');
+    const lvMemberSummary = document.getElementById('calc-lv-member-value-summary');
+    if (lvWalkinEl && lvWebEl && lvGuestEl) {
+      const s2 = scopeStats(scopes.card2);
+      const rev = inp.avgRev;
+      const ret = inp.retention;
+      if (rev == null || rev <= 0 || ret == null || ret <= 0) {
+        [lvWalkinEl, lvWebEl, lvGuestEl].forEach(el => { el.textContent = '—'; });
+        [bdWalkin, bdWeb, bdGuest].forEach(el => { if (el) el.textContent = ''; });
+        if (lvDetailsRows) lvDetailsRows.innerHTML = '';
+        if (lvMemberSummary) lvMemberSummary.textContent = 'Fill in avg monthly revenue and retention to see the per-channel numbers.';
+      } else {
+        const billings  = annualBillingsFor(ret);
+        const recurring = rev * ret;
+        const memberValue = recurring + PRICING.enrollmentFee + PRICING.annualFee * billings;
+        const fmtInt = v => '$' + Math.round(v).toLocaleString();
+        const breakdownText = rate =>
+          `${rate.toFixed(1)}% × (${fmtInt(recurring)} recurring + $${PRICING.enrollmentFee} enrollment + $${PRICING.annualFee} × ${billings} annual) = ${fmtInt(memberValue)} per member`;
+        const lv = (ratePct) => fmtMoney((ratePct / 100) * memberValue);
+        const rw = s2.walkin.rate || 0;
+        const rwe = s2.web.rate    || 0;
+        const rg = s2.guest.rate  || 0;
+        lvWalkinEl.textContent = lv(rw);
+        lvWebEl.textContent    = lv(rwe);
+        lvGuestEl.textContent  = lv(rg);
+        if (bdWalkin) bdWalkin.textContent = breakdownText(rw);
+        if (bdWeb)    bdWeb.textContent    = breakdownText(rwe);
+        if (bdGuest)  bdGuest.textContent  = breakdownText(rg);
+
+        if (lvDetailsRows) {
+          const detailsRow = (cls, label, rate) =>
+            `<div class="calc-details-row"><span class="origin ${cls}">${label}</span><span>${rate.toFixed(1)}% × ${fmtInt(memberValue)} = ${fmtInt((rate / 100) * memberValue)} per lead</span></div>`;
+          lvDetailsRows.innerHTML =
+            detailsRow('walkin', 'Walk In', rw) +
+            detailsRow('web',    'Web',    rwe) +
+            detailsRow('guest',  'Guest Visit', rg);
+        }
+        if (lvMemberSummary) {
+          const annualTotal = billings * PRICING.annualFee;
+          lvMemberSummary.textContent =
+            `Each new member is worth ${fmtInt(memberValue)} (${fmtInt(recurring)} dues + $${PRICING.enrollmentFee} enrollment + $${annualTotal} annual).`;
+        }
+      }
+      if (foot2) {
+        foot2.textContent =
+          `Close rates from ${scopeLabel(scopes.card2)}. Each member's value = (monthly × retention) + $${PRICING.enrollmentFee} enrollment + ($${PRICING.annualFee} × annual billings). Lead value = close rate × member value. Annual fee bills on day 60 and yearly thereafter.`;
+      }
+    }
+
+    /* Card 3 — Churn (scoped) */
+    const totalLostEl  = document.getElementById('calc-total-lost');
+    const grossChurnEl = document.getElementById('calc-gross-churn');
+    const netChangeEl  = document.getElementById('calc-net-change');
+    const mrrLostEl    = document.getElementById('calc-mrr-lost');
+    const ltvLostEl    = document.getElementById('calc-ltv-lost');
+    const foot3        = document.getElementById('calc-card3-foot');
+    if (totalLostEl && grossChurnEl && netChangeEl && mrrLostEl && ltvLostEl) {
+      const s3 = scopeStats(scopes.card3);
+      const activeStart = scopeActiveAtStart(scopes.card3) || 0;
+      const pending     = ctx.pendingCancelCount || 0;
+      const finalized   = inp.finalized == null ? 0 : inp.finalized;
+      const collections = inp.collections == null ? 0 : inp.collections;
+      const totalLost   = pending + finalized + collections;
+      totalLostEl.textContent = totalLost.toLocaleString();
+
+      grossChurnEl.textContent = activeStart > 0
+        ? `${((totalLost / activeStart) * 100).toFixed(1)}%`
+        : '—';
+
+      const net = (s3.newInPeriod || 0) - totalLost;
+      netChangeEl.classList.remove('pos', 'neg');
+      if (net > 0) {
+        netChangeEl.textContent = `+${net.toLocaleString()}`;
+        netChangeEl.classList.add('pos');
+      } else if (net < 0) {
+        netChangeEl.textContent = `−${Math.abs(net).toLocaleString()}`;
+        netChangeEl.classList.add('neg');
+      } else {
+        netChangeEl.textContent = '0';
+      }
+
+      const rev = inp.avgRev;
+      mrrLostEl.textContent = (rev != null && rev > 0)
+        ? fmtMoney(totalLost * rev)
+        : '—';
+
+      const ret = inp.retention;
+      const hasLtvInputs = rev != null && rev > 0 && ret != null && ret > 0;
+      const remainingRetention = hasLtvInputs ? ret / 2 : 0;
+      const remainingAnnuals   = remainingRetention >= 12 ? 1 : 0;
+      const ltvLost = hasLtvInputs
+        ? totalLost * (rev * remainingRetention + PRICING.annualFee * remainingAnnuals)
+        : null;
+      ltvLostEl.textContent = (ltvLost != null && ltvLost > 0) ? fmtMoney(ltvLost) : '—';
+
+      if (foot3) {
+        const ltvNote = hasLtvInputs
+          ? ` LTV Lost assumes cancelled members left halfway through expected retention (${remainingRetention.toFixed(1)} months avg). Includes remaining monthly revenue plus prorated annual fees.`
+          : ' LTV Lost needs avg revenue + retention from Lead Value card.';
+        foot3.textContent =
+          `Scope: ${scopeLabel(scopes.card3)}. Pending: ${pending.toLocaleString()} (from roster). ${scopes.card3 === 'mtd' ? 'MTD' : 'Period'} start active: ${activeStart.toLocaleString()}. New in window: ${(s3.newInPeriod || 0).toLocaleString()}.${ltvNote}`;
+      }
+    }
+
+    updateScopeBar();
+    updateCalcPrintView();
+    if (calcState.d) primeChatContext(calcState.d);
+  }
+
+  function updateCalcPrintView() {
+    const container = document.getElementById('pv-calculators');
+    if (!container) return;
+    const ctx = calcState.ctx;
+    if (!ctx) { container.innerHTML = ''; return; }
+
+    const inp = getCalcInputs();
+    const hasInput = inp.adSpend != null || inp.retention != null
+                   || inp.finalized != null || inp.collections != null;
+    if (!hasInput) { container.innerHTML = ''; return; }
+
+    const scopes = calcState.scopes;
+    const revIsOverride = inp.avgRev != null;
+    const rev = revIsOverride ? inp.avgRev : (ctx.avgMonthlyRevenueDefault || 0);
+
+    const rows = [];
+    const revLabel = revIsOverride
+      ? 'Avg monthly revenue per member (override)'
+      : 'Avg monthly revenue per member (default)';
+    rows.push(`<tr><td>${revLabel}</td><td class="num">${fmtMoney(rev)}</td></tr>`);
+    if (inp.adSpend != null) rows.push(`<tr><td>Ad spend [${scopeLabel(scopes.card1)}]</td><td class="num">${fmtMoney(inp.adSpend)}</td></tr>`);
+    if (inp.retention != null) rows.push(`<tr><td>Expected retention (months)</td><td class="num">${inp.retention.toLocaleString()}</td></tr>`);
+    if (inp.finalized != null) rows.push(`<tr><td>Finalized cancels [${scopeLabel(scopes.card3)}]</td><td class="num">${inp.finalized.toLocaleString()}</td></tr>`);
+    if (inp.collections != null) rows.push(`<tr><td>Returned for collections [${scopeLabel(scopes.card3)}]</td><td class="num">${inp.collections.toLocaleString()}</td></tr>`);
+
+    let c1Rows = '';
+    if (inp.adSpend != null && inp.adSpend > 0) {
+      const s1 = scopeStats(scopes.card1);
+      const leads   = s1.web.leads   || 0;
+      const members = s1.web.members || 0;
+      const cpl = leads   > 0 ? `${fmtMoney(inp.adSpend / leads)} per lead`     : '—';
+      const cpa = members > 0 ? `${fmtMoney(inp.adSpend / members)} per member` : '—';
+      const tag = scopes.card1 === 'mtd' ? 'MTD' : 'Period';
+      c1Rows = `
+        <tr><td>CPL (${tag})</td><td class="num">${cpl}</td></tr>
+        <tr><td>CPA (${tag})</td><td class="num">${cpa}</td></tr>`;
+    }
+
+    let c2Rows = '';
+    if (inp.retention != null && inp.retention > 0 && rev > 0) {
+      const s2 = scopeStats(scopes.card2);
+      const billings = annualBillingsFor(inp.retention);
+      const recurring = rev * inp.retention;
+      const memberValue = recurring + PRICING.enrollmentFee + PRICING.annualFee * billings;
+      const lv = rate => fmtMoney((rate / 100) * memberValue);
+      const tag = scopes.card2 === 'mtd' ? 'MTD' : 'Period';
+      c2Rows = `
+        <tr><td>Member value (${tag})</td><td class="num">${fmtMoney(memberValue)}</td></tr>
+        <tr class="pv-subrow"><td>— ${Math.round(recurring).toLocaleString()} recurring + $${PRICING.enrollmentFee} enrollment + $${PRICING.annualFee} × ${billings} annual</td><td class="num"></td></tr>
+        <tr><td>Walk In lead value (${tag})</td><td class="num">${lv(s2.walkin.rate || 0)}</td></tr>
+        <tr><td>Web lead value (${tag})</td><td class="num">${lv(s2.web.rate || 0)}</td></tr>
+        <tr><td>Guest Visit lead value (${tag})</td><td class="num">${lv(s2.guest.rate || 0)}</td></tr>`;
+    }
+
+    let c3Rows = '';
+    if (inp.finalized != null || inp.collections != null) {
+      const s3 = scopeStats(scopes.card3);
+      const pending     = ctx.pendingCancelCount || 0;
+      const finalized   = inp.finalized == null ? 0 : inp.finalized;
+      const collections = inp.collections == null ? 0 : inp.collections;
+      const totalLost   = pending + finalized + collections;
+      const activeStart = scopeActiveAtStart(scopes.card3) || 0;
+      const gross = activeStart > 0
+        ? `${((totalLost / activeStart) * 100).toFixed(1)}%` : '—';
+      const net = (s3.newInPeriod || 0) - totalLost;
+      const netStr = net > 0 ? `+${net.toLocaleString()}`
+                   : net < 0 ? `−${Math.abs(net).toLocaleString()}`
+                   : '0';
+      const mrr = rev > 0 ? fmtMoney(totalLost * rev) : '—';
+      const tag = scopes.card3 === 'mtd' ? 'MTD' : 'Period';
+      const hasLtvInputs = rev > 0 && inp.retention != null && inp.retention > 0;
+      const remainingRetention = hasLtvInputs ? inp.retention / 2 : 0;
+      const remainingAnnuals   = remainingRetention >= 12 ? 1 : 0;
+      const ltvLost = hasLtvInputs
+        ? totalLost * (rev * remainingRetention + PRICING.annualFee * remainingAnnuals)
+        : null;
+      const ltvRow = ltvLost != null
+        ? `<tr><td>LTV lost (${tag})</td><td class="num">${fmtMoney(ltvLost)}</td></tr>
+           <tr class="pv-subrow"><td>— assumes ${remainingRetention.toFixed(1)} mo remaining per cancel</td><td class="num"></td></tr>`
+        : '';
+      c3Rows = `
+        <tr><td>Pending cancels (from roster)</td><td class="num">${pending.toLocaleString()}</td></tr>
+        <tr><td>Total lost (${tag})</td><td class="num">${totalLost.toLocaleString()}</td></tr>
+        <tr><td>Gross churn rate (${tag})</td><td class="num">${gross}</td></tr>
+        <tr><td>Net member change (${tag})</td><td class="num">${netStr}</td></tr>
+        <tr><td>MRR lost (${tag})</td><td class="num">${mrr}</td></tr>
+        ${ltvRow}`;
+    }
+
+    container.innerHTML = `
+      <div class="pv-section">
+        <h2>Calculators</h2>
+        <table>
+          <thead><tr><th>Input / Output</th><th class="num">Value</th></tr></thead>
+          <tbody>
+            ${rows.join('')}
+            ${c1Rows}
+            ${c2Rows}
+            ${c3Rows}
+          </tbody>
+        </table>
+      </div>`;
   }
 
   /* ═══════════════════════════════════════════ RESET ═══════════════════════════════════════════ */
@@ -3162,7 +4008,137 @@ function renderMonthlyCharts(d) {
         web: m.web || 0,
         guest_visit: m.guestvisit || 0,
       })),
+      calculators: getCalculatorChatPayload(),
     };
+  }
+
+  function getCalculatorChatPayload() {
+    const ctx = calcState.ctx;
+    if (!ctx) return null;
+    const inp = getCalcInputs();
+    const scopes = calcState.scopes;
+    const payload = {
+      defaults_from_roster: {
+        avg_monthly_revenue: ctx.avgMonthlyRevenueDefault,
+        blended_retention_months: ctx.blendedRetentionDefault,
+        agreement_mix: ctx.agreementMix ? {
+          twelve_month_count: ctx.agreementMix.twelveMo,
+          mtm_count: ctx.agreementMix.mtm,
+          other_count: ctx.agreementMix.other,
+          total: ctx.agreementMix.total,
+        } : null,
+        pending_cancels_now: ctx.pendingCancelCount,
+        active_at_period_start: ctx.activeAtStartPeriod,
+        active_at_mtd_start: ctx.activeAtStartMTD,
+      },
+      pricing_assumptions: {
+        twelve_month_monthly: PRICING.twelveMo,
+        mtm_monthly: PRICING.mtm,
+        enrollment_fee: PRICING.enrollmentFee,
+        annual_fee: PRICING.annualFee,
+        annual_fee_billing: 'Billed on day 60, then yearly thereafter.',
+        retention_assumption_twelve_month_mo: ASSUMED_RETENTION.twelveMo,
+        retention_assumption_mtm_mo: ASSUMED_RETENTION.mtm,
+      },
+      current_inputs: {
+        avg_monthly_revenue: inp.avgRev,
+        retention_months: inp.retention,
+        ad_spend: inp.adSpend,
+        finalized_cancels: inp.finalized,
+        returned_for_collections: inp.collections,
+      },
+      card_scopes: {
+        cpl_cpa: scopes.card1,
+        lead_value: scopes.card2,
+        churn: scopes.card3,
+      },
+    };
+
+    /* Card 2 — Lead Value */
+    if (inp.avgRev != null && inp.avgRev > 0 && inp.retention != null && inp.retention > 0) {
+      const s = scopes.card2 === 'mtd' ? ctx.mtd : ctx.period;
+      const billings = annualBillingsFor(inp.retention);
+      const recurring = inp.avgRev * inp.retention;
+      const memberValue = recurring + PRICING.enrollmentFee + PRICING.annualFee * billings;
+      payload.lead_value = {
+        member_value: memberValue,
+        breakdown: {
+          recurring_dues: recurring,
+          enrollment_fee: PRICING.enrollmentFee,
+          annual_fees_total: billings * PRICING.annualFee,
+          annual_fee_count: billings,
+        },
+        per_origin: {
+          walk_in: {
+            close_rate_pct: s.walkin.rate,
+            lead_value: (s.walkin.rate / 100) * memberValue,
+          },
+          web: {
+            close_rate_pct: s.web.rate,
+            lead_value: (s.web.rate / 100) * memberValue,
+          },
+          guest_visit: {
+            close_rate_pct: s.guest.rate,
+            lead_value: (s.guest.rate / 100) * memberValue,
+          },
+        },
+      };
+    }
+
+    /* Card 1 — CPL / CPA */
+    if (inp.adSpend != null && inp.adSpend > 0) {
+      const s = scopes.card1 === 'mtd' ? ctx.mtd : ctx.period;
+      const leads = s.web.leads || 0;
+      const members = s.web.members || 0;
+      payload.cpl_cpa = {
+        ad_spend: inp.adSpend,
+        web_leads: leads,
+        web_members: members,
+        cpl: leads > 0 ? inp.adSpend / leads : null,
+        cpa: members > 0 ? inp.adSpend / members : null,
+      };
+    }
+
+    /* Card 3 — Churn */
+    if (inp.finalized != null || inp.collections != null) {
+      const s = scopes.card3 === 'mtd' ? ctx.mtd : ctx.period;
+      const activeStart = scopes.card3 === 'mtd'
+        ? (ctx.activeAtStartMTD || 0)
+        : (ctx.activeAtStartPeriod || 0);
+      const pending = ctx.pendingCancelCount || 0;
+      const finalized = inp.finalized == null ? 0 : inp.finalized;
+      const collections = inp.collections == null ? 0 : inp.collections;
+      const totalLost = pending + finalized + collections;
+      const grossChurn = activeStart > 0 ? (totalLost / activeStart) * 100 : null;
+      const newInWindow = s.newInPeriod || 0;
+      const net = newInWindow - totalLost;
+      const rev = inp.avgRev;
+      const mrrLost = (rev != null && rev > 0) ? totalLost * rev : null;
+      const ret = inp.retention;
+      const hasLtvInputs = rev != null && rev > 0 && ret != null && ret > 0;
+      const remaining = hasLtvInputs ? ret / 2 : 0;
+      const remainingAnnuals = remaining >= 12 ? 1 : 0;
+      const ltvLost = hasLtvInputs
+        ? totalLost * (rev * remaining + PRICING.annualFee * remainingAnnuals)
+        : null;
+      payload.churn = {
+        pending_cancels: pending,
+        finalized_cancels: finalized,
+        returned_for_collections: collections,
+        total_lost: totalLost,
+        active_at_start: activeStart,
+        gross_churn_rate_pct: grossChurn,
+        new_in_window: newInWindow,
+        net_member_change: net,
+        mrr_lost: mrrLost,
+        ltv_lost: ltvLost,
+        ltv_assumption: hasLtvInputs
+          ? `Cancelled members assumed to leave halfway through expected retention (${remaining.toFixed(1)} mo avg).`
+          : 'LTV Lost needs avg revenue + retention to compute.',
+      };
+    }
+
+    return payload;
   }
 
   /* Called after every successful analysis render — refreshes chat context
