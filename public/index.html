@@ -386,6 +386,61 @@
 
 
 
+    /* Stick rate row — sits beneath close rate on each origin card */
+    .origin-card-stick {
+      display: flex; align-items: baseline; gap: 10px;
+      margin-top: 12px; padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+    .origin-card-stick-label {
+      font-size: 0.66rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
+    }
+    .origin-card-stick-value {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.35rem; color: #fff; letter-spacing: 0.5px;
+      line-height: 1;
+    }
+    .origin-card-stick-value.tier-good { color: var(--good); }
+    .origin-card-stick-value.tier-lime { color: var(--lime); }
+    .origin-card-stick-value.tier-warn { color: var(--warn); }
+    .origin-card-stick-value.tier-bad  { color: var(--bad); }
+    .origin-card-stick-note {
+      font-size: 0.72rem; color: var(--text-dim);
+      line-height: 1.4; margin-left: auto;
+      font-variant-numeric: tabular-nums;
+    }
+    .origin-card-stick-note b { color: #fff; font-weight: 600; }
+
+    /* Overall stick-rate summary bar above the origin grid */
+    .stick-summary-bar {
+      display: flex; flex-wrap: wrap;
+      align-items: baseline; gap: 14px;
+      padding: 14px 18px; margin-bottom: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+    }
+    .stick-summary-label {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1rem; letter-spacing: 1.5px; color: #fff;
+      text-transform: uppercase;
+    }
+    .stick-summary-value {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.6rem; letter-spacing: 0.5px;
+      color: #fff; line-height: 1;
+    }
+    .stick-summary-value.tier-good { color: var(--good); }
+    .stick-summary-value.tier-lime { color: var(--lime); }
+    .stick-summary-value.tier-warn { color: var(--warn); }
+    .stick-summary-value.tier-bad  { color: var(--bad); }
+    .stick-summary-prose {
+      flex: 1; min-width: 220px;
+      color: var(--text-dim); font-size: 0.87rem; line-height: 1.45;
+    }
+    .stick-summary-prose b { color: #fff; font-weight: 600; }
+
     /* ── Monthly charts ── */
     .charts-grid {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -751,6 +806,134 @@
     .calc-details-row .origin.walkin { color: var(--walkin); }
     .calc-details-row .origin.web    { color: var(--web); }
     .calc-details-row .origin.guest  { color: var(--guest); }
+
+    .calc-card-wide { margin-top: 14px; }
+    .ter-head {
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    }
+    .ter-head .calc-card-head { flex: 0 0 auto; }
+    .ter-subhead {
+      font-size: 0.72rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
+    }
+    .ter-table {
+      width: 100%; border-collapse: collapse; font-size: 0.88rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .ter-table th {
+      text-align: left; padding: 8px 10px; color: var(--text-dim);
+      font-weight: 700; text-transform: uppercase; font-size: 0.68rem;
+      letter-spacing: 1.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ter-table td {
+      padding: 8px 10px; border-bottom: 1px solid var(--border);
+      vertical-align: baseline;
+    }
+    .ter-table th.num, .ter-table td.num { text-align: right; }
+    .ter-table tr.subrow td:first-child { padding-left: 28px; color: var(--text-dim); }
+    .ter-table td.label { color: #fff; font-weight: 600; }
+    .ter-table td.calc  { color: var(--text-dim); font-size: 0.82rem; }
+    .ter-table tr.total td {
+      border-top: 2px solid var(--border); border-bottom: none;
+      padding-top: 12px;
+      font-family: 'Bebas Neue', cursive; font-size: 1.25rem;
+      letter-spacing: 1.5px; color: #fff;
+    }
+    .ter-prepaid {
+      display: inline-block; margin-left: 8px;
+      font-size: 0.7rem; color: var(--text-dim);
+      font-style: italic; font-weight: 500;
+      text-transform: lowercase; letter-spacing: 0.3px;
+    }
+    .ter-v2 .ter-head { margin-bottom: 4px; }
+    .ter-hero {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 6px; padding: 18px 0 22px;
+      border-bottom: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .ter-hero-amount {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 3.6rem; letter-spacing: 2px; color: #fff; line-height: 1;
+    }
+    .ter-hero-sub { color: var(--text-dim); font-size: 0.9rem; }
+    .ter-chips {
+      display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;
+      justify-content: center;
+    }
+    .ter-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 0.82rem; font-variant-numeric: tabular-nums;
+    }
+    .ter-chip-collected {
+      background: rgba(34, 197, 94, 0.18); color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+    .ter-chip-future {
+      background: rgba(34, 197, 94, 0.06); color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.22);
+    }
+    .ter-chip-label { font-weight: 600; }
+    .ter-chip-value { font-weight: 700; color: #fff; }
+    .ter-chip-pct   { color: var(--text-dim); }
+
+    .ter-bars {
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 6px;
+    }
+    .ter-bar-row {
+      display: grid; grid-template-columns: 22% 1fr 32%;
+      align-items: center; gap: 14px;
+      font-size: 0.85rem; font-variant-numeric: tabular-nums;
+    }
+    .ter-bar-label { color: #fff; font-weight: 600; }
+    .ter-bar-track {
+      height: 22px; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 4px;
+      overflow: hidden;
+    }
+    .ter-bar-fill { height: 100%; display: flex; }
+    .ter-bar-collected { background: #22c55e; height: 100%; }
+    .ter-bar-future    { flex: 1; background: rgba(34, 197, 94, 0.4); height: 100%; }
+    .ter-bar-values { text-align: right; color: var(--text-dim); font-size: 0.8rem; }
+    .ter-bar-values .ter-v-collected { color: #86efac; font-weight: 600; }
+    .ter-bar-values .ter-v-future    { color: var(--text-dim); }
+    .ter-bar-values .ter-v-total     { color: #fff; font-weight: 700; }
+    .ter-bar-values .ter-v-sep       { color: #444; margin: 0 4px; }
+
+    .ter-details {
+      margin-top: 14px; border-top: 1px solid var(--border); padding-top: 10px;
+    }
+    .ter-details summary {
+      cursor: pointer; color: var(--text-dim); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.3px; font-size: 0.72rem;
+      padding: 4px 0; list-style: none;
+    }
+    .ter-details summary::-webkit-details-marker { display: none; }
+    .ter-details summary::before {
+      content: '▸'; display: inline-block; margin-right: 8px;
+      transition: transform 0.15s; color: var(--text-dim);
+    }
+    .ter-details[open] summary::before { transform: rotate(90deg); }
+    .ter-details summary:hover { color: #fff; }
+    .ter-details-body { padding-top: 10px; }
+    .ter-details-body h4 {
+      margin: 16px 0 6px; font-family: 'Bebas Neue', cursive;
+      font-size: 1rem; letter-spacing: 1.5px; color: #fff;
+    }
+    .ter-details-body h4:first-child { margin-top: 6px; }
+    .ter-method {
+      color: var(--text-dim); font-size: 0.8rem; line-height: 1.55;
+      margin-top: 14px;
+    }
+    .ter-helper { margin-top: 14px; }
+
+    @media (max-width: 720px) {
+      .ter-bar-row { grid-template-columns: 1fr; gap: 4px; }
+      .ter-bar-values { text-align: left; }
+      .ter-hero-amount { font-size: 2.6rem; }
+    }
     .calc-scope {
       display: inline-flex; border: 1px solid var(--border); border-radius: 6px;
       overflow: hidden; align-self: flex-start;
@@ -813,6 +996,32 @@
       font-size: 0.68rem; color: var(--text-dim);
       text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
     }
+    .calc-label-row {
+      display: flex; align-items: baseline; gap: 8px;
+      justify-content: space-between;
+    }
+    .calc-auto-badge {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 2px 8px; border-radius: 999px;
+      background: rgba(74, 222, 128, 0.15);
+      color: var(--good);
+      border: 1px solid rgba(74, 222, 128, 0.4);
+      cursor: help;
+    }
+    .calc-auto-badge.overridden {
+      background: rgba(250, 204, 21, 0.15);
+      color: var(--warn);
+      border-color: rgba(250, 204, 21, 0.4);
+    }
+    .calc-reset-btn {
+      display: inline-block; margin-left: 6px;
+      background: transparent; border: none;
+      color: var(--text-dim); font-size: 0.7rem;
+      text-decoration: underline; cursor: pointer;
+      padding: 0; font-family: inherit;
+    }
+    .calc-reset-btn:hover { color: #fff; }
     .calc-input {
       width: 100%; background: var(--surface2); border: 1px solid var(--border);
       border-radius: 6px; color: #fff; padding: 8px 12px; outline: none;
@@ -853,6 +1062,416 @@
       line-height: 1.5; margin-top: auto;
     }
 
+    /* ── Daily Sales Calendar (month grid) ── */
+    .daily-sales-panel {
+      background: var(--surface); border-radius: var(--radius);
+      padding: 20px 22px;
+    }
+    .daily-sales-head {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .daily-sales-nav {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .daily-sales-nav-btn {
+      width: 32px; height: 32px; border-radius: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: #fff; cursor: pointer; font-size: 1rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0; font-family: inherit;
+      transition: background 0.12s ease, border-color 0.12s ease;
+    }
+    .daily-sales-nav-btn:hover:not(:disabled) {
+      background: var(--accent-dim); border-color: var(--accent);
+    }
+    .daily-sales-nav-btn:disabled {
+      opacity: 0.3; cursor: not-allowed;
+    }
+    .daily-sales-nav-label {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.2rem; letter-spacing: 1.5px;
+      color: #fff; min-width: 120px; text-align: center;
+    }
+    .daily-sales-stats {
+      display: flex; gap: 22px; flex-wrap: wrap;
+      color: var(--text-dim); font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .daily-sales-stats b { color: #fff; font-weight: 700; }
+    .daily-sales-legend {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.2px;
+      flex-wrap: wrap;
+    }
+    .daily-sales-legend-item {
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .daily-sales-legend-swatch {
+      width: 12px; height: 12px; border-radius: 3px;
+    }
+    .daily-sales-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      max-width: 640px;
+    }
+    .daily-sales-dow {
+      font-size: 0.66rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.3px;
+      font-weight: 700; text-align: center;
+      padding-bottom: 4px;
+    }
+    .daily-sales-cell {
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      background: var(--surface2);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-variant-numeric: tabular-nums;
+      cursor: default; position: relative;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .daily-sales-cell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+    .daily-sales-cell.blank {
+      background: transparent; cursor: default;
+    }
+    .daily-sales-cell.blank:hover {
+      transform: none; box-shadow: none;
+    }
+    .daily-sales-cell.out-of-period {
+      background: var(--surface2); opacity: 0.35;
+    }
+    .daily-sales-cell-dom {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .daily-sales-cell-count {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.35rem;
+      line-height: 1;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+    .daily-sales-cell.out-of-period .daily-sales-cell-count {
+      display: none;
+    }
+    /* Three-tier coloring:
+         0 sales  → red
+         1–5      → yellow
+         >5       → green */
+    .daily-sales-cell.tier-zero {
+      background: rgba(220, 38, 38, 0.22);
+      border: 1px solid rgba(220, 38, 38, 0.55);
+    }
+    .daily-sales-cell.tier-zero .daily-sales-cell-count {
+      color: #f87171;
+    }
+    .daily-sales-cell.tier-low {
+      background: rgba(234, 179, 8, 0.22);
+      border: 1px solid rgba(234, 179, 8, 0.55);
+    }
+    .daily-sales-cell.tier-low .daily-sales-cell-count {
+      color: #facc15;
+    }
+    .daily-sales-cell.tier-high {
+      background: rgba(34, 197, 94, 0.22);
+      border: 1px solid rgba(34, 197, 94, 0.55);
+    }
+    .daily-sales-cell.tier-high .daily-sales-cell-count {
+      color: #4ade80;
+    }
+    .daily-sales-footnote {
+      color: var(--text-dim); font-size: 0.78rem;
+      line-height: 1.5; margin-top: 14px;
+      font-style: italic;
+    }
+
+    /* 2-column layout: calendar grid on the left, promo side panel on the right */
+    .daily-sales-body {
+      display: flex; gap: 22px;
+      align-items: flex-start;
+    }
+    .daily-sales-body .daily-sales-grid {
+      flex: 0 1 640px;
+      min-width: 0;
+    }
+
+    .promo-side-panel {
+      flex: 0 0 280px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+    .promo-side-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.05rem; letter-spacing: 1.8px;
+      color: #fff; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .promo-side-sub {
+      color: var(--text-dim); font-size: 0.82rem;
+      line-height: 1.5; margin-bottom: 12px;
+      padding-bottom: 12px; border-bottom: 1px dashed var(--border);
+    }
+    .promo-side-sub b { color: #fff; }
+    .promo-list {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .promo-item {
+      padding: 8px 10px; border-radius: 5px;
+      background: var(--surface2);
+      border-left: 3px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .promo-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateX(2px);
+    }
+    .promo-item.promo-hot  { border-left-color: var(--bad); }
+    .promo-item.promo-warm { border-left-color: var(--lime); }
+    .promo-item.promo-cool { border-left-color: var(--text-dim); }
+    .promo-item-head {
+      display: flex; justify-content: space-between;
+      align-items: baseline; margin-bottom: 3px;
+    }
+    .promo-item-name {
+      font-size: 0.85rem; color: #fff; font-weight: 600;
+    }
+    .promo-item-range {
+      font-size: 0.7rem; color: var(--text-dim);
+      font-variant-numeric: tabular-nums;
+    }
+    .promo-item-body {
+      display: flex; justify-content: space-between;
+      align-items: baseline;
+    }
+    .promo-item-count {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.3rem; letter-spacing: 0.5px;
+      color: #fff; line-height: 1;
+    }
+    .promo-item-lift {
+      font-size: 0.72rem; color: var(--text-dim);
+      font-variant-numeric: tabular-nums;
+    }
+    .promo-item.promo-hot  .promo-item-lift { color: var(--bad); font-weight: 600; }
+    .promo-item.promo-warm .promo-item-lift { color: var(--lime); font-weight: 600; }
+    .promo-item.promo-cool .promo-item-lift { color: var(--text-dim); }
+    .promo-empty {
+      color: var(--text-dim); font-size: 0.82rem;
+      font-style: italic; padding: 12px 0;
+    }
+
+    /* Red dot in the top-right corner of any promo day */
+    .daily-sales-cell.has-promo::after {
+      content: '';
+      position: absolute;
+      top: 3px; right: 3px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(248, 113, 113, 0.9);
+      box-shadow: 0 0 4px rgba(248, 113, 113, 0.6);
+    }
+
+    /* Hover-highlight interaction */
+    .daily-sales-cell.promo-dim { opacity: 0.25; }
+    .daily-sales-cell.promo-highlight {
+      outline: 2px solid #fff;
+      outline-offset: 1px;
+      z-index: 2;
+    }
+
+    /* Stack the side panel under the calendar on narrow screens */
+    @media (max-width: 1100px) {
+      .daily-sales-body { flex-direction: column; }
+      .promo-side-panel { flex: 1 1 auto; width: 100%; }
+      .daily-sales-body .daily-sales-grid { flex: 1 1 auto; max-width: 640px; }
+    }
+
+    /* ── Cohort Retention panel ── */
+    .cohort-panel {
+      background: var(--surface); border-radius: var(--radius);
+      padding: 24px 26px;
+    }
+    .cohort-head-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 6px;
+    }
+    .cohort-headline {
+      color: #fff; font-size: 1.05rem; line-height: 1.5;
+    }
+    .cohort-headline b { color: var(--accent); font-weight: 700; }
+    .cohort-sub {
+      color: var(--text-dim); font-size: 0.85rem;
+      line-height: 1.5; margin-bottom: 18px;
+    }
+    .cohort-age {
+      color: var(--text-dim); font-size: 0.78rem; margin-left: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .cohort-bar-track {
+      height: 10px; background: var(--surface2);
+      border-radius: 4px; overflow: hidden; position: relative;
+    }
+    .cohort-bar-fill {
+      height: 100%; border-radius: 4px;
+      transition: width 0.6s ease-out;
+    }
+    .cohort-bar-fill.tier-good { background: var(--good); }
+    .cohort-bar-fill.tier-lime { background: var(--lime); }
+    .cohort-bar-fill.tier-warn { background: var(--warn); }
+    .cohort-bar-fill.tier-bad  { background: var(--bad); }
+    .cohort-retention-value {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.3rem; letter-spacing: 0.5px;
+      color: #fff; text-align: right;
+      min-width: 60px; display: inline-block;
+    }
+    .cohort-retention-value.tier-good { color: var(--good); }
+    .cohort-retention-value.tier-lime { color: var(--lime); }
+    .cohort-retention-value.tier-warn { color: var(--warn); }
+    .cohort-retention-value.tier-bad  { color: var(--bad); }
+
+    /* ── Cohort cards: one per signup month ── */
+    .cohort-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 16px;
+    }
+    .cohort-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex; flex-direction: column;
+      gap: 14px;
+    }
+    .cohort-card.status-realized { border-top: 2px solid rgba(74, 222, 128, 0.45); }
+    .cohort-card.status-partial  { border-top: 2px solid rgba(250, 204, 21, 0.45); }
+    .cohort-card.status-too-new  { border-top: 2px solid rgba(148, 163, 184, 0.35); }
+
+    .cohort-card-head {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 10px;
+    }
+    .cohort-card-title { display: flex; flex-direction: column; gap: 2px; }
+    .cohort-card-month {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.4rem; letter-spacing: 1.5px;
+      color: #fff; line-height: 1;
+    }
+    .cohort-card-head .cohort-age { margin-left: 0; }
+    .cohort-card-head .cohort-realize { margin-left: 0; }
+
+    /* Combined (all signups) row */
+    .cohort-card-combined {
+      display: flex; flex-direction: column; gap: 6px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .cohort-card-combined-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .cohort-card-combined-label {
+      font-size: 0.7rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
+    }
+    .cohort-card-combined-meta,
+    .cohort-card-col-meta {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      font-size: 0.76rem; color: var(--text-dim);
+      font-variant-numeric: tabular-nums;
+    }
+    .cohort-card-combined-meta b,
+    .cohort-card-col-meta b { color: #fff; font-weight: 700; }
+
+    /* Two-column split: promo vs baseline */
+    .cohort-card-split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .cohort-card-col {
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid transparent;
+    }
+    .cohort-card-col-promo    { border-left-color: rgba(248, 113, 113, 0.55); }
+    .cohort-card-col-baseline { border-left-color: rgba(148, 163, 184, 0.55); }
+    .cohort-card-col.empty { opacity: 0.5; }
+
+    .cohort-card-col-label {
+      font-size: 0.68rem; letter-spacing: 1.2px;
+      text-transform: uppercase; font-weight: 700;
+    }
+    .cohort-card-col-promo    .cohort-card-col-label { color: #fca5a5; }
+    .cohort-card-col-baseline .cohort-card-col-label { color: rgba(148, 163, 184, 0.95); }
+
+    .cohort-card-col-ret {
+      display: flex; align-items: baseline; gap: 8px;
+      flex-wrap: wrap;
+    }
+    .cohort-card-col-ret .cohort-retention-value {
+      min-width: 0; text-align: left;
+    }
+    .cohort-card-col-empty {
+      font-size: 0.78rem; color: var(--text-dim);
+      font-style: italic; padding: 8px 0;
+    }
+
+    /* Single column on narrow screens */
+    @media (max-width: 520px) {
+      .cohort-card-split { grid-template-columns: 1fr; }
+    }
+
+    .cohort-flag {
+      display: inline-block; margin-left: 8px;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 2px 8px; border-radius: 999px;
+      background: rgba(248, 113, 113, 0.15);
+      color: var(--bad);
+      border: 1px solid rgba(248, 113, 113, 0.4);
+    }
+    .cohort-realize {
+      display: inline-block; margin-left: 8px;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 2px 8px; border-radius: 999px;
+      cursor: help;
+    }
+    .cohort-realize.realize-realized {
+      background: rgba(74, 222, 128, 0.12);
+      color: var(--good);
+      border: 1px solid rgba(74, 222, 128, 0.35);
+    }
+    .cohort-realize.realize-partial {
+      background: rgba(250, 204, 21, 0.12);
+      color: var(--warn);
+      border: 1px solid rgba(250, 204, 21, 0.35);
+    }
+    .cohort-realize.realize-too-new {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text-dim);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+    .cohort-footnote {
+      color: var(--text-dim); font-size: 0.78rem;
+      line-height: 1.5; margin-top: 14px;
+      font-style: italic;
+    }
+
     /* Reset button */
     .reset-wrap { text-align: center; margin-top: 40px; }
     .btn-outline {
@@ -862,6 +1481,53 @@
       cursor: pointer; transition: background 0.2s, color 0.2s;
     }
     .btn-outline:hover { background: var(--accent); color: #ffffff; }
+
+    /* ── Mobile Report modal ── */
+    .mobile-report-modal {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding: 20px 10px;
+      overflow-y: auto;
+    }
+    .mobile-report-container {
+      background: #0e0e0e;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 440px;
+      display: flex; flex-direction: column;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+    .mobile-report-toolbar {
+      display: flex; gap: 8px; justify-content: flex-end;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: #0e0e0e; z-index: 2;
+    }
+    .mobile-report-toolbar .btn-outline {
+      padding: 8px 14px; font-size: 0.82rem;
+    }
+    .mobile-report-text {
+      font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #e8e8e8;
+      background: #0e0e0e;
+      padding: 18px 14px 40px;
+      margin: 0;
+      white-space: pre;
+      overflow-x: auto;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mobile-report-text::selection {
+      background: rgba(220, 38, 38, 0.4);
+    }
+    .mobile-report-copied {
+      background: var(--good) !important;
+      color: #000 !important;
+    }
 
     /* ── Print view ── */
     #print-view { display: none; color: #0b0e14; font-family: 'DM Sans', sans-serif; }
@@ -1092,6 +1758,12 @@
           <span class="chip-placeholder">Drop or click</span>
           <span class="file-name" id="file-name-members"></span>
         </div>
+        <div class="file-chip" id="drop-zone-sales" title="Membership Sales by Sign Date (CSV from ABC)">
+          <input type="file" class="file-input" id="file-input-sales" accept=".csv" />
+          <span class="chip-label">Sales</span>
+          <span class="chip-placeholder">Drop or click</span>
+          <span class="file-name" id="file-name-sales"></span>
+        </div>
       </div>
 
       <div class="setup-row">
@@ -1159,6 +1831,18 @@
         <div id="monthly-charts"></div>
       </div>
 
+      <!-- Daily Sales Calendar (Sales Report required — hidden when absent) -->
+      <div class="section" id="daily-sales-section" style="display:none;">
+        <h2 class="section-title">Daily Sales Calendar</h2>
+        <div id="daily-sales-panel"></div>
+      </div>
+
+      <!-- Cohort Retention (Sales Report required — hidden when absent) -->
+      <div class="section" id="cohort-section" style="display:none;">
+        <h2 class="section-title">Cohort Retention</h2>
+        <div id="cohort-panel"></div>
+      </div>
+
       <!-- Pipeline Health -->
       <div class="section">
         <h2 class="section-title">Pipeline Health</h2>
@@ -1185,11 +1869,24 @@
       </div>
 
       <div class="reset-wrap">
+        <button class="btn-outline" id="print-btn" type="button">Print / Save PDF</button>
+        <button class="btn-outline" id="mobile-report-btn" type="button">Mobile Report</button>
         <button class="btn-outline" id="reset-btn">Run New Analysis</button>
       </div>
 
       <!-- Print-only -->
       <div id="print-view" aria-hidden="true"></div>
+
+      <!-- Mobile report modal -->
+      <div id="mobile-report-modal" class="mobile-report-modal" style="display:none;">
+        <div class="mobile-report-container">
+          <div class="mobile-report-toolbar">
+            <button type="button" id="mobile-report-copy" class="btn-outline">Copy to Clipboard</button>
+            <button type="button" id="mobile-report-close" class="btn-outline">Close</button>
+          </div>
+          <pre id="mobile-report-text" class="mobile-report-text"></pre>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1237,9 +1934,33 @@
   /* ── State ── */
   let leadsRaw = null;       // parsed leads objects (array of row objects)
   let membersRaw = null;     // parsed member objects (array of row objects)
+  let salesRaw = null;       // parsed sales agreement objects (array, optional)
   let dataToday = null;      // max(latest lead date, latest member date)
   let activePreset = 'ytd';
   let chartInstances = [];
+
+  /* ── Constants ── */
+
+  /* Hardcoded 2026 promo calendar.
+     Each entry: { startDate, endDate, name, short } where dates are
+     'YYYY-MM-DD' strings. A promo spans start→end inclusive.
+     Edit this list to add/remove promos. */
+  const PROMO_CALENDAR = [
+    { startDate: '2026-01-01', endDate: '2026-01-04', name: "New Year's Sale",         short: 'NYE'        },
+    { startDate: '2026-02-13', endDate: '2026-02-14', name: "Valentine's Day Sale",    short: "V-Day"      },
+    { startDate: '2026-02-27', endDate: '2026-02-28', name: 'Price Increase Sale',     short: 'Price Inc'  },
+    { startDate: '2026-03-16', endDate: '2026-03-17', name: "St. Patrick's Day Sale",  short: "St Pat's"   },
+    { startDate: '2026-04-04', endDate: '2026-04-06', name: 'Easter Sale',             short: 'Easter'     },
+  ];
+
+  /* Returns the PROMO_CALENDAR entry a given YYYY-MM-DD key belongs to,
+     or null if it's a baseline (non-promo) day. */
+  function promoForDay(dayKey) {
+    for (const p of PROMO_CALENDAR) {
+      if (dayKey >= p.startDate && dayKey <= p.endDate) return p;
+    }
+    return null;
+  }
 
   /* ═══════════════════════════════════════════ PIN ═══════════════════════════════════════════ */
   const PIN = '1984';
@@ -1434,6 +2155,7 @@
   }
   setupDropZone('drop-zone-leads', 'file-input-leads', 'file-name-leads');
   setupDropZone('drop-zone-members', 'file-input-members', 'file-name-members');
+  setupDropZone('drop-zone-sales', 'file-input-sales', 'file-name-sales');
 
   function handleUpload(file) {
     clearWarnings();
@@ -1459,6 +2181,12 @@
           membersRaw = result.rows;
           markChipLoaded('drop-zone-members', 'file-name-members', file.name, result.rows.length);
           onFilesReady();
+        } else if (kind === 'sales') {
+          const result = parseSalesFromRaw(raw);
+          if (result.error) { showWarning(result.error); return; }
+          salesRaw = result.rows;
+          markChipLoaded('drop-zone-sales', 'file-name-sales', file.name, result.rows.length);
+          onFilesReady();
         } else {
           showWarning('Unable to read this file. Please verify it matches the expected CRM export format.');
         }
@@ -1473,14 +2201,29 @@
     nameEl.textContent = `${fileName} (${rowCount} rows)`;
   }
 
-  /* Auto-detect: leads = row 0 has 'id' AND 'created_at'; members = row 2 has 'Agreement #' */
+  /* Auto-detect: leads = row 0 has 'id' AND 'created_at';
+     members = row 0 or row 2 has 'Agreement #' + 'Member Name';
+     sales = row 0 contains "Membership Sales by SIGN Date" title,
+     OR row 1 has 'Agreement #' alongside 'Queue Date'. */
   function detectFile(raw) {
     if (!raw.length) return null;
     const row0 = (raw[0] || []).map(c => (c || '').toString().trim().toLowerCase());
+
+    // Leads export
     if (row0.includes('id') && row0.includes('created_at')) return 'leads';
-    // NEW: member export now has headers on row 0, with "Member Name (last, first)"
+
+    // Sales Report — distinctive title in cell [0,0]
+    const cell00 = (raw[0] && raw[0][0]) ? raw[0][0].toString().toLowerCase() : '';
+    if (cell00.includes('membership sales by sign date')) return 'sales';
+    // Fallback: row 2 has Agreement # + Queue Date (Sales Report column-header signature).
+    // Row 1 is the "Club Name / Sales Person" section-header row — not a column header row.
+    if (raw.length >= 3) {
+      const row2 = (raw[2] || []).map(c => hlower(c));
+      if (row2.includes('agreement #') && row2.includes('queue date')) return 'sales';
+    }
+
+    // Member export — new format (row 0) or legacy format (row 2)
     if (row0.includes('agreement #') && row0.some(c => c.startsWith('member name'))) return 'members';
-    // Legacy format (headers on row 2) — keep for safety
     if (raw.length >= 3) {
       const row2 = (raw[2] || []).map(c => hlower(c));
       if (row2.includes('agreement #')) return 'members';
@@ -1570,6 +2313,78 @@
     return { rows };
   }
 
+  /* ═══════════════════════════════════════════ SALES REPORT PARSER ═══════════════════════════════════════════ */
+
+  /* Sales Report (ABC "Membership Sales by SIGN Date"):
+     Hierarchical CSV with report title on row 0, column headers on row 1,
+     Club Name section headers, and Salesperson subsection headers that
+     appear as solo cells in column 3. Data rows have a numeric agreement
+     number in column 0. Salesperson data is intentionally discarded —
+     attribution is unreliable and not used anywhere in this app. */
+  function parseSalesFromRaw(raw) {
+    if (!raw.length || raw.length < 3) {
+      return { error: 'Sales file appears to be empty or malformed.' };
+    }
+
+    // Headers are on row 2. Row 0 = report title, Row 1 = section labels
+    // ("Club Name" / "Sales Person"), Row 2 = actual column headers.
+    const headerRow = (raw[2] || []).map(c => hlower(c));
+    const required = ['agreement #', 'member name', 'queue date', 'agreement type'];
+    for (const req of required) {
+      if (!headerRow.includes(req)) {
+        return { error: `Sales file is missing required column: \`${req}\`. Please check your export.` };
+      }
+    }
+
+    // Build a column-index map so we're resilient to column order changes
+    const col = {};
+    headerRow.forEach((h, i) => {
+      if (h === 'agreement #')        col.agreement = i;
+      else if (h === 'member name')   col.member_name = i;
+      else if (h === 'department')    col.department = i;
+      else if (h === 'term')          col.term = i;
+      else if (h === 'membership type') col.membership_type = i;
+      else if (h === 'agreement payment plan') col.payment_plan = i;
+      else if (h === 'queue')         col.queue = i;
+      else if (h === 'queue date')    col.queue_date = i;
+      else if (h === 'agreement type') col.agreement_type = i;
+    });
+
+    const getCell = (row, key) => {
+      const idx = col[key];
+      if (idx == null) return '';
+      return (row[idx] != null ? row[idx].toString() : '').trim();
+    };
+
+    const records = [];
+    // Walk from row 3 onward. Data rows have a numeric agreement # in the
+    // Agreement # column; skip everything else (blank rows, club name rows,
+    // salesperson section rows which put a name in column 3 only).
+    for (let i = 3; i < raw.length; i++) {
+      const row = raw[i];
+      if (!row) continue;
+      const ag = getCell(row, 'agreement').replace(/\s+/g, '');
+      if (!/^\d+$/.test(ag)) continue;
+      records.push({
+        agreement:       ag,
+        member_name:     getCell(row, 'member_name'),
+        // Salesperson (col 3) — intentionally skipped, attribution is unreliable
+        department:      getCell(row, 'department'),
+        term:            getCell(row, 'term'),
+        membership_type: getCell(row, 'membership_type'),
+        payment_plan:    getCell(row, 'payment_plan'),
+        queue:           getCell(row, 'queue'),
+        queue_date:      getCell(row, 'queue_date'),
+        agreement_type:  getCell(row, 'agreement_type'),
+      });
+    }
+
+    if (!records.length) {
+      return { error: 'No sales records found in file. Please verify the export format.' };
+    }
+    return { rows: records };
+  }
+
   /* ═══════════════════════════════════════════ PERIOD PRESETS ═══════════════════════════════════════════ */
 
   function onFilesReady() {
@@ -1577,7 +2392,9 @@
       document.getElementById('run-btn').disabled = true;
       return;
     }
-    /* Compute today = max(latest lead created_at, latest member Begin Date). */
+    /* Compute today = max(latest lead created_at, latest member Begin Date,
+       latest sale Queue Date). Sales Report is optional but if present, its
+       queue dates are the freshest sale-level signal. */
     let latest = new Date(0);
     leadsRaw.forEach(r => {
       const d = parseLeadDate(r.created_at);
@@ -1587,6 +2404,12 @@
       const d = parseMemberDate(r['Begin Date']);
       if (d && d > latest) latest = d;
     });
+    if (salesRaw) {
+      salesRaw.forEach(r => {
+        const d = parseMemberDate(r.queue_date);  // same "YYYY-MM-DD HH:MM:SS.X" format
+        if (d && d > latest) latest = d;
+      });
+    }
     if (latest.getTime() === 0) latest = new Date();
     dataToday = latest;
     applyPreset(activePreset);
@@ -1600,6 +2423,42 @@
       if (el) el.classList.toggle('active', k === name);
     });
   }
+
+  /* Returns the currently-active period info — used by non-render
+     consumers that need {periodStart, periodEnd, periodLabel}. */
+  function getActivePeriod() {
+    if (!dataToday) return null;
+    if (activePreset === 'ytd') {
+      const start = new Date(dataToday.getFullYear(), 0, 1);
+      return {
+        periodStart: start,
+        periodEnd: dataToday,
+        periodLabel: `YTD Report · Jan 1 – ${formatShortDate(dataToday)}`,
+      };
+    }
+    if (activePreset === 'mtd') {
+      const start = new Date(dataToday.getFullYear(), dataToday.getMonth(), 1);
+      return {
+        periodStart: start,
+        periodEnd: dataToday,
+        periodLabel: `MTD Report · through ${formatShortDate(dataToday)}`,
+      };
+    }
+    const startStr = document.getElementById('date-start').value;
+    const endStr = document.getElementById('date-end').value;
+    if (!startStr || !endStr) return null;
+    return {
+      periodStart: new Date(startStr + 'T00:00:00'),
+      periodEnd: new Date(endStr + 'T23:59:59'),
+      periodLabel: `Custom Report · ${startStr} – ${endStr}`,
+    };
+  }
+
+  function formatShortDate(d) {
+    const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${M[d.getMonth()]} ${d.getDate()}`;
+  }
+
   function applyPreset(name) {
     if (!dataToday) return;
     const today = dataToday;
@@ -1724,7 +2583,7 @@
     'student basic power 3 mo pif - floor plan',
   ]);
 
-  function computeStats(leadsRows, membersRows, startD, endD) {
+  function computeStats(leadsRows, membersRows, salesRows, startD, endD) {
     /* ══════════════════════════════════════════════════════════
        STEP 1 — Normalize every lead and tag with classification flags
        (before dedupe, before period filter). Flags must be consistent
@@ -1919,9 +2778,13 @@
       return true;
     });
 
+    /* "newInPeriod" here is member-report-derived — counts CURRENT members
+       whose Begin Date falls in the period. After Patch 5 we also compute
+       a Sales-Report-derived gross count and expose both. */
     const newInPeriod = filteredMembers.filter(m =>
       m._beginDate && m._beginDate >= startD && m._beginDate <= endD
     );
+    const newInPeriodStillActiveCount = newInPeriod.length;
 
     newInPeriod.forEach(m => {
       m._origin = classifyOrigin(m._email, m._phone, true);  /* members always get an origin */
@@ -2285,6 +3148,348 @@
       if (g.leads.filter(l => l._isGuestVisit).length > 1) repeatGuests++;
     });
 
+    /* ══════════════════════════════════════════════════════════
+       STEP 8 — CANCELLATION DETECTION (uses Sales Report, optional)
+
+       A cancellation = an agreement that was signed (appears in the Sales
+       Report) but is NOT on the current active roster today. Short-term
+       student PIFs are excluded — those naturally expire, they didn't
+       "cancel." Pending Cancel members are already counted separately
+       in the roster-derived pendingCancelCount.
+
+       Three counts are exposed:
+       - salesInPeriod: total agreements signed in the analysis window
+         (Queue Date in [startD, endD], excluding natural short-term plans)
+       - cancellationsTotal: ALL cancellations across all time
+         (long-term agreements in Sales Report not on current roster)
+       - cancellationsInPeriodSignups: cancellations of people who signed
+         in the current analysis window. Early-churn quality signal —
+         "of the people who signed in this period, how many already walked."
+       ══════════════════════════════════════════════════════════ */
+    let salesInPeriod = null;
+    let cancellationsTotal = null;
+    let cancellationsInPeriodSignups = null;
+    let cohortRetention = null;
+    let stickRateByOrigin = null;
+    let dailySales = null;
+
+    if (salesRows && salesRows.length) {
+      // Build a set of agreement #s currently on the active roster
+      const rosterAgreementSet = new Set();
+      filteredMembers.forEach(m => {
+        const ag = (m._raw && m._raw['Agreement #'] || '')
+          .toString().replace(/\s+/g, '');
+        if (/^\d+$/.test(ag)) rosterAgreementSet.add(ag);
+      });
+
+      // Short-term student PIF plans that naturally expire (not cancellations).
+      // Must match the payment_plan text exactly as it appears in the Sales
+      // Report — the Sales Report sometimes uses double spaces in names so
+      // we normalize whitespace on both sides before comparing.
+      const isNaturalExpiration = (plan) => {
+        const p = (plan || '').toString().toLowerCase()
+          .replace(/\s+/g, ' ').trim();
+        if (p === 'student 1 month pif') return true;
+        if (p.startsWith('student basic power 2 mo pif')) return true;
+        if (p.startsWith('student basic power 3 mo pif')) return true;
+        return false;
+      };
+
+      // Parse each sales row once
+      const salesEnriched = salesRows.map(s => ({
+        ...s,
+        _queueDt: parseMemberDate(s.queue_date),
+        _isNatural: isNaturalExpiration(s.payment_plan),
+        _onRoster: rosterAgreementSet.has(s.agreement),
+      }));
+
+      // Agreements signed in the analysis window (excludes natural expirations)
+      const periodAgreements = salesEnriched.filter(s =>
+        s._queueDt && s._queueDt >= startD && s._queueDt <= endD && !s._isNatural
+      );
+      salesInPeriod = periodAgreements.length;
+
+      // All-time cancellations (long-term plans only, not on current roster)
+      cancellationsTotal = salesEnriched.filter(s =>
+        !s._isNatural && !s._onRoster
+      ).length;
+
+      // Cancellations among people who signed in the period
+      cancellationsInPeriodSignups = periodAgreements.filter(s =>
+        !s._onRoster
+      ).length;
+
+      /* ── STICK RATE BY ORIGIN ──
+         For period agreements, attribute each sale to an origin (Walk In /
+         Web / Guest Visit) and count how many are still on the roster.
+
+         Attribution priority:
+         1) Agreement # matches a current member → use that member's origin
+            (exact, deterministic)
+         2) For cancelled sales (not on roster): check the all-time contact
+            sets built in STEP 2 (web_emails / web_phones / wi_emails /
+            wi_phones / gv_emails / gv_phones / ipad_emails / ipad_phones).
+            Same Web > Walk In > Guest Visit > Other-iPad-as-Walk-In priority
+            used everywhere else.
+         3) Fuzzy name match across ALL-TIME leads (not just period leads)
+            — cancelled sales often had leads created outside the period.
+         4) Unknown. We do NOT default to Walk In here. The phantom-walk-in
+            convention is for MEMBERS without lead records (genuine iPad
+            staff-skip); applying it to CANCELLED sales with no match would
+            systematically bias Walk In's stick rate downward.
+
+         Salesperson data is intentionally not used — attribution unreliable.
+
+         Sales Report records expose member_name only (no email/phone), so
+         priority 2 relies on the member name being matched to an email/
+         phone via the Member Report for still-active sales, and on fuzzy
+         name match for cancelled sales. */
+
+      // Priority 1 lookup: agreement → current member with known origin
+      const memberByAgreement = new Map();
+      newInPeriod.forEach(m => {
+        const ag = (m._raw && m._raw['Agreement #'] || '')
+          .toString().replace(/\s+/g, '');
+        if (/^\d+$/.test(ag)) memberByAgreement.set(ag, m);
+      });
+
+      // Priority 3 lookup: normalized name → origin (all-time, not
+      // period-only). Iterate ALL leads, classify each by origin using the
+      // same rules that built the contact sets, index by normalized name.
+      // A name seen with multiple origins in different leads resolves by
+      // the same Web > Walk In > Guest Visit priority.
+      const ORIGIN_PRIORITY = { 'Web': 3, 'Walk In': 2, 'Guest Visit': 1 };
+      const nameToOrigin = new Map();
+      const addNameOrigin = (name, origin) => {
+        if (!name || !origin) return;
+        const prev = nameToOrigin.get(name);
+        if (!prev || ORIGIN_PRIORITY[origin] > ORIGIN_PRIORITY[prev]) {
+          nameToOrigin.set(name, origin);
+        }
+      };
+      allLeads.forEach(l => {
+        if (!l._name) return;
+        if (l._isWeb) addNameOrigin(l._name, 'Web');
+        else if (l._isWalkInIpad) addNameOrigin(l._name, 'Walk In');
+        else if (l._isGuestVisit) addNameOrigin(l._name, 'Guest Visit');
+        else if (l._isIpad) addNameOrigin(l._name, 'Walk In');  // other-iPad folds into Walk In
+      });
+
+      // Normalize Sales Report name "Last, First Middle" → "first last"
+      function salesNameToNormalized(raw) {
+        const s = (raw || '').toString().trim();
+        if (!s) return '';
+        if (s.includes(',')) {
+          const parts = s.split(',', 2);
+          const last = parts[0].trim();
+          const first = (parts[1] || '').trim().split(/\s+/)[0] || '';
+          return normName(`${first} ${last}`);
+        }
+        return normName(s);
+      }
+
+      // Exact then fuzzy name lookup across all-time nameToOrigin
+      function classifyByName(normalizedName) {
+        if (!normalizedName) return null;
+        if (nameToOrigin.has(normalizedName)) return nameToOrigin.get(normalizedName);
+        // Fuzzy fallback — find the best match within edit distance 2,
+        // resolving ties by origin priority
+        let bestOrigin = null;
+        for (const [n, o] of nameToOrigin.entries()) {
+          if (nameSimilar(n, normalizedName)) {
+            if (!bestOrigin || ORIGIN_PRIORITY[o] > ORIGIN_PRIORITY[bestOrigin]) {
+              bestOrigin = o;
+            }
+          }
+        }
+        return bestOrigin;
+      }
+
+      // Run attribution on every in-period agreement
+      const sbBuckets = {
+        'Walk In':     { gross: 0, net: 0, walked: 0 },
+        'Web':         { gross: 0, net: 0, walked: 0 },
+        'Guest Visit': { gross: 0, net: 0, walked: 0 },
+        'Unknown':     { gross: 0, net: 0, walked: 0 },
+      };
+      periodAgreements.forEach(s => {
+        let origin = null;
+
+        // Priority 1: exact agreement-number match to a still-active member
+        const member = memberByAgreement.get(s.agreement);
+        if (member && member._origin) {
+          origin = member._origin;
+        }
+
+        // Priority 2 + 3: name match against all-time leads (both exact and fuzzy)
+        if (!origin) {
+          const n = salesNameToNormalized(s.member_name);
+          origin = classifyByName(n);
+        }
+
+        // Priority 4: Unknown (do NOT default to Walk In — would bias results)
+        if (!origin) origin = 'Unknown';
+
+        sbBuckets[origin].gross++;
+        if (s._onRoster) sbBuckets[origin].net++;
+        else             sbBuckets[origin].walked++;
+      });
+
+      stickRateByOrigin = {};
+      ['Walk In', 'Web', 'Guest Visit'].forEach(o => {
+        const b = sbBuckets[o];
+        stickRateByOrigin[o] = {
+          gross: b.gross,
+          net: b.net,
+          walked: b.walked,
+          stickRate: b.gross > 0 ? round1((b.net / b.gross) * 100) : null,
+        };
+      });
+      // Unknown bucket is exposed so the UI can show how many sales
+      // couldn't be attributed — data quality signal, not a fourth origin
+      stickRateByOrigin.unknown = {
+        gross:  sbBuckets.Unknown.gross,
+        net:    sbBuckets.Unknown.net,
+        walked: sbBuckets.Unknown.walked,
+        stickRate: sbBuckets.Unknown.gross > 0
+          ? round1((sbBuckets.Unknown.net / sbBuckets.Unknown.gross) * 100)
+          : null,
+      };
+      const sbTotalGross =
+          sbBuckets['Walk In'].gross + sbBuckets.Web.gross
+        + sbBuckets['Guest Visit'].gross + sbBuckets.Unknown.gross;
+      const sbTotalNet =
+          sbBuckets['Walk In'].net + sbBuckets.Web.net
+        + sbBuckets['Guest Visit'].net + sbBuckets.Unknown.net;
+      stickRateByOrigin.overall = {
+        gross: sbTotalGross,
+        net: sbTotalNet,
+        walked: sbTotalGross - sbTotalNet,
+        stickRate: sbTotalGross > 0 ? round1((sbTotalNet / sbTotalGross) * 100) : null,
+      };
+
+      console.log('[Leads Analyzer] Stick rate by origin (in-period signups):');
+      ['Walk In', 'Web', 'Guest Visit', 'Unknown'].forEach(o => {
+        const key = o === 'Unknown' ? 'unknown' : o;
+        const s = stickRateByOrigin[key];
+        console.log(`  ${o}: ${s.net}/${s.gross} stuck = ${s.stickRate == null ? 'n/a' : s.stickRate + '%'} (${s.walked} walked)`);
+      });
+
+      /* COHORT RETENTION — monthly rows split into Promo + Baseline sub-rows.
+         Period-scoped: only signups whose queue_date falls within
+         [startD, endD] are considered. For each qualifying signup we
+         bucket by (YYYY-MM, type) where type is 'promo' if the day
+         falls within any PROMO_CALENDAR window, else 'baseline'. Each
+         month produces up to two rows; if a month has no promo days
+         in-period, only the baseline row shows. */
+      const cohortMap = {};           // key = YYYY-MM__promo | YYYY-MM__baseline
+      const todayTs = (dataToday || new Date()).getTime();
+
+      function dayKeyOf(dt) {
+        return dt.getFullYear() + '-' +
+               String(dt.getMonth() + 1).padStart(2, '0') + '-' +
+               String(dt.getDate()).padStart(2, '0');
+      }
+
+      salesEnriched.forEach(s => {
+        if (s._isNatural) return;       // Short-term PIFs excluded
+        if (!s._queueDt) return;
+        if (s._queueDt < startD || s._queueDt > endD) return;
+
+        const mKey = monthKey(s._queueDt);
+        const dkey = dayKeyOf(s._queueDt);
+        const isPromo = PROMO_CALENDAR.some(p => dkey >= p.startDate && dkey <= p.endDate);
+        const type = isPromo ? 'promo' : 'baseline';
+        const bucketKey = mKey + '__' + type;
+
+        if (!cohortMap[bucketKey]) {
+          cohortMap[bucketKey] = {
+            total: 0, active: 0, cancelled: 0,
+            monthKey: mKey, type,
+          };
+        }
+        cohortMap[bucketKey].total++;
+        if (s._onRoster) cohortMap[bucketKey].active++;
+        else             cohortMap[bucketKey].cancelled++;
+      });
+
+      const cohortArr = Object.keys(cohortMap).map(k => {
+        const c = cohortMap[k];
+        const [y, m] = c.monthKey.split('-').map(Number);
+        const anchorTs = new Date(y, m - 1, 1).getTime();
+        const ageMonths = Math.max(0, (todayTs - anchorTs) / (1000 * 60 * 60 * 24 * 30.44));
+        return {
+          key: k,
+          monthKey: c.monthKey,
+          monthLabel: formatMonth(c.monthKey),
+          type: c.type,
+          isPromo: c.type === 'promo',
+          total: c.total,
+          active: c.active,
+          cancelled: c.cancelled,
+          retention: c.total > 0 ? round1((c.active / c.total) * 100) : 0,
+          ageMonths: Math.round(ageMonths * 10) / 10,
+        };
+      });
+      cohortArr.sort((a, b) => {
+        if (a.monthKey !== b.monthKey) return a.monthKey.localeCompare(b.monthKey);
+        if (a.type === b.type) return 0;
+        return a.type === 'promo' ? -1 : 1;   // promo above baseline
+      });
+      cohortRetention = cohortArr;
+
+      /* DAILY SALES — one bucket per calendar day, period-scoped.
+         Fills gap days with zeros so the calendar renders as a continuous
+         strip. Short-term student PIFs are excluded (same rule as cohort
+         retention and salesInPeriod) — they naturally expire and aren't
+         real long-term signups. */
+      const dayMap = {};
+      salesEnriched.forEach(s => {
+        if (s._isNatural) return;       // Short-term PIFs excluded
+        if (!s._queueDt) return;
+        if (s._queueDt < startD || s._queueDt > endD) return;
+        const y = s._queueDt.getFullYear();
+        const m = String(s._queueDt.getMonth() + 1).padStart(2, '0');
+        const d = String(s._queueDt.getDate()).padStart(2, '0');
+        const k = `${y}-${m}-${d}`;
+        dayMap[k] = (dayMap[k] || 0) + 1;
+      });
+      // Walk from startD to min(endD, dataToday) and emit every day
+      const dailySalesArr = [];
+      const msPerDay = 24 * 60 * 60 * 1000;
+      const calStart = new Date(startD.getFullYear(), startD.getMonth(), startD.getDate());
+      const endCap = (dataToday && dataToday < endD) ? dataToday : endD;
+      const calEnd = new Date(endCap.getFullYear(), endCap.getMonth(), endCap.getDate());
+      for (let t = calStart.getTime(); t <= calEnd.getTime(); t += msPerDay) {
+        const dt = new Date(t);
+        const y = dt.getFullYear();
+        const mo = String(dt.getMonth() + 1).padStart(2, '0');
+        const da = String(dt.getDate()).padStart(2, '0');
+        const k = `${y}-${mo}-${da}`;
+        dailySalesArr.push({
+          key: k,
+          date: dt,
+          dayOfMonth: dt.getDate(),
+          dayOfWeek: dt.getDay(),   // 0 = Sun, 6 = Sat
+          month: dt.getMonth(),
+          year: dt.getFullYear(),
+          count: dayMap[k] || 0,
+        });
+      }
+      dailySales = dailySalesArr;
+
+      console.log(`[Leads Analyzer] Sales Report cross-reference:`);
+      console.log(`  Total sales records: ${salesRows.length}`);
+      console.log(`  Sales in period (excl. short-term): ${salesInPeriod}`);
+      console.log(`  All-time cancellations: ${cancellationsTotal}`);
+      console.log(`  In-period signup cancellations: ${cancellationsInPeriodSignups}`);
+      console.log(`  Daily sales buckets: ${dailySalesArr.length} days`);
+      console.log(`  Cohort retention (${cohortRetention.length} month/type rows):`);
+      cohortRetention.forEach(c => {
+        console.log(`    ${c.monthLabel} ${c.type} (age ${c.ageMonths} mo): ${c.active}/${c.total} = ${c.retention}% retained, ${c.cancelled} cancelled`);
+      });
+    }
+
     return {
       periodStart: startD,
       periodEnd: endD,
@@ -2292,7 +3497,16 @@
       totalActiveMembers: filteredMembers.length,
       backedOutPendingCancel,
       backedOutShortTerm,
-      newInPeriod: newInPeriod.length,
+      /* "newInPeriod" prefers the Sales-Report gross count when available
+         (every agreement signed in window, excluding natural short-term
+         expirations). Falls back to member-report-derived count when Sales
+         Report isn't uploaded. This is the "how many agreements did we
+         sign in this period" number — the gross signal. */
+      newInPeriod: (salesInPeriod != null ? salesInPeriod : newInPeriodStillActiveCount),
+      /* Always the member-report count — "how many of those are still on
+         the roster today." Used by the summary strip sub-note and by the
+         churn/cohort logic that needs the still-active slice. */
+      newInPeriodStillActive: newInPeriodStillActiveCount,
 
       walkin: {
         leads: walkInLeadCount, members: walkInMembers.length, rate: walkInRate,
@@ -2346,6 +3560,15 @@
       unrecognizedSources,
       repeatGuests,
       phantomWalkInLeadsAdded: phantomCount,
+
+      /* Sales-derived fields. All null if Sales Report not uploaded. */
+      salesReportLoaded: !!salesRows,
+      salesInPeriod,
+      cancellationsTotal,
+      cancellationsInPeriodSignups,
+      stickRateByOrigin,
+      cohortRetention,
+      dailySales,
     };
   }
 
@@ -2471,7 +3694,7 @@
     /* Tiny delay so the loading UI paints before the main-thread work. */
     setTimeout(() => {
       try {
-        const stats = computeStats(leadsRaw, membersRaw, periodStart, periodEnd);
+        const stats = computeStats(leadsRaw, membersRaw, salesRaw, periodStart, periodEnd);
         document.getElementById('loading-section').style.display = 'none';
         renderDashboard(stats);
       } catch (err) {
@@ -2491,6 +3714,24 @@
     const backedOutNote = (d.backedOutPendingCancel || d.backedOutShortTerm)
       ? `<div class="summary-note">Backed out: ${d.backedOutPendingCancel.toLocaleString()} pending cancel · ${d.backedOutShortTerm.toLocaleString()} short-term student</div>`
       : '';
+
+    /* New in Period sub-note:
+       - Sales Report loaded AND some walked: show the gross → net story
+       - Sales Report loaded AND none walked: confirm all still active
+       - Sales Report not loaded: show a small hint about what the number means */
+    let newInPeriodNote = '';
+    if (d.salesReportLoaded) {
+      const stillActive = d.newInPeriodStillActive || 0;
+      const walked = Math.max(0, d.newInPeriod - stillActive);
+      if (walked > 0) {
+        newInPeriodNote = `<div class="summary-note">${stillActive.toLocaleString()} still active · ${walked.toLocaleString()} already walked</div>`;
+      } else if (d.newInPeriod > 0) {
+        newInPeriodNote = `<div class="summary-note">All ${stillActive.toLocaleString()} still active</div>`;
+      }
+    } else {
+      newInPeriodNote = `<div class="summary-note">Still-active signups · upload Sales Report for gross count</div>`;
+    }
+
     document.getElementById('summary-strip').innerHTML = `
       <div class="summary-cell">
         <div class="summary-value">${d.totalActiveMembers.toLocaleString()}</div>
@@ -2500,18 +3741,21 @@
       <div class="summary-cell">
         <div class="summary-value">${d.newInPeriod.toLocaleString()}</div>
         <div class="summary-label">New in Period</div>
+        ${newInPeriodNote}
       </div>`;
 
     renderReportCard(d);
     renderSignupsWaffle(d);
     renderConversionTable(d);
     renderMonthlyCharts(d);
+    renderDailySales(d);
+    renderCohortRetention(d);
     renderPipelineHealth(d);
     renderDataQuality(d);
     renderPrintView(d);
     const mtdEnd = dataToday;
     const mtdStart = new Date(mtdEnd.getFullYear(), mtdEnd.getMonth(), 1);
-    const mtdStats = computeStats(leadsRaw, membersRaw, mtdStart, mtdEnd);
+    const mtdStats = computeStats(leadsRaw, membersRaw, salesRaw, mtdStart, mtdEnd);
     const agreementMix = computeRosterAgreementMix(membersRaw);
     const calcContext = {
       period: d,
@@ -2522,8 +3766,18 @@
       avgMonthlyRevenueDefault: computeAvgMonthlyRevenue(membersRaw),
       agreementMix,
       blendedRetentionDefault: blendedRetention(agreementMix),
+      totalEstimatedRevenue: computeTotalEstimatedRevenue(membersRaw),
       periodLabel: d.periodLabel,
       mtdLabel: `MTD through ${formatFullDate(mtdEnd)}`,
+      // Sales-derived cancellation counts — scope-aware. null if Sales
+      // Report not uploaded. The Churn card reads these and pre-fills
+      // the Cancels + Collections input when derivedCancels is non-null.
+      derivedCancelsPeriod: d.cancellationsInPeriodSignups,
+      derivedCancelsMTD:    mtdStats.cancellationsInPeriodSignups,
+      derivedCancelsTotal:  d.cancellationsTotal,
+      salesInPeriod:        d.salesInPeriod,
+      salesInMTD:           mtdStats.salesInPeriod,
+      salesReportLoaded:    d.salesReportLoaded,
     };
     renderCalculators(d, calcContext);
     primeChatContext(d);
@@ -2685,12 +3939,35 @@
       return '<span class="origin-card-status bad" title="Below target">✗</span>';
     }
 
+    /* Stick-rate tier colors — same thresholds used in cohort retention. */
+    function stickTier(pct) {
+      if (pct == null) return '';
+      if (pct >= 90) return 'tier-good';
+      if (pct >= 82) return 'tier-lime';
+      if (pct >= 72) return 'tier-warn';
+      return 'tier-bad';
+    }
+
+    /* Build the stick-rate row for an origin card if Sales Report is loaded.
+       When not loaded, returns empty string — the card stays as before. */
+    function stickRow(originKey) {
+      if (!d.salesReportLoaded || !d.stickRateByOrigin) return '';
+      const s = d.stickRateByOrigin[originKey];
+      if (!s || s.gross === 0) return '';
+      const tier = stickTier(s.stickRate);
+      const rateText = s.stickRate == null ? '—' : `${s.stickRate}%`;
+      return `
+        <div class="origin-card-stick">
+          <span class="origin-card-stick-label">Stick Rate</span>
+          <span class="origin-card-stick-value ${tier}">${rateText}</span>
+          <span class="origin-card-stick-note"><b>${n(s.net)}</b>/<b>${n(s.gross)}</b> signed stayed · ${n(s.walked)} walked</span>
+        </div>`;
+    }
+
     function originCard(title, data, benchmark) {
       const color = ORIGIN_COLORS[title];
       const rateStr = data.leads ? `${data.rate}%` : '—';
       const subText = benchmark ? `vs ${benchmark}% target` : 'Not graded';
-      /* Bar fill: the rate itself, capped at 100%. Low rates show a sliver —
-         that's accurate; don't rescale to exaggerate. */
       const fillPct = data.leads ? Math.min(data.rate, 100) : 0;
       return `
         <div class="origin-card" style="--origin-color:${color};">
@@ -2708,15 +3985,53 @@
           <div class="origin-card-bar">
             <div class="origin-card-bar-fill" style="width:${fillPct}%;"></div>
           </div>
+          ${stickRow(title)}
         </div>`;
     }
 
+    /* Summary bar above the origin grid, only when Sales Report is loaded.
+       Shows overall stick rate across all in-period signups — the single
+       number that answers "of everyone I signed this period, what fraction
+       is still here?" */
+    let summaryBar = '';
+    if (d.salesReportLoaded && d.stickRateByOrigin && d.stickRateByOrigin.overall) {
+      const ov = d.stickRateByOrigin.overall;
+      if (ov.gross > 0) {
+        const tier = stickTier(ov.stickRate);
+        const rateText = ov.stickRate == null ? '—' : `${ov.stickRate}%`;
+        const prose = ov.walked > 0
+          ? `Of <b>${n(ov.gross)}</b> agreements signed this period, <b>${n(ov.net)}</b> are still active. <b>${n(ov.walked)}</b> have already walked — the hidden gap between gross closes and net members.`
+          : `Of <b>${n(ov.gross)}</b> agreements signed this period, all <b>${n(ov.net)}</b> are still active. No early walk-away yet.`;
+        summaryBar = `
+          <div class="stick-summary-bar">
+            <span class="stick-summary-label">Overall Stick Rate</span>
+            <span class="stick-summary-value ${tier}">${rateText}</span>
+            <span class="stick-summary-prose">${prose}</span>
+          </div>`;
+      }
+    }
+
+    /* Data-quality footnote if a meaningful number of Sales Report entries
+       couldn't be attributed to an origin. Silent under 5 records. */
+    let unknownNote = '';
+    if (d.salesReportLoaded && d.stickRateByOrigin && d.stickRateByOrigin.unknown) {
+      const u = d.stickRateByOrigin.unknown;
+      if (u.gross >= 5) {
+        unknownNote = `
+          <div class="cohort-footnote" style="margin-top:10px;">
+            ${u.gross} in-period signups couldn't be matched to a lead origin (name not found in lead history). Not included in the per-origin stick rates above, but counted in the overall stick rate.
+          </div>`;
+      }
+    }
+
     document.getElementById('conversion-table').innerHTML = `
+      ${summaryBar}
       <div class="origin-grid">
         ${originCard('Walk In', d.walkin, 40)}
         ${originCard('Web', d.web, 10)}
         ${originCard('Guest Visit', d.guest, null)}
-      </div>`;
+      </div>
+      ${unknownNote}`;
   }
 
 function renderMonthlyCharts(d) {
@@ -2889,6 +4204,475 @@ function renderMonthlyCharts(d) {
       options: stackPctOpts,
     }));
 
+  }
+
+  /* ── Cohort Retention: per-signup-month retention with age-aware flagging.
+
+     "Expected retention by age" is a rough heuristic — the longer a cohort
+     has had to churn, the more realistic it is for its retention to drop.
+     Young cohorts (<2 months old) should still be well above 90%; a value
+     below 90% that young is a warning flag worth surfacing.
+
+     Thresholds used for flagging:
+       age < 2 mo:  flag if retention < 90%
+       age 2-4 mo:  flag if retention < 85%
+       age 4-8 mo:  flag if retention < 78%
+       age > 8 mo:  flag if retention < 72%
+
+     Color tiers are separate from the flag — they give a visual grade of
+     the raw rate:
+       >= 90%  good (green)
+       >= 82%  lime
+       >= 72%  warn (yellow)
+       <  72%  bad (red) ── */
+  function cohortTierFor(retention) {
+    if (retention >= 90) return 'good';
+    if (retention >= 82) return 'lime';
+    if (retention >= 72) return 'warn';
+    return 'bad';
+  }
+  /* Cohort flag thresholds — adjusted for $1-down promo structure.
+     All named promos use $1 down + first month free, so the first real
+     payment isn't due until ~60 days after signing. Collections trigger
+     adds another 45 days. RFCs don't fully surface until age ~3.5 months.
+     Before that, "high retention" just means the bills haven't come due,
+     not that the cohort is sticky. */
+  function cohortIsFlagged(ageMonths, retention) {
+    // Pre-RFC window — retention below 95% is already concerning
+    // (these are voluntary cancels or pending cancels, not collections yet)
+    if (ageMonths < 2)   return retention < 95;
+    // First RFCs starting to land — retention under 90% is a warning
+    if (ageMonths < 4)   return retention < 90;
+    // Most RFCs have surfaced — real stick rate visible
+    if (ageMonths < 6)   return retention < 82;
+    if (ageMonths < 10)  return retention < 75;
+    return retention < 70;
+  }
+
+  /* RFC realization status — how mature is this cohort's churn signal?
+     Given the $1-down structure:
+       age < 2.0 mo  : free month mostly ongoing, nothing meaningful yet
+       2.0-3.5 mo    : first payments due, RFCs starting to land
+       >= 3.5 mo     : RFC window fully passed, number is reliable */
+  function cohortRealizationStatus(ageMonths) {
+    if (ageMonths >= 3.5) return 'realized';
+    if (ageMonths >= 2.0) return 'partial';
+    return 'too-new';
+  }
+  function cohortRealizationLabel(status) {
+    if (status === 'realized') return 'Fully realized';
+    if (status === 'partial')  return 'Collections pending';
+    return 'Too new to judge';
+  }
+
+  function renderCohortRetention(d) {
+    const section = document.getElementById('cohort-section');
+    const panel = document.getElementById('cohort-panel');
+    if (!section || !panel) return;
+
+    // Describes what the realization status means in plain terms
+    function statusDescription(status) {
+      if (status === 'realized') return 'This cohort has aged past the full collections window (~105 days). The retention number is reliable — cancels and RFCs have all surfaced.';
+      if (status === 'partial')  return 'First payments are coming due. Collections trigger 45 days after a missed payment — some RFCs are still pending. Retention will drop.';
+      return "Too new to judge. Our promos are $1-down first-month-free, so most of this cohort hasn't been billed yet. High retention here just means the bills haven't hit.";
+    }
+
+    const cohorts = d.cohortRetention;
+    // Hide entirely if Sales Report wasn't uploaded, or if no signups
+    // occurred in the selected period (nothing meaningful to show)
+    if (!d.salesReportLoaded || !cohorts || cohorts.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = '';
+
+    const flagged = cohorts.filter(c => cohortIsFlagged(c.ageMonths, c.retention));
+    const realized = cohorts.filter(c => cohortRealizationStatus(c.ageMonths) === 'realized');
+    const pending  = cohorts.filter(c => cohortRealizationStatus(c.ageMonths) !== 'realized');
+
+    // Realized-only retention — the trustworthy number
+    const realizedSigned = realized.reduce((a, c) => a + c.total, 0);
+    const realizedActive = realized.reduce((a, c) => a + c.active, 0);
+    const realizedRetention = realizedSigned > 0
+      ? round1((realizedActive / realizedSigned) * 100)
+      : null;
+
+    const flaggedName = f => `${f.monthLabel} ${f.isPromo ? 'promo' : 'baseline'}`;
+    let headline;
+    if (flagged.length === 1) {
+      const f = flagged[0];
+      const fStatus = cohortRealizationStatus(f.ageMonths);
+      const caveat = fStatus !== 'realized'
+        ? " Note that this cohort hasn't aged past the full collections window yet — the number could still move."
+        : '';
+      headline = `<b>${flaggedName(f)}</b> cohort is at <b>${f.retention}%</b> retention — low for a cohort that's ${f.ageMonths} months old.${caveat}`;
+    } else if (flagged.length > 1) {
+      const names = flagged.map(flaggedName).join(', ');
+      headline = `${flagged.length} cohorts showing low retention for their age: <b>${names}</b>. Worth a closer look.`;
+    } else if (realizedRetention != null) {
+      const pendingNote = pending.length > 0
+        ? ` <b>${pending.length}</b> cohort${pending.length === 1 ? ' is' : 's are'} still in the collections window and may drop.`
+        : '';
+      headline = `Fully-realized cohorts are retaining at <b>${realizedRetention}%</b> across <b>${realizedSigned.toLocaleString()}</b> long-term signups.${pendingNote}`;
+    } else {
+      headline = `All cohorts still in the collections window — retention numbers will drop over the next 30–60 days as RFCs land.`;
+    }
+
+    // Group rows by month, then emit one card per month.
+    const byMonth = {};
+    cohorts.forEach(c => {
+      if (!byMonth[c.monthKey]) byMonth[c.monthKey] = [];
+      byMonth[c.monthKey].push(c);
+    });
+    const monthKeys = Object.keys(byMonth).sort();
+
+    function splitColumn(cohort, type) {
+      const typeLabel = type === 'promo' ? 'Promo days' : 'Baseline days';
+      if (!cohort) {
+        const emptyMsg = type === 'promo'
+          ? 'No named promo days fell in this month.'
+          : 'No baseline days in this month.';
+        return `
+          <div class="cohort-card-col cohort-card-col-${type} empty">
+            <div class="cohort-card-col-label">${typeLabel}</div>
+            <div class="cohort-card-col-empty">${emptyMsg}</div>
+          </div>`;
+      }
+      const tier = cohortTierFor(cohort.retention);
+      const flag = cohortIsFlagged(cohort.ageMonths, cohort.retention)
+        ? '<span class="cohort-flag">Low for age</span>'
+        : '';
+      return `
+        <div class="cohort-card-col cohort-card-col-${type}">
+          <div class="cohort-card-col-label">${typeLabel}</div>
+          <div class="cohort-card-col-ret">
+            <span class="cohort-retention-value tier-${tier}">${cohort.retention}%</span>
+            ${flag}
+          </div>
+          <div class="cohort-bar-track">
+            <div class="cohort-bar-fill tier-${tier}" style="width:${cohort.retention}%;"></div>
+          </div>
+          <div class="cohort-card-col-meta">
+            <span><b>${cohort.total.toLocaleString()}</b> signed</span>
+            <span><b>${cohort.active.toLocaleString()}</b> active</span>
+            <span><b>${cohort.cancelled.toLocaleString()}</b> lost</span>
+          </div>
+        </div>`;
+    }
+
+    const monthCards = monthKeys.map(mk => {
+      const group = byMonth[mk];
+      const monthLabel = group[0].monthLabel;
+      const ageMonths  = group[0].ageMonths;
+      const mTotal     = group.reduce((a, c) => a + c.total, 0);
+      const mActive    = group.reduce((a, c) => a + c.active, 0);
+      const mCancelled = group.reduce((a, c) => a + c.cancelled, 0);
+      const mRetention = mTotal > 0 ? round1((mActive / mTotal) * 100) : 0;
+      const mTier        = cohortTierFor(mRetention);
+      const mStatus      = cohortRealizationStatus(ageMonths);
+      const mStatusLabel = cohortRealizationLabel(mStatus);
+      const mStatusClass = `realize-${mStatus}`;
+
+      const promo    = group.find(c => c.isPromo)   || null;
+      const baseline = group.find(c => !c.isPromo)  || null;
+
+      return `
+        <div class="cohort-card status-${mStatus}">
+          <div class="cohort-card-head">
+            <div class="cohort-card-title">
+              <span class="cohort-card-month">${monthLabel}</span>
+              <span class="cohort-card-age">${ageMonths} mo old</span>
+            </div>
+            <span class="cohort-realize ${mStatusClass}" title="${statusDescription(mStatus)}">${mStatusLabel}</span>
+          </div>
+          <div class="cohort-card-combined">
+            <div class="cohort-card-combined-head">
+              <span class="cohort-card-combined-label">All signups</span>
+              <span class="cohort-retention-value tier-${mTier}">${mRetention}%</span>
+            </div>
+            <div class="cohort-bar-track">
+              <div class="cohort-bar-fill tier-${mTier}" style="width:${mRetention}%;"></div>
+            </div>
+            <div class="cohort-card-combined-meta">
+              <span><b>${mTotal.toLocaleString()}</b> signed</span>
+              <span><b>${mActive.toLocaleString()}</b> active</span>
+              <span><b>${mCancelled.toLocaleString()}</b> lost</span>
+            </div>
+          </div>
+          <div class="cohort-card-split">
+            ${splitColumn(promo, 'promo')}
+            ${splitColumn(baseline, 'baseline')}
+          </div>
+        </div>`;
+    }).join('');
+
+    panel.innerHTML = `
+      <div class="cohort-panel">
+        <div class="cohort-head-row">
+          <div class="cohort-headline">${headline}</div>
+        </div>
+        <div class="cohort-sub">One card per signup month. Each card compares <b>promo-day signups</b> to <b>baseline-day signups</b> within that month so you can see whether promo buyers stick like organic buyers. Long-term agreements only — short-term student PIFs expire by design and aren't counted.</div>
+        <div class="cohort-card-grid">${monthCards}</div>
+        <div class="cohort-footnote">Our promos are $1-down first-month-free, so RFCs don't surface until ~105 days after signing. <b>Fully realized</b> cards have passed that window — numbers are reliable. <b>Collections pending</b> cards are mid-window and may drop. <b>Too new to judge</b> cards haven't been billed yet; high retention is a timing artifact, not a quality signal. "Low for age" flags retention that's already worse than expected given the cohort's maturity.</div>
+      </div>`;
+  }
+
+  /* ── Daily Sales Calendar: full month grid with prev/next navigation.
+
+     Three-tier coloring:
+       0 sales  → red     (nothing sold)
+       1–5      → yellow  (light activity)
+       >5       → green   (solid day)
+
+     Only months that contain at least one period day are navigable. Days
+     within the month that fall outside the reporting period are rendered
+     as neutral gray "out of period" cells so the grid stays a full
+     calendar. Stats at the top summarize the currently-displayed month. */
+
+  // Module-scope state so the user's nav position survives re-renders
+  // triggered by scope changes (e.g. the Churn-card scope toggle doesn't
+  // bounce them back to the last month).
+  const dailyCalState = { currentIndex: null, monthKeys: [] };
+
+  function renderDailySales(d) {
+    const section = document.getElementById('daily-sales-section');
+    const panel = document.getElementById('daily-sales-panel');
+    if (!section || !panel) return;
+
+    const days = d.dailySales;
+    if (!d.salesReportLoaded || !days || days.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = '';
+
+    const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+                         'July', 'August', 'September', 'October', 'November', 'December'];
+    const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const DOW_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    // Group period days by year-month and index by date key for O(1) lookup
+    const daysByKey = new Map();
+    const monthsSeen = new Map();  // "YYYY-MM" → { year, month }
+    days.forEach(dy => {
+      daysByKey.set(dy.key, dy);
+      const mk = `${dy.year}-${String(dy.month + 1).padStart(2, '0')}`;
+      if (!monthsSeen.has(mk)) monthsSeen.set(mk, { year: dy.year, month: dy.month });
+    });
+    const monthKeys = Array.from(monthsSeen.keys()).sort();
+    dailyCalState.monthKeys = monthKeys;
+
+    // Period-wide baseline vs promo split (computed once, not per-month)
+    let periodPromoTotal = 0, periodPromoDays = 0;
+    let periodBaselineTotal = 0, periodBaselineDays = 0;
+    days.forEach(dy => {
+      if (promoForDay(dy.key)) {
+        periodPromoTotal += dy.count;
+        periodPromoDays++;
+      } else {
+        periodBaselineTotal += dy.count;
+        periodBaselineDays++;
+      }
+    });
+    const periodTotal = periodPromoTotal + periodBaselineTotal;
+    const baselineAvg = periodBaselineDays ? (periodBaselineTotal / periodBaselineDays) : 0;
+    const promoAvg    = periodPromoDays    ? (periodPromoTotal    / periodPromoDays)    : 0;
+    const promoPctOfTotal = periodTotal ? round1((periodPromoTotal / periodTotal) * 100) : 0;
+    const promoLift = baselineAvg > 0 ? (promoAvg / baselineAvg) : 0;
+
+    // Build promo roll-up for in-period promos only
+    const periodStartKey = days[0].key;
+    const periodEndKey   = days[days.length - 1].key;
+    const inPeriodPromos = PROMO_CALENDAR.filter(p =>
+      p.endDate >= periodStartKey && p.startDate <= periodEndKey
+    );
+    const promoRollup = inPeriodPromos.map(p => {
+      const promoDaysInRange = days.filter(dy => dy.key >= p.startDate && dy.key <= p.endDate);
+      const promoSum = promoDaysInRange.reduce((a, dy) => a + dy.count, 0);
+      const expectedBaseline = baselineAvg * promoDaysInRange.length;
+      const liftOverBaseline = promoSum - expectedBaseline;
+      const liftText = liftOverBaseline >= 0
+        ? `+${Math.round(liftOverBaseline)} vs baseline`
+        : `${Math.round(liftOverBaseline)} vs baseline`;
+      const [, sm, sd] = p.startDate.split('-').map(Number);
+      const [, em, ed] = p.endDate.split('-').map(Number);
+      let rangeLabel;
+      if (p.startDate === p.endDate) {
+        rangeLabel = `${MONTH_ABBR[sm - 1]} ${sd}`;
+      } else if (sm === em) {
+        rangeLabel = `${MONTH_ABBR[sm - 1]} ${sd}–${ed}`;
+      } else {
+        rangeLabel = `${MONTH_ABBR[sm - 1]} ${sd} – ${MONTH_ABBR[em - 1]} ${ed}`;
+      }
+      const hotClass = liftOverBaseline >= 20 ? 'promo-hot' :
+                       liftOverBaseline >= 10 ? 'promo-warm' :
+                       liftOverBaseline < 0   ? 'promo-cool' : '';
+      return { promo: p, sum: promoSum, liftText, rangeLabel, hotClass };
+    });
+
+    const promoItemsHtml = promoRollup.length === 0
+      ? `<div class="promo-empty">No named promos fell within this period.</div>`
+      : promoRollup.map(pr => `
+          <div class="promo-item ${pr.hotClass}" data-start="${pr.promo.startDate}" data-end="${pr.promo.endDate}">
+            <div class="promo-item-head">
+              <span class="promo-item-name">${pr.promo.name}</span>
+              <span class="promo-item-range">${pr.rangeLabel}</span>
+            </div>
+            <div class="promo-item-body">
+              <span class="promo-item-count">${pr.sum}</span>
+              <span class="promo-item-lift">${pr.liftText}</span>
+            </div>
+          </div>
+        `).join('');
+
+    const promoSideHtml = `
+      <aside class="promo-side-panel">
+        <div class="promo-side-title">Promo Performance</div>
+        <div class="promo-side-sub">${periodPromoDays} promo days drove <b>${periodPromoTotal}</b> agreements — <b>${promoPctOfTotal}%</b> of period total${promoLift > 0 ? `, <b>${promoLift.toFixed(1)}×</b> baseline` : ''}. Baseline avg <b>${baselineAvg.toFixed(1)}</b>/day.</div>
+        <div class="promo-list">${promoItemsHtml}</div>
+      </aside>`;
+
+    // Preserve current index if valid across re-renders; otherwise land on
+    // the most recent month (last entry in the sorted list).
+    if (
+      dailyCalState.currentIndex == null ||
+      dailyCalState.currentIndex < 0 ||
+      dailyCalState.currentIndex >= monthKeys.length
+    ) {
+      dailyCalState.currentIndex = monthKeys.length - 1;
+    }
+
+    function tierFor(count) {
+      if (count === 0) return 'tier-zero';
+      if (count <= 5)  return 'tier-low';
+      return 'tier-high';
+    }
+
+    function draw() {
+      const idx = dailyCalState.currentIndex;
+      const mk = monthKeys[idx];
+      const { year, month } = monthsSeen.get(mk);
+      const firstOfMonth = new Date(year, month, 1);
+      const startDow = firstOfMonth.getDay();              // 0 = Sun
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      // Per-month stats (period days only)
+      let monthTotal = 0, monthDayCount = 0;
+      let peakDay = null;
+      for (let dom = 1; dom <= daysInMonth; dom++) {
+        const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(dom).padStart(2, '0')}`;
+        const dy = daysByKey.get(key);
+        if (!dy) continue;
+        monthTotal += dy.count;
+        monthDayCount++;
+        if (!peakDay || dy.count > peakDay.count) peakDay = dy;
+      }
+      const monthAvg = monthDayCount ? (monthTotal / monthDayCount) : 0;
+      const peakLabel = peakDay && peakDay.count > 0
+        ? `${MONTH_NAMES[peakDay.month].slice(0, 3)} ${peakDay.dayOfMonth} (${peakDay.count})`
+        : '—';
+
+      // Build cells: leading blanks for day-of-week offset, then each day
+      const cells = [];
+      for (let i = 0; i < startDow; i++) {
+        cells.push('<div class="daily-sales-cell blank"></div>');
+      }
+      for (let dom = 1; dom <= daysInMonth; dom++) {
+        const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(dom).padStart(2, '0')}`;
+        const dy = daysByKey.get(key);
+        if (!dy) {
+          cells.push(`
+            <div class="daily-sales-cell out-of-period" title="${MONTH_NAMES[month]} ${dom}, ${year} — outside reporting period">
+              <div class="daily-sales-cell-dom">${dom}</div>
+            </div>`);
+          continue;
+        }
+        const tier = tierFor(dy.count);
+        const dow = DOW_LABELS[dy.dayOfWeek];
+        const promoHere = promoForDay(dy.key);
+        const promoSuffix = promoHere ? ` · ${promoHere.name}` : '';
+        const promoCls = promoHere ? ' has-promo' : '';
+        const title = `${dow} ${MONTH_NAMES[month]} ${dom}, ${year} — ${dy.count} ${dy.count === 1 ? 'agreement' : 'agreements'}${promoSuffix}`;
+        cells.push(`
+          <div class="daily-sales-cell ${tier}${promoCls}" title="${title}" data-daykey="${dy.key}">
+            <div class="daily-sales-cell-dom">${dom}</div>
+            <div class="daily-sales-cell-count">${dy.count}</div>
+          </div>`);
+      }
+
+      const dowHeader = DOW_LABELS.map(l =>
+        `<div class="daily-sales-dow">${l}</div>`
+      ).join('');
+
+      const prevDisabled = idx <= 0 ? 'disabled' : '';
+      const nextDisabled = idx >= monthKeys.length - 1 ? 'disabled' : '';
+
+      panel.innerHTML = `
+        <div class="daily-sales-panel">
+          <div class="daily-sales-head">
+            <div class="daily-sales-nav">
+              <button type="button" class="daily-sales-nav-btn" id="dcal-prev" ${prevDisabled} aria-label="Previous month">‹</button>
+              <div class="daily-sales-nav-label">${MONTH_NAMES[month]} ${year}</div>
+              <button type="button" class="daily-sales-nav-btn" id="dcal-next" ${nextDisabled} aria-label="Next month">›</button>
+            </div>
+            <div class="daily-sales-stats">
+              <span><b>${monthTotal.toLocaleString()}</b> agreements</span>
+              <span><b>${monthDayCount}</b> days in period</span>
+              <span><b>${monthAvg.toFixed(1)}</b> avg / day</span>
+              <span>Peak: <b>${peakLabel}</b></span>
+            </div>
+            <div class="daily-sales-legend">
+              <span class="daily-sales-legend-item"><span class="daily-sales-legend-swatch" style="background:rgba(34,197,94,0.22);border:1px solid rgba(34,197,94,0.55);"></span>6+</span>
+              <span class="daily-sales-legend-item"><span class="daily-sales-legend-swatch" style="background:rgba(234,179,8,0.22);border:1px solid rgba(234,179,8,0.55);"></span>1–5</span>
+              <span class="daily-sales-legend-item"><span class="daily-sales-legend-swatch" style="background:rgba(220,38,38,0.22);border:1px solid rgba(220,38,38,0.55);"></span>0</span>
+            </div>
+          </div>
+          <div class="daily-sales-body">
+            <div class="daily-sales-grid">
+              ${dowHeader}
+              ${cells.join('')}
+            </div>
+            ${promoSideHtml}
+          </div>
+          <div class="daily-sales-footnote">Long-term agreements signed per day. Short-term student PIFs excluded (they expire by design). Hover any cell for the exact count and day of week. Use ‹ › to step between months within the reporting period. Hover a promo on the right to highlight its days.</div>
+        </div>`;
+
+      const prevBtn = document.getElementById('dcal-prev');
+      const nextBtn = document.getElementById('dcal-next');
+      if (prevBtn) prevBtn.addEventListener('click', () => {
+        if (dailyCalState.currentIndex > 0) {
+          dailyCalState.currentIndex--;
+          draw();
+        }
+      });
+      if (nextBtn) nextBtn.addEventListener('click', () => {
+        if (dailyCalState.currentIndex < monthKeys.length - 1) {
+          dailyCalState.currentIndex++;
+          draw();
+        }
+      });
+
+      // Hover a promo on the right → highlight those days on the calendar grid
+      const promoItems = panel.querySelectorAll('.promo-item');
+      const allCells = panel.querySelectorAll('.daily-sales-cell');
+      promoItems.forEach(item => {
+        const startK = item.dataset.start;
+        const endK = item.dataset.end;
+        item.addEventListener('mouseenter', () => {
+          allCells.forEach(c => {
+            const k = c.dataset.daykey;
+            if (!k) return;
+            if (k >= startK && k <= endK) c.classList.add('promo-highlight');
+            else c.classList.add('promo-dim');
+          });
+        });
+        item.addEventListener('mouseleave', () => {
+          allCells.forEach(c => c.classList.remove('promo-highlight', 'promo-dim'));
+        });
+      });
+    }
+
+    draw();
   }
 
   /* ── Pipeline Health: velocity ribbon + open-pipeline bounty + action cards.
@@ -3095,7 +4879,9 @@ function renderMonthlyCharts(d) {
         <h2>Summary</h2>
         <table>
           <tr><td>Total Active Members</td><td class="num">${n(d.totalActiveMembers)}</td></tr>
-          <tr><td>New in Period</td><td class="num">${n(d.newInPeriod)}</td></tr>
+          <tr><td>New in Period${d.salesReportLoaded ? ' (gross, signed in window)' : ''}</td><td class="num">${n(d.newInPeriod)}</td></tr>
+          ${d.salesReportLoaded ? `<tr class="pv-subrow"><td>— Still active today</td><td class="num">${n(d.newInPeriodStillActive)}</td></tr>
+          <tr class="pv-subrow"><td>— Already walked</td><td class="num">${n(Math.max(0, d.newInPeriod - (d.newInPeriodStillActive || 0)))}</td></tr>` : ''}
           <tr><td>Sales Close Rate (Walk In + Web)</td><td class="num">${r(d.salesClose.rate)}</td></tr>
           <tr><td>Total Funnel Rate (incl. Guest Visit)</td><td class="num">${r(d.totalFunnel.rate)}</td></tr>
         </table>
@@ -3114,6 +4900,27 @@ function renderMonthlyCharts(d) {
         </table>
       </div>
 
+      ${(d.salesReportLoaded && d.stickRateByOrigin) ? `
+      <div class="pv-section">
+        <h2>Stick Rate by Origin</h2>
+        <p>Of period signups, share still active today. Close rate is net of cancellations already; stick rate exposes the gross-to-net gap.</p>
+        <table>
+          <thead><tr><th>Origin</th><th class="num">Signed (gross)</th><th class="num">Still Active (net)</th><th class="num">Walked</th><th class="num">Stick Rate</th></tr></thead>
+          <tbody>
+            ${['Walk In', 'Web', 'Guest Visit'].map(o => {
+              const s = d.stickRateByOrigin[o];
+              if (!s || s.gross === 0) return '';
+              return `<tr><td><b>${o}</b></td><td class="num">${n(s.gross)}</td><td class="num">${n(s.net)}</td><td class="num">${n(s.walked)}</td><td class="num">${s.stickRate == null ? '—' : s.stickRate + '%'}</td></tr>`;
+            }).filter(Boolean).join('')}
+            ${(() => {
+              const ov = d.stickRateByOrigin.overall;
+              if (!ov || ov.gross === 0) return '';
+              return `<tr><td><b>TOTAL</b></td><td class="num"><b>${n(ov.gross)}</b></td><td class="num"><b>${n(ov.net)}</b></td><td class="num"><b>${n(ov.walked)}</b></td><td class="num"><b>${ov.stickRate == null ? '—' : ov.stickRate + '%'}</b></td></tr>`;
+            })()}
+          </tbody>
+        </table>
+      </div>` : ''}
+
       ${monthlyRows ? `
       <div class="pv-section">
         <h2>Monthly Sales</h2>
@@ -3121,6 +4928,29 @@ function renderMonthlyCharts(d) {
           <thead><tr><th>Month</th><th class="num">Total</th><th class="num">Walk In</th><th class="num">Web</th><th class="num">Guest Visit</th></tr></thead>
           <tbody>${monthlyRows}</tbody>
         </table>
+      </div>` : ''}
+
+      ${(d.salesReportLoaded && d.cohortRetention && d.cohortRetention.length) ? `
+      <div class="pv-section">
+        <h2>Cohort Retention — Promo vs Baseline by Month</h2>
+        <p>Each signup month is split into two rows: signups that occurred on named promo days versus baseline days. Short-term student PIFs excluded (they expire by design).</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Day Type</th>
+              <th class="num">Age (mo)</th>
+              <th class="num">Signed</th>
+              <th class="num">Still Active</th>
+              <th class="num">Cancelled</th>
+              <th class="num">Retention</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${d.cohortRetention.map(c => `<tr><td>${c.monthLabel}${cohortIsFlagged(c.ageMonths, c.retention) ? ' ⚠' : ''}</td><td>${c.isPromo ? 'Promo' : 'Baseline'}</td><td class="num">${c.ageMonths}</td><td class="num">${c.total}</td><td class="num">${c.active}</td><td class="num">${c.cancelled}</td><td class="num">${c.retention}%</td></tr>`).join('')}
+          </tbody>
+        </table>
+        <p style="font-size:8pt;color:#888;margin-top:4pt;">⚠ flags cohorts with retention below age-adjusted expectations. $1-down promos mean RFCs surface ~105 days after signing; rows under 3.5 months old have not fully realized.</p>
       </div>` : ''}
 
       <div class="pv-section">
@@ -3164,6 +4994,7 @@ function renderMonthlyCharts(d) {
         <p>${d.repeatGuests} people registered as Guest Visit more than once in this period.</p>
       </div>
 
+      <div id="pv-total-estimated-revenue"></div>
       <div id="pv-calculators"></div>
 
       <div class="pv-footer">Generated ${new Date().toLocaleString()} · Powerhouse Gym NYC Leads Analyzer</div>`;
@@ -3217,13 +5048,30 @@ function renderMonthlyCharts(d) {
   const PRICING = {
     twelveMo: 129.99,
     mtm: 159,
-    enrollmentFee: 99,
+    enrollmentList:    99,
+    enrollmentPromo:    1,
+    enrollmentPromoPct: 0.6,
     annualFee: 99,
   };
+  /* Effective enrollment blends the promo and list rates. */
+  PRICING.enrollmentFee =
+      PRICING.enrollmentPromoPct * PRICING.enrollmentPromo
+    + (1 - PRICING.enrollmentPromoPct) * PRICING.enrollmentList;
   const ASSUMED_RETENTION = {
     twelveMo: 9,
     mtm: 6,
   };
+  const PIF_INCLUB_RETENTION = 9;
+  const PIF_INCLUB_MIN_EFT = 50;
+  const STUDENT_PIF_RATES = {
+    oneMonth:  179,
+    twoMonth:  349,
+    threeMonth: 549,
+  };
+  /* Trainers rent studio space, capped at $1,254/mo per trainer, 12-mo horizon. */
+  const TRAINER_RENT_CAP_MONTHLY = 1254;
+  const TRAINER_RETENTION_MONTHS = 12;
+  const TRAINER_PREPAID_VALUE    = TRAINER_RENT_CAP_MONTHLY * TRAINER_RETENTION_MONTHS;
 
   function classifyAgreementType(plan) {
     const p = (plan || '').toString().toLowerCase().replace(/\s+/g, ' ').trim();
@@ -3255,6 +5103,251 @@ function renderMonthlyCharts(d) {
           / identified;
   }
 
+  function categorizePlanForRevenue(plan) {
+    const raw = (plan || '').toString();
+    const normalized = raw.trim().replace(/\s+/g, ' ');
+    const lower = normalized.toLowerCase();
+    if (!normalized) return 'twelve_month';
+    if (normalized === 'Student 1 Month PIF') return 'student_1mo';
+    if (lower.startsWith('student basic power 2 mo pif')) return 'student_2mo';
+    if (lower.startsWith('student basic power 3 mo pif')) return 'student_3mo';
+    if (normalized === 'Basic Power PIF inclub') return 'pif_inclub';
+    if (lower.includes('month to month')) return 'mtm';
+    if (lower.includes('12 month') || lower.includes('12-month') || lower.includes('first responder')) return 'twelve_month';
+    return 'twelve_month';
+  }
+
+  function parseDollars(v) {
+    if (v == null) return 0;
+    const n = parseFloat(v.toString().replace(/[$,\s]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+
+  function computeTotalEstimatedRevenue(rows) {
+    if (!Array.isArray(rows)) return null;
+
+    const today = dataToday || new Date();
+    const MS_PER_MONTH = 1000 * 60 * 60 * 24 * 30.44;
+    const MS_60_DAYS   = 1000 * 60 * 60 * 24 * 60;
+
+    /* Only exclude Pending Cancel — training members are now
+       counted as a prepaid category instead of being excluded. */
+    const filtered = rows.filter(r => {
+      const status = (r['Member Status'] || '').toString().trim().toLowerCase();
+      return status !== 'pending cancel';
+    });
+
+    let twelveMoCount = 0, twelveMoMonthlySum = 0;
+    let twelveMoCollected = 0, twelveMoFuture = 0;
+    let mtmCount = 0, mtmMonthlySum = 0;
+    let mtmCollected = 0, mtmFuture = 0;
+    let pifCount = 0, pifEftSum = 0, pifCollected = 0;
+    let s1 = 0, s2 = 0, s3 = 0;
+    let trainerMonthlyCount = 0, trainerMonthlyCappedSum = 0;
+    let trainerMonthlyCollected = 0, trainerMonthlyFuture = 0;
+    let trainerPrepaidCount = 0;
+    let annualCollected = 0, annualFuture = 0;
+    let annualCollectedCount = 0, annualFutureCount = 0;
+
+    filtered.forEach(r => {
+      const begin = parseMemberDate(r['Begin Date']);
+      const monthsActive = begin
+        ? Math.max(0, (today.getTime() - begin.getTime()) / MS_PER_MONTH)
+        : 0;
+
+      const mt = (r['Membership Type'] || '').toString().trim().toUpperCase();
+      let annualEligible = false;
+
+      if (mt === 'TRAINING') {
+        const nextDue = parseDollars(r['Next Due Amount']);
+        if (nextDue === 0) {
+          trainerPrepaidCount++;
+        } else {
+          trainerMonthlyCount++;
+          const capped = Math.min(nextDue, TRAINER_RENT_CAP_MONTHLY);
+          trainerMonthlyCappedSum += capped;
+          const cActive = Math.min(monthsActive, TRAINER_RETENTION_MONTHS);
+          trainerMonthlyCollected += cActive * capped;
+          trainerMonthlyFuture    += Math.max(0, TRAINER_RETENTION_MONTHS - cActive) * capped;
+        }
+        annualEligible = true;
+      } else {
+        const plan = (r['Agreement Payment Plan'] || '').toString();
+        const cat = categorizePlanForRevenue(plan);
+
+        if (cat === 'twelve_month') {
+          twelveMoCount++;
+          const monthly = parseDollars(r['Next Due Amount']);
+          twelveMoMonthlySum += monthly;
+          const cActive = Math.min(monthsActive, 12);
+          twelveMoCollected += cActive * monthly;
+          const futureMonths = Math.max(0, Math.min(ASSUMED_RETENTION.twelveMo - cActive, ASSUMED_RETENTION.twelveMo));
+          twelveMoFuture += futureMonths * monthly;
+          annualEligible = true;
+        } else if (cat === 'mtm') {
+          mtmCount++;
+          const monthly = parseDollars(r['Next Due Amount']);
+          mtmMonthlySum += monthly;
+          mtmCollected += monthsActive * monthly;
+          mtmFuture    += ASSUMED_RETENTION.mtm * monthly;
+          annualEligible = true;
+        } else if (cat === 'pif_inclub') {
+          const eft = parseDollars(r['Renewal EFT']);
+          if (eft >= PIF_INCLUB_MIN_EFT) {
+            pifCount++;
+            pifEftSum += eft;
+            pifCollected += eft * 12;
+          }
+          /* PIF inclub exempt from annual fee. */
+        } else if (cat === 'student_1mo') {
+          s1++;
+        } else if (cat === 'student_2mo') {
+          s2++;
+        } else if (cat === 'student_3mo') {
+          s3++;
+        }
+      }
+
+      if (annualEligible) {
+        const month2Date = begin ? new Date(begin.getTime() + MS_60_DAYS) : null;
+        if (month2Date && month2Date <= today) {
+          annualCollected += PRICING.annualFee;
+          annualCollectedCount++;
+        } else {
+          annualFuture += PRICING.annualFee;
+          annualFutureCount++;
+        }
+      }
+    });
+
+    const s1Total = s1 * STUDENT_PIF_RATES.oneMonth;
+    const s2Total = s2 * STUDENT_PIF_RATES.twoMonth;
+    const s3Total = s3 * STUDENT_PIF_RATES.threeMonth;
+    const studentCount     = s1 + s2 + s3;
+    const studentCollected = s1Total + s2Total + s3Total;
+
+    const trainerPrepaidCollected = trainerPrepaidCount * TRAINER_PREPAID_VALUE;
+    const trainerCollected = trainerMonthlyCollected + trainerPrepaidCollected;
+    const trainerFuture    = trainerMonthlyFuture;
+    const trainerCount     = trainerMonthlyCount + trainerPrepaidCount;
+
+    const annualFeeAccountCount = annualCollectedCount + annualFutureCount;
+
+    const grandCollected =
+        twelveMoCollected + mtmCollected + pifCollected + studentCollected
+      + trainerCollected + annualCollected;
+    const grandFuture =
+        twelveMoFuture + mtmFuture + trainerFuture + annualFuture;
+    const grandTotal = grandCollected + grandFuture;
+
+    const memberCount =
+        twelveMoCount + mtmCount + pifCount + studentCount + trainerCount;
+
+    const categories = [
+      {
+        key: 'twelve_month',
+        label: '12-month contracts',
+        count: twelveMoCount,
+        collected: twelveMoCollected,
+        future: twelveMoFuture,
+        total: twelveMoCollected + twelveMoFuture,
+      },
+      {
+        key: 'trainer',
+        label: 'Trainer Rent',
+        count: trainerCount,
+        collected: trainerCollected,
+        future: trainerFuture,
+        total: trainerCollected + trainerFuture,
+      },
+      {
+        key: 'annual_fees',
+        label: 'Annual fees',
+        count: annualFeeAccountCount,
+        collected: annualCollected,
+        future: annualFuture,
+        total: annualCollected + annualFuture,
+      },
+      {
+        key: 'mtm',
+        label: 'Month-to-month',
+        count: mtmCount,
+        collected: mtmCollected,
+        future: mtmFuture,
+        total: mtmCollected + mtmFuture,
+      },
+      {
+        key: 'pif_inclub',
+        label: 'Basic Power PIF inclub',
+        count: pifCount,
+        collected: pifCollected,
+        future: 0,
+        total: pifCollected,
+        prepaid: true,
+      },
+      {
+        key: 'student_pif',
+        label: 'Student PIF',
+        count: studentCount,
+        collected: studentCollected,
+        future: 0,
+        total: studentCollected,
+        prepaid: true,
+      },
+    ].filter(c => c.count > 0 && c.total > 0);
+
+    categories.sort((a, b) => b.total - a.total);
+
+    return {
+      totalAccounts: memberCount,
+      memberCount,
+      trainerCount,
+      nonTrainerMemberCount: memberCount - trainerCount,
+      collectedTotal: grandCollected,
+      futureTotal: grandFuture,
+      grandTotal,
+      collectedPct: grandTotal > 0 ? (grandCollected / grandTotal) * 100 : 0,
+      futurePct:    grandTotal > 0 ? (grandFuture    / grandTotal) * 100 : 0,
+      categories,
+      annualFees: {
+        count: annualFeeAccountCount,
+        collected: annualCollected,
+        future: annualFuture,
+        total: annualCollected + annualFuture,
+        collectedAccounts: annualCollectedCount,
+        futureAccounts:    annualFutureCount,
+        rate: PRICING.annualFee,
+      },
+      breakdown: {
+        studentPif: {
+          count: studentCount,
+          total: studentCollected,
+          oneMonth:   { count: s1, rate: STUDENT_PIF_RATES.oneMonth,   total: s1Total },
+          twoMonth:   { count: s2, rate: STUDENT_PIF_RATES.twoMonth,   total: s2Total },
+          threeMonth: { count: s3, rate: STUDENT_PIF_RATES.threeMonth, total: s3Total },
+        },
+        trainer: {
+          monthly: {
+            count: trainerMonthlyCount,
+            cappedMonthlySum: trainerMonthlyCappedSum,
+            retention: TRAINER_RETENTION_MONTHS,
+            collected: trainerMonthlyCollected,
+            future: trainerMonthlyFuture,
+            total: trainerMonthlyCollected + trainerMonthlyFuture,
+          },
+          prepaid: {
+            count: trainerPrepaidCount,
+            ratePerTrainer: TRAINER_PREPAID_VALUE,
+            collected: trainerPrepaidCollected,
+            future: 0,
+            total: trainerPrepaidCollected,
+            prepaid: true,
+          },
+        },
+      },
+    };
+  }
+
   const calcState = {
     d: null,
     ctx: null,
@@ -3269,6 +5362,104 @@ function renderMonthlyCharts(d) {
   }
   function scopeActiveAtStart(scope) {
     return scope === 'mtd' ? calcState.ctx.activeAtStartMTD : calcState.ctx.activeAtStartPeriod;
+  }
+
+  function fmtDollarsInt(v) {
+    return '$' + Math.round(v || 0).toLocaleString();
+  }
+
+  function renderTotalEstimatedRevenueHTML(ter) {
+    if (!ter || !ter.categories || ter.categories.length === 0) return '';
+    const n = v => (v || 0).toLocaleString();
+    const d = v => fmtDollarsInt(v);
+    const maxTotal = Math.max(1, ...ter.categories.map(c => c.total || 0));
+    const nonTrainer = ter.nonTrainerMemberCount != null
+      ? ter.nonTrainerMemberCount
+      : ter.memberCount - (ter.trainerCount || 0);
+
+    const barRows = ter.categories.map(cat => {
+      const barPct = (cat.total / maxTotal) * 100;
+      const collectedPct = cat.total > 0 ? (cat.collected / cat.total) * 100 : 0;
+      const tooltip = `${cat.label} — Collected ${d(cat.collected)} · Future ${d(cat.future)} · Total ${d(cat.total)}`;
+      return `
+        <div class="ter-bar-row">
+          <div class="ter-bar-label">${cat.label}${cat.prepaid ? '<span class="ter-prepaid">prepaid</span>' : ''}</div>
+          <div class="ter-bar-track" title="${tooltip.replace(/"/g, '&quot;')}">
+            <div class="ter-bar-fill" style="width: ${barPct.toFixed(2)}%;">
+              <div class="ter-bar-collected" style="width: ${collectedPct.toFixed(2)}%;"></div>
+              <div class="ter-bar-future"></div>
+            </div>
+          </div>
+          <div class="ter-bar-values">
+            <span class="ter-v-collected">${d(cat.collected)}</span>
+            <span class="ter-v-sep">│</span>
+            <span class="ter-v-future">${d(cat.future)}</span>
+            <span class="ter-v-sep">│</span>
+            <span class="ter-v-total">${d(cat.total)}</span>
+          </div>
+        </div>`;
+    }).join('');
+
+    const sp = ter.breakdown.studentPif;
+    const studentRows = [];
+    if (sp.oneMonth.count > 0)   studentRows.push(`<tr><td>1-Month PIF</td><td class="num">${n(sp.oneMonth.count)}</td><td class="calc">${n(sp.oneMonth.count)} × $${sp.oneMonth.rate}</td><td class="num">${d(sp.oneMonth.total)}</td></tr>`);
+    if (sp.twoMonth.count > 0)   studentRows.push(`<tr><td>2-Month PIF</td><td class="num">${n(sp.twoMonth.count)}</td><td class="calc">${n(sp.twoMonth.count)} × $${sp.twoMonth.rate}</td><td class="num">${d(sp.twoMonth.total)}</td></tr>`);
+    if (sp.threeMonth.count > 0) studentRows.push(`<tr><td>3-Month PIF</td><td class="num">${n(sp.threeMonth.count)}</td><td class="calc">${n(sp.threeMonth.count)} × $${sp.threeMonth.rate}</td><td class="num">${d(sp.threeMonth.total)}</td></tr>`);
+
+    const tr = ter.breakdown.trainer;
+    const trainerRows = [];
+    if (tr.monthly.count > 0) {
+      trainerRows.push(`<tr><td>Monthly trainers</td><td class="num">${n(tr.monthly.count)}</td><td class="calc">Σ capped rent over ${tr.monthly.retention} mo</td><td class="num">${d(tr.monthly.collected)}</td><td class="num">${d(tr.monthly.future)}</td><td class="num">${d(tr.monthly.total)}</td></tr>`);
+    }
+    if (tr.prepaid.count > 0) {
+      trainerRows.push(`<tr><td>Prepaid trainer<span class="ter-prepaid">prepaid</span></td><td class="num">${n(tr.prepaid.count)}</td><td class="calc">$${TRAINER_RENT_CAP_MONTHLY.toLocaleString()} × ${TRAINER_RETENTION_MONTHS} mo</td><td class="num">${d(tr.prepaid.collected)}</td><td class="num">$0</td><td class="num">${d(tr.prepaid.total)}</td></tr>`);
+    }
+
+    return `
+      <div class="calc-card calc-card-wide ter-v2">
+        <div class="ter-head">
+          <div class="calc-card-head">Total Estimated Revenue</div>
+          <div class="ter-subhead">From Current Roster</div>
+        </div>
+        <div class="ter-hero">
+          <div class="ter-hero-amount">${d(ter.grandTotal)}</div>
+          <div class="ter-hero-sub">${n(ter.memberCount)} active accounts (${n(nonTrainer)} members + ${n(ter.trainerCount || 0)} trainers)</div>
+          <div class="ter-chips">
+            <span class="ter-chip ter-chip-collected">
+              <span class="ter-chip-label">Already Collected</span>
+              <span class="ter-chip-value">${d(ter.collectedTotal)}</span>
+              <span class="ter-chip-pct">(${ter.collectedPct.toFixed(0)}%)</span>
+            </span>
+            <span class="ter-chip ter-chip-future">
+              <span class="ter-chip-label">Future Charges</span>
+              <span class="ter-chip-value">${d(ter.futureTotal)}</span>
+              <span class="ter-chip-pct">(${ter.futurePct.toFixed(0)}%)</span>
+            </span>
+          </div>
+        </div>
+        <div class="ter-bars">${barRows}</div>
+        <details class="ter-details">
+          <summary>Full breakdown by category</summary>
+          <div class="ter-details-body">
+            ${studentRows.length ? `
+              <h4>Student PIF</h4>
+              <table class="ter-table">
+                <thead><tr><th>Plan</th><th class="num">Count</th><th>Calculation</th><th class="num">Total</th></tr></thead>
+                <tbody>${studentRows.join('')}</tbody>
+              </table>` : ''}
+            ${trainerRows.length ? `
+              <h4>Trainer Rent</h4>
+              <table class="ter-table">
+                <thead><tr><th>Type</th><th class="num">Count</th><th>Calculation</th><th class="num">Collected</th><th class="num">Future</th><th class="num">Total</th></tr></thead>
+                <tbody>${trainerRows.join('')}</tbody>
+              </table>` : ''}
+            <p class="ter-method">Collected = already billed and in the bank as of today's snapshot. Future = still owed under the contract term. Retention assumptions: 12-month contracts → ${ASSUMED_RETENTION.twelveMo} months remaining avg, Month-to-month → ${ASSUMED_RETENTION.mtm} months forward, Trainers → ${TRAINER_RETENTION_MONTHS} months. Student PIF and Basic Power PIF inclub are prepaid in full so future = $0. Annual fees bill on day 60 per account; the split reflects whether that billing date has already passed.</p>
+          </div>
+        </details>
+        <div class="calc-card-desc ter-helper">
+          Expected revenue from ${n(ter.memberCount)} active accounts — ${n(nonTrainer)} members plus ${n(ter.trainerCount || 0)} trainers renting studio space — splitting total contract value into what's already in the bank and what's still to be collected. Retention assumptions: 12-month contracts = ${ASSUMED_RETENTION.twelveMo} mo remaining avg · MTM = ${ASSUMED_RETENTION.mtm} mo · Trainers = ${TRAINER_RETENTION_MONTHS} mo · PIFs are prepaid in full. Trainer Rent capped at $${TRAINER_RENT_CAP_MONTHLY.toLocaleString()}/mo per trainer. Annual fees ($${PRICING.annualFee}) bill at month 2 and are committed regardless of cancellation — gym opened Nov 3, 2025 so every non-PIF account has exactly one billing (past or upcoming). PIF plans are exempt from annual fees. Excludes Pending Cancel only.
+        </div>
+      </div>`;
   }
 
   function retentionHint(ctx) {
@@ -3422,17 +5613,16 @@ function renderMonthlyCharts(d) {
             ${scopeToggle('card3')}
           </div>
           <div class="calc-card-desc">
-            How much the club is losing to cancellations. MRR Lost is the next-month hit; LTV Lost puts a price tag on the full lifetime hit — the number worth showing ownership.
+            How much the club is losing from the roster — cancellations AND accounts sent to collections both remove members. MRR Lost is the next-month hit; LTV Lost puts a price tag on the full lifetime hit.
           </div>
           <div class="calc-field">
-            <label class="calc-label" for="calc-finalized">Finalized Cancels</label>
+            <div class="calc-label-row">
+              <label class="calc-label" for="calc-finalized">Cancels + Collections</label>
+              <span class="calc-auto-badge" id="calc-finalized-badge" style="display:none;">Auto-detected</span>
+            </div>
             <input type="number" class="calc-input" id="calc-finalized"
                    step="1" min="0" placeholder="Enter count" />
-          </div>
-          <div class="calc-field">
-            <label class="calc-label" for="calc-collections">Returned For Collections</label>
-            <input type="number" class="calc-input" id="calc-collections"
-                   step="1" min="0" placeholder="Enter count" />
+            <div class="calc-hint" id="calc-finalized-hint"></div>
           </div>
           <div class="calc-outputs">
             <div class="calc-out-row">
@@ -3460,7 +5650,7 @@ function renderMonthlyCharts(d) {
         </div>
       </div>`;
 
-    ['calc-avg-revenue', 'calc-ad-spend', 'calc-retention', 'calc-finalized', 'calc-collections']
+    ['calc-avg-revenue', 'calc-ad-spend', 'calc-retention', 'calc-finalized']
       .forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('input', recomputeCalculators);
@@ -3487,6 +5677,13 @@ function renderMonthlyCharts(d) {
           group.querySelectorAll('.calc-scope-btn').forEach(b =>
             b.classList.toggle('active', b === btn)
           );
+          // If the user switched Churn scope and hasn't overridden the value,
+          // re-apply the auto-fill for the new scope.
+          if (cardKey === 'card3' && !calcState.finalizedOverridden) {
+            applyDerivedFinalizedDefault();
+          } else if (cardKey === 'card3') {
+            updateFinalizedBadgeAndHint();
+          }
           recomputeCalculators();
         });
       });
@@ -3502,11 +5699,138 @@ function renderMonthlyCharts(d) {
             b.classList.toggle('active', b.dataset.scope === s)
           );
         });
+        // Re-apply Churn auto-fill for the new scope if not overridden
+        if (!calcState.finalizedOverridden) {
+          applyDerivedFinalizedDefault();
+        } else {
+          updateFinalizedBadgeAndHint();
+        }
         recomputeCalculators();
       });
     });
 
+    // Track whether the user has manually overridden the auto-populated
+    // Cancels + Collections value. Flips to true on any keystroke, flips
+    // back to false when the "Reset to auto" button is clicked.
+    calcState.finalizedOverridden = false;
+
+    // Apply the derived default once on initial render. Wire the override
+    // flag — any manual edit disengages auto-fill until the user clicks
+    // "Reset to auto".
+    applyDerivedFinalizedDefault();
+    const finalizedInput = document.getElementById('calc-finalized');
+    if (finalizedInput) {
+      finalizedInput.addEventListener('input', () => {
+        calcState.finalizedOverridden = true;
+        updateFinalizedBadgeAndHint();
+      });
+    }
+
     recomputeCalculators();
+  }
+
+  /* Pre-fills Cancels + Collections with the Sales-Report-derived count for the
+     currently selected scope. No-op if Sales Report isn't loaded — user can
+     still type the count manually. */
+  function applyDerivedFinalizedDefault() {
+    const ctx = calcState.ctx;
+    const input = document.getElementById('calc-finalized');
+    if (!ctx || !input) return;
+    if (!ctx.salesReportLoaded) {
+      updateFinalizedBadgeAndHint();
+      return;
+    }
+    const scope = calcState.scopes.card3;
+    const derived = scope === 'mtd' ? ctx.derivedCancelsMTD : ctx.derivedCancelsPeriod;
+    if (derived != null) {
+      input.value = derived;
+      calcState.finalizedOverridden = false;
+    }
+    updateFinalizedBadgeAndHint();
+  }
+
+  /* Updates the badge (Auto-detected / Overridden / hidden) and hint text
+     below the Cancels + Collections input based on current Sales Report state
+     and whether the user has edited the value. */
+  function updateFinalizedBadgeAndHint() {
+    const ctx = calcState.ctx;
+    const badge = document.getElementById('calc-finalized-badge');
+    const hint = document.getElementById('calc-finalized-hint');
+    if (!ctx || !badge || !hint) return;
+
+    if (!ctx.salesReportLoaded) {
+      badge.style.display = 'none';
+      hint.textContent = 'Upload the Sales Report to auto-detect off-roster accounts. Manual entry counts cancellations + collections in the selected scope.';
+      return;
+    }
+
+    const scope = calcState.scopes.card3;
+    const derived = scope === 'mtd' ? ctx.derivedCancelsMTD : ctx.derivedCancelsPeriod;
+    const sales   = scope === 'mtd' ? ctx.salesInMTD         : ctx.salesInPeriod;
+    const scopeName = scope === 'mtd' ? 'MTD' : 'Period';
+
+    badge.style.display = '';
+    if (calcState.finalizedOverridden) {
+      badge.textContent = 'Overridden';
+      badge.classList.add('overridden');
+      badge.title = 'You have manually changed this value. Click "Reset to auto" to use the derived count.';
+      hint.innerHTML = `Derived from Sales Report: <b>${derived}</b> of <b>${sales}</b> ${scopeName} signups are off the roster (cancels + collections combined). <button type="button" class="calc-reset-btn" id="calc-finalized-reset">Reset to auto</button>`;
+    } else {
+      badge.textContent = 'Auto-detected';
+      badge.classList.remove('overridden');
+      badge.title = 'Derived by cross-referencing Sales Report agreements against the current active roster. Includes both cancellations and collections — both remove members from the roster. Long-term plans only.';
+      hint.innerHTML = `Derived from Sales Report: <b>${derived}</b> of <b>${sales}</b> ${scopeName} signups are off the roster. Includes cancels + collections combined (both remove members). Long-term plans only; short-term student PIFs excluded.`;
+    }
+
+    // Wire up the reset button if it was just rendered
+    const resetBtn = document.getElementById('calc-finalized-reset');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        calcState.finalizedOverridden = false;
+        applyDerivedFinalizedDefault();
+        recomputeCalculators();
+      });
+    }
+  }
+
+  function updateTERPrintView(ter) {
+    const el = document.getElementById('pv-total-estimated-revenue');
+    if (!el) return;
+    if (!ter || !ter.categories || ter.categories.length === 0) { el.innerHTML = ''; return; }
+    const n = v => (v || 0).toLocaleString();
+    const mon = v => fmtDollarsInt(v);
+    const nonTrainer = ter.nonTrainerMemberCount != null
+      ? ter.nonTrainerMemberCount
+      : ter.memberCount - (ter.trainerCount || 0);
+
+    const catRows = ter.categories.map(c =>
+      `<tr><td>${c.label}${c.prepaid ? ' (prepaid)' : ''}</td><td class="num">${n(c.count)}</td><td class="num">${mon(c.collected)}</td><td class="num">${mon(c.future)}</td><td class="num">${mon(c.total)}</td></tr>`
+    ).join('');
+
+    const sp = ter.breakdown.studentPif;
+    const sub = [];
+    if (sp.oneMonth.count > 0)   sub.push(`<tr class="pv-subrow"><td>— Student 1-Month PIF</td><td class="num">${n(sp.oneMonth.count)}</td><td class="num">${mon(sp.oneMonth.total)}</td><td class="num">$0</td><td class="num">${mon(sp.oneMonth.total)}</td></tr>`);
+    if (sp.twoMonth.count > 0)   sub.push(`<tr class="pv-subrow"><td>— Student 2-Month PIF</td><td class="num">${n(sp.twoMonth.count)}</td><td class="num">${mon(sp.twoMonth.total)}</td><td class="num">$0</td><td class="num">${mon(sp.twoMonth.total)}</td></tr>`);
+    if (sp.threeMonth.count > 0) sub.push(`<tr class="pv-subrow"><td>— Student 3-Month PIF</td><td class="num">${n(sp.threeMonth.count)}</td><td class="num">${mon(sp.threeMonth.total)}</td><td class="num">$0</td><td class="num">${mon(sp.threeMonth.total)}</td></tr>`);
+
+    const tr = ter.breakdown.trainer;
+    if (tr.monthly.count > 0) sub.push(`<tr class="pv-subrow"><td>— Monthly trainers</td><td class="num">${n(tr.monthly.count)}</td><td class="num">${mon(tr.monthly.collected)}</td><td class="num">${mon(tr.monthly.future)}</td><td class="num">${mon(tr.monthly.total)}</td></tr>`);
+    if (tr.prepaid.count > 0) sub.push(`<tr class="pv-subrow"><td>— Prepaid trainer (prepaid)</td><td class="num">${n(tr.prepaid.count)}</td><td class="num">${mon(tr.prepaid.collected)}</td><td class="num">$0</td><td class="num">${mon(tr.prepaid.total)}</td></tr>`);
+
+    el.innerHTML = `
+      <div class="pv-section">
+        <h2>Total Estimated Revenue (Current Roster)</h2>
+        <p><b>${mon(ter.grandTotal)}</b> · ${n(ter.memberCount)} active accounts (${n(nonTrainer)} members + ${n(ter.trainerCount || 0)} trainers) · Collected ${mon(ter.collectedTotal)} (${ter.collectedPct.toFixed(0)}%) · Future ${mon(ter.futureTotal)} (${ter.futurePct.toFixed(0)}%)</p>
+        <table>
+          <thead><tr><th>Category</th><th class="num">Count</th><th class="num">Collected</th><th class="num">Future</th><th class="num">Total</th></tr></thead>
+          <tbody>
+            ${catRows}
+            ${sub.length ? `<tr><td colspan="5"><i>Sub-breakdown</i></td></tr>${sub.join('')}` : ''}
+            <tr><td><b>TOTAL</b></td><td class="num"><b>${n(ter.memberCount)}</b></td><td class="num"><b>${mon(ter.collectedTotal)}</b></td><td class="num"><b>${mon(ter.futureTotal)}</b></td><td class="num"><b>${mon(ter.grandTotal)}</b></td></tr>
+          </tbody>
+        </table>
+        <p>Expected revenue from ${n(ter.memberCount)} active accounts — ${n(nonTrainer)} members plus ${n(ter.trainerCount || 0)} trainers renting studio space — split into what's already in the bank (Collected) and what's still to be collected under the contract term (Future). Retention assumptions: 12-month contracts = ${ASSUMED_RETENTION.twelveMo} mo remaining avg, MTM = ${ASSUMED_RETENTION.mtm} mo, Trainers = ${TRAINER_RETENTION_MONTHS} mo. Trainer Rent capped at $${TRAINER_RENT_CAP_MONTHLY.toLocaleString()}/mo per trainer. Annual fees ($${PRICING.annualFee}) bill on day 60 and are committed regardless of cancellation; gym opened Nov 3, 2025 so every non-PIF account has exactly one billing (past or upcoming). PIF plans are prepaid in full and exempt from annual fees. Excludes Pending Cancel only.</p>
+      </div>`;
   }
 
   function cardDisplayName(cardKey) {
@@ -3550,7 +5874,6 @@ function renderMonthlyCharts(d) {
       adSpend: num('calc-ad-spend'),
       retention: num('calc-retention'),
       finalized: num('calc-finalized'),
-      collections: num('calc-collections'),
     };
   }
 
@@ -3611,8 +5934,9 @@ function renderMonthlyCharts(d) {
         const recurring = rev * ret;
         const memberValue = recurring + PRICING.enrollmentFee + PRICING.annualFee * billings;
         const fmtInt = v => '$' + Math.round(v).toLocaleString();
+        const enrollmentDisplay = '$' + PRICING.enrollmentFee.toFixed(0);
         const breakdownText = rate =>
-          `${rate.toFixed(1)}% × (${fmtInt(recurring)} recurring + $${PRICING.enrollmentFee} enrollment + $${PRICING.annualFee} × ${billings} annual) = ${fmtInt(memberValue)} per member`;
+          `${rate.toFixed(1)}% × (${fmtInt(recurring)} recurring + ${enrollmentDisplay} effective enrollment + $${PRICING.annualFee} × ${billings} annual) = ${fmtInt(memberValue)} per member`;
         const lv = (ratePct) => fmtMoney((ratePct / 100) * memberValue);
         const rw = s2.walkin.rate || 0;
         const rwe = s2.web.rate    || 0;
@@ -3635,12 +5959,12 @@ function renderMonthlyCharts(d) {
         if (lvMemberSummary) {
           const annualTotal = billings * PRICING.annualFee;
           lvMemberSummary.textContent =
-            `Each new member is worth ${fmtInt(memberValue)} (${fmtInt(recurring)} dues + $${PRICING.enrollmentFee} enrollment + $${annualTotal} annual).`;
+            `Each new member is worth ${fmtInt(memberValue)} (${fmtInt(recurring)} dues + ${enrollmentDisplay} effective enrollment + $${annualTotal} annual). Effective enrollment blends ${Math.round(PRICING.enrollmentPromoPct * 100)}% × $${PRICING.enrollmentPromo} promo + ${Math.round((1 - PRICING.enrollmentPromoPct) * 100)}% × $${PRICING.enrollmentList} list.`;
         }
       }
       if (foot2) {
         foot2.textContent =
-          `Close rates from ${scopeLabel(scopes.card2)}. Each member's value = (monthly × retention) + $${PRICING.enrollmentFee} enrollment + ($${PRICING.annualFee} × annual billings). Lead value = close rate × member value. Annual fee bills on day 60 and yearly thereafter.`;
+          `Close rates from ${scopeLabel(scopes.card2)}. Member value = (monthly × retention) + effective enrollment ($${PRICING.enrollmentFee.toFixed(2)}; 60% pay $1 promo, 40% pay $99 list) + ($${PRICING.annualFee} × annual billings). Lead value = close rate × member value. Annual fee bills on day 60 and yearly thereafter.`;
       }
     }
 
@@ -3656,15 +5980,24 @@ function renderMonthlyCharts(d) {
       const activeStart = scopeActiveAtStart(scopes.card3) || 0;
       const pending     = ctx.pendingCancelCount || 0;
       const finalized   = inp.finalized == null ? 0 : inp.finalized;
-      const collections = inp.collections == null ? 0 : inp.collections;
-      const totalLost   = pending + finalized + collections;
+      // Collections field removed: the auto-detected "Cancels + Collections"
+      // count already includes both, since a member sent to collections is
+      // off the roster same as a cancel.
+      const totalLost   = pending + finalized;
       totalLostEl.textContent = totalLost.toLocaleString();
 
       grossChurnEl.textContent = activeStart > 0
         ? `${((totalLost / activeStart) * 100).toFixed(1)}%`
         : '—';
 
-      const net = (s3.newInPeriod || 0) - totalLost;
+      /* Net member change uses the still-active count (not the gross Sales
+         Report count) because that count already excludes people who signed
+         in-period and cancelled — subtracting total lost from gross would
+         double-count the in-period walkers. */
+      const newAndStillHere = (s3.newInPeriodStillActive != null
+        ? s3.newInPeriodStillActive
+        : s3.newInPeriod || 0);
+      const net = newAndStillHere - totalLost;
       netChangeEl.classList.remove('pos', 'neg');
       if (net > 0) {
         netChangeEl.textContent = `+${net.toLocaleString()}`;
@@ -3695,7 +6028,7 @@ function renderMonthlyCharts(d) {
           ? ` LTV Lost assumes cancelled members left halfway through expected retention (${remainingRetention.toFixed(1)} months avg). Includes remaining monthly revenue plus prorated annual fees.`
           : ' LTV Lost needs avg revenue + retention from Lead Value card.';
         foot3.textContent =
-          `Scope: ${scopeLabel(scopes.card3)}. Pending: ${pending.toLocaleString()} (from roster). ${scopes.card3 === 'mtd' ? 'MTD' : 'Period'} start active: ${activeStart.toLocaleString()}. New in window: ${(s3.newInPeriod || 0).toLocaleString()}.${ltvNote}`;
+          `Scope: ${scopeLabel(scopes.card3)}. Pending cancels: ${pending.toLocaleString()} (from roster). Off-roster count includes both cancels and collections. ${scopes.card3 === 'mtd' ? 'MTD' : 'Period'} start active: ${activeStart.toLocaleString()}. New in window (gross): ${(s3.newInPeriod || 0).toLocaleString()}, still active: ${newAndStillHere.toLocaleString()}.${ltvNote}`;
       }
     }
 
@@ -3712,7 +6045,7 @@ function renderMonthlyCharts(d) {
 
     const inp = getCalcInputs();
     const hasInput = inp.adSpend != null || inp.retention != null
-                   || inp.finalized != null || inp.collections != null;
+                   || inp.finalized != null;
     if (!hasInput) { container.innerHTML = ''; return; }
 
     const scopes = calcState.scopes;
@@ -3726,8 +6059,7 @@ function renderMonthlyCharts(d) {
     rows.push(`<tr><td>${revLabel}</td><td class="num">${fmtMoney(rev)}</td></tr>`);
     if (inp.adSpend != null) rows.push(`<tr><td>Ad spend [${scopeLabel(scopes.card1)}]</td><td class="num">${fmtMoney(inp.adSpend)}</td></tr>`);
     if (inp.retention != null) rows.push(`<tr><td>Expected retention (months)</td><td class="num">${inp.retention.toLocaleString()}</td></tr>`);
-    if (inp.finalized != null) rows.push(`<tr><td>Finalized cancels [${scopeLabel(scopes.card3)}]</td><td class="num">${inp.finalized.toLocaleString()}</td></tr>`);
-    if (inp.collections != null) rows.push(`<tr><td>Returned for collections [${scopeLabel(scopes.card3)}]</td><td class="num">${inp.collections.toLocaleString()}</td></tr>`);
+    if (inp.finalized != null) rows.push(`<tr><td>Off-roster accounts — cancels + collections [${scopeLabel(scopes.card3)}]</td><td class="num">${inp.finalized.toLocaleString()}</td></tr>`);
 
     let c1Rows = '';
     if (inp.adSpend != null && inp.adSpend > 0) {
@@ -3752,23 +6084,25 @@ function renderMonthlyCharts(d) {
       const tag = scopes.card2 === 'mtd' ? 'MTD' : 'Period';
       c2Rows = `
         <tr><td>Member value (${tag})</td><td class="num">${fmtMoney(memberValue)}</td></tr>
-        <tr class="pv-subrow"><td>— ${Math.round(recurring).toLocaleString()} recurring + $${PRICING.enrollmentFee} enrollment + $${PRICING.annualFee} × ${billings} annual</td><td class="num"></td></tr>
+        <tr class="pv-subrow"><td>— ${Math.round(recurring).toLocaleString()} recurring + $${PRICING.enrollmentFee.toFixed(2)} effective enrollment + $${PRICING.annualFee} × ${billings} annual</td><td class="num"></td></tr>
         <tr><td>Walk In lead value (${tag})</td><td class="num">${lv(s2.walkin.rate || 0)}</td></tr>
         <tr><td>Web lead value (${tag})</td><td class="num">${lv(s2.web.rate || 0)}</td></tr>
         <tr><td>Guest Visit lead value (${tag})</td><td class="num">${lv(s2.guest.rate || 0)}</td></tr>`;
     }
 
     let c3Rows = '';
-    if (inp.finalized != null || inp.collections != null) {
+    if (inp.finalized != null) {
       const s3 = scopeStats(scopes.card3);
       const pending     = ctx.pendingCancelCount || 0;
       const finalized   = inp.finalized == null ? 0 : inp.finalized;
-      const collections = inp.collections == null ? 0 : inp.collections;
-      const totalLost   = pending + finalized + collections;
+      const totalLost   = pending + finalized;
       const activeStart = scopeActiveAtStart(scopes.card3) || 0;
       const gross = activeStart > 0
         ? `${((totalLost / activeStart) * 100).toFixed(1)}%` : '—';
-      const net = (s3.newInPeriod || 0) - totalLost;
+      const newAndStillHere = (s3.newInPeriodStillActive != null
+        ? s3.newInPeriodStillActive
+        : s3.newInPeriod || 0);
+      const net = newAndStillHere - totalLost;
       const netStr = net > 0 ? `+${net.toLocaleString()}`
                    : net < 0 ? `−${Math.abs(net).toLocaleString()}`
                    : '0';
@@ -3813,14 +6147,17 @@ function renderMonthlyCharts(d) {
   document.getElementById('reset-btn').addEventListener('click', () => {
     leadsRaw = null;
     membersRaw = null;
+    salesRaw = null;
     dataToday = null;
     document.getElementById('file-input-leads').value = '';
     document.getElementById('file-input-members').value = '';
-    ['drop-zone-leads', 'drop-zone-members'].forEach(id => {
+    document.getElementById('file-input-sales').value = '';
+    ['drop-zone-leads', 'drop-zone-members', 'drop-zone-sales'].forEach(id => {
       document.getElementById(id).classList.remove('file-loaded');
     });
     document.getElementById('file-name-leads').textContent = '';
     document.getElementById('file-name-members').textContent = '';
+    document.getElementById('file-name-sales').textContent = '';
     document.getElementById('date-start').value = '';
     document.getElementById('date-end').value = '';
     document.getElementById('run-btn').disabled = true;
@@ -3856,7 +6193,15 @@ function renderMonthlyCharts(d) {
     grade.pillars.forEach(p => { pillarsByKey[p.key] = p; });
     return {
       total_active_members: d.totalActiveMembers,
+      /* new_in_period: GROSS count when Sales Report is loaded — every
+         agreement signed in the analysis window. Falls back to
+         still-active count when Sales Report is not loaded.
+         new_in_period_still_active: always the still-active subset. */
       new_in_period: d.newInPeriod,
+      new_in_period_still_active: d.newInPeriodStillActive != null ? d.newInPeriodStillActive : d.newInPeriod,
+      new_in_period_walked: d.salesReportLoaded
+        ? Math.max(0, d.newInPeriod - (d.newInPeriodStillActive || 0))
+        : null,
       origins: {
         'Walk In': {
           leads: d.walkin.leads,
@@ -4008,6 +6353,75 @@ function renderMonthlyCharts(d) {
         web: m.web || 0,
         guest_visit: m.guestvisit || 0,
       })),
+      promo_performance: (d.salesReportLoaded && d.dailySales && d.dailySales.length) ? (() => {
+        const days = d.dailySales;
+        const periodStartKey = days[0].key;
+        const periodEndKey   = days[days.length - 1].key;
+        let promoTotal = 0, promoDays = 0, baseTotal = 0, baseDays = 0;
+        days.forEach(dy => {
+          const hit = PROMO_CALENDAR.find(p => dy.key >= p.startDate && dy.key <= p.endDate);
+          if (hit) { promoTotal += dy.count; promoDays++; }
+          else     { baseTotal  += dy.count; baseDays++;  }
+        });
+        const baseAvg = baseDays ? (baseTotal / baseDays) : 0;
+        return {
+          note: 'Named promo schedule is hardcoded. Promo days produce 4–5× baseline daily volume and account for 40–45% of period sales. Between promos the baseline runs at 4–6 agreements/day.',
+          baseline_avg_per_day: Number(baseAvg.toFixed(1)),
+          promo_days: promoDays,
+          baseline_days: baseDays,
+          promo_total: promoTotal,
+          baseline_total: baseTotal,
+          promo_share_of_period_pct: (promoTotal + baseTotal) ? round1(promoTotal / (promoTotal + baseTotal) * 100) : 0,
+          promos: PROMO_CALENDAR
+            .filter(p => p.endDate >= periodStartKey && p.startDate <= periodEndKey)
+            .map(p => {
+              const promoDaysInRange = days.filter(dy => dy.key >= p.startDate && dy.key <= p.endDate);
+              const sum = promoDaysInRange.reduce((a, dy) => a + dy.count, 0);
+              const expected = baseAvg * promoDaysInRange.length;
+              return {
+                name: p.name,
+                start: p.startDate,
+                end: p.endDate,
+                day_count: promoDaysInRange.length,
+                total_sales: sum,
+                expected_baseline: Math.round(expected),
+                lift_over_baseline: Math.round(sum - expected),
+              };
+            }),
+        };
+      })() : null,
+      stick_rate_by_origin: (d.salesReportLoaded && d.stickRateByOrigin) ? {
+        note: 'Stick rate = of agreements signed IN THIS PERIOD, the percentage still active today. Close rate on the dashboard (members ÷ leads) is already net of cancellations, so stick rate exposes the hidden gross-to-net gap. Attribution uses Agreement # for still-active signups (exact match) and fuzzy name match for cancelled signups — salesperson data intentionally not used.',
+        by_origin: {
+          walk_in: d.stickRateByOrigin['Walk In'],
+          web: d.stickRateByOrigin['Web'],
+          guest_visit: d.stickRateByOrigin['Guest Visit'],
+        },
+        overall: d.stickRateByOrigin.overall,
+      } : null,
+      cohort_retention: (d.salesReportLoaded && d.cohortRetention) ? {
+        note: 'Each row is one (month, day_type) pair within the reporting period. day_type is "promo" for signups that occurred on named promo days, else "baseline". Long-term agreements only. Promos are $1-down first-month-free, so RFCs do not fully surface until ~105 days after signing. Thresholds and realization_status are tuned for that delay.',
+        age_adjusted_thresholds: {
+          under_2_months: 'expected >= 95% (pre-billing)',
+          two_to_four_months: 'expected >= 90% (first RFCs landing)',
+          four_to_six_months: 'expected >= 82%',
+          six_to_ten_months: 'expected >= 75%',
+          over_ten_months: 'expected >= 70%',
+        },
+        realization_note: 'realization_status = "realized" (age >= 3.5 mo, number is reliable), "partial" (2.0–3.5 mo, collections still pending), "too-new" (< 2.0 mo, most members not yet billed).',
+        cohorts: d.cohortRetention.map(c => ({
+          month: c.monthLabel,
+          day_type: c.isPromo ? 'promo' : 'baseline',
+          is_promo: c.isPromo,
+          age_months: c.ageMonths,
+          signed: c.total,
+          still_active: c.active,
+          cancelled: c.cancelled,
+          retention_pct: c.retention,
+          flagged_low_for_age: cohortIsFlagged(c.ageMonths, c.retention),
+          realization_status: cohortRealizationStatus(c.ageMonths),
+        })),
+      } : null,
       calculators: getCalculatorChatPayload(),
     };
   }
@@ -4034,24 +6448,37 @@ function renderMonthlyCharts(d) {
       pricing_assumptions: {
         twelve_month_monthly: PRICING.twelveMo,
         mtm_monthly: PRICING.mtm,
-        enrollment_fee: PRICING.enrollmentFee,
+        enrollment_fee_effective: PRICING.enrollmentFee,
+        enrollment_fee_note: `${Math.round(PRICING.enrollmentPromoPct * 100)}% of members pay $${PRICING.enrollmentPromo} promo, ${Math.round((1 - PRICING.enrollmentPromoPct) * 100)}% pay $${PRICING.enrollmentList} list — blended effective fee = $${PRICING.enrollmentFee.toFixed(2)}.`,
         annual_fee: PRICING.annualFee,
         annual_fee_billing: 'Billed on day 60, then yearly thereafter.',
         retention_assumption_twelve_month_mo: ASSUMED_RETENTION.twelveMo,
         retention_assumption_mtm_mo: ASSUMED_RETENTION.mtm,
+        trainer_rent_cap_monthly: TRAINER_RENT_CAP_MONTHLY,
+        trainer_prepaid_value_per_trainer: TRAINER_PREPAID_VALUE,
+        trainer_note: `Trainers rent studio space, not training sessions. Monthly trainers are capped at $${TRAINER_RENT_CAP_MONTHLY}/mo (${TRAINER_RETENTION_MONTHS}-mo horizon). Prepaid trainers with $0 Next Due are valued at $${TRAINER_RENT_CAP_MONTHLY} × ${TRAINER_RETENTION_MONTHS} mo = $${TRAINER_PREPAID_VALUE.toLocaleString()} per trainer (already collected).`,
+        annual_fee_rule: `Every non-PIF account (12-mo + MTM + trainer) has one $${PRICING.annualFee} billing committed within the next 12 months. Gym is <18 months old so no member has completed two billing cycles yet.`,
       },
       current_inputs: {
         avg_monthly_revenue: inp.avgRev,
         retention_months: inp.retention,
         ad_spend: inp.adSpend,
-        finalized_cancels: inp.finalized,
-        returned_for_collections: inp.collections,
+        cancels_plus_collections: inp.finalized,
       },
       card_scopes: {
         cpl_cpa: scopes.card1,
         lead_value: scopes.card2,
         churn: scopes.card3,
       },
+      total_estimated_revenue: ctx.totalEstimatedRevenue || null,
+      sales_report: ctx.salesReportLoaded ? {
+        cancellations_all_time: ctx.derivedCancelsTotal,
+        cancellations_in_period_signups: ctx.derivedCancelsPeriod,
+        cancellations_in_mtd_signups: ctx.derivedCancelsMTD,
+        sales_in_period: ctx.salesInPeriod,
+        sales_in_mtd: ctx.salesInMTD,
+        note: 'Cancellations derived by cross-referencing every Sales Report agreement against the current active roster. Long-term plans only — short-term student PIF expirations excluded. Salesperson attribution is intentionally not exposed; the data is unreliable.',
+      } : null,
     };
 
     /* Card 2 — Lead Value */
@@ -4064,7 +6491,7 @@ function renderMonthlyCharts(d) {
         member_value: memberValue,
         breakdown: {
           recurring_dues: recurring,
-          enrollment_fee: PRICING.enrollmentFee,
+          effective_enrollment_fee: PRICING.enrollmentFee,
           annual_fees_total: billings * PRICING.annualFee,
           annual_fee_count: billings,
         },
@@ -4100,15 +6527,18 @@ function renderMonthlyCharts(d) {
     }
 
     /* Card 3 — Churn */
-    if (inp.finalized != null || inp.collections != null) {
+    if (inp.finalized != null) {
       const s = scopes.card3 === 'mtd' ? ctx.mtd : ctx.period;
       const activeStart = scopes.card3 === 'mtd'
         ? (ctx.activeAtStartMTD || 0)
         : (ctx.activeAtStartPeriod || 0);
       const pending = ctx.pendingCancelCount || 0;
       const finalized = inp.finalized == null ? 0 : inp.finalized;
-      const collections = inp.collections == null ? 0 : inp.collections;
-      const totalLost = pending + finalized + collections;
+      // Collections field removed — the "Cancels + Collections" input already
+      // includes both, since a member in collections is off the roster.
+      const totalLost = pending + finalized;
+      const derivedCancels = scopes.card3 === 'mtd'
+        ? ctx.derivedCancelsMTD : ctx.derivedCancelsPeriod;
       const grossChurn = activeStart > 0 ? (totalLost / activeStart) * 100 : null;
       const newInWindow = s.newInPeriod || 0;
       const net = newInWindow - totalLost;
@@ -4123,8 +6553,7 @@ function renderMonthlyCharts(d) {
         : null;
       payload.churn = {
         pending_cancels: pending,
-        finalized_cancels: finalized,
-        returned_for_collections: collections,
+        cancels_plus_collections: finalized,
         total_lost: totalLost,
         active_at_start: activeStart,
         gross_churn_rate_pct: grossChurn,
@@ -4133,8 +6562,15 @@ function renderMonthlyCharts(d) {
         mrr_lost: mrrLost,
         ltv_lost: ltvLost,
         ltv_assumption: hasLtvInputs
-          ? `Cancelled members assumed to leave halfway through expected retention (${remaining.toFixed(1)} mo avg).`
+          ? `Members lost from roster assumed to leave halfway through expected retention (${remaining.toFixed(1)} mo avg).`
           : 'LTV Lost needs avg revenue + retention to compute.',
+        // Auto-detected from Sales Report. Counts any agreement NOT on the
+        // current roster — includes both explicit cancels AND accounts sent
+        // to collections. The two cannot be distinguished without a
+        // dedicated collections report from ABC.
+        derived_in_scope: derivedCancels,
+        is_overridden: (derivedCancels != null) && (finalized !== derivedCancels),
+        derivation_method: 'Agreements in Sales Report that are NOT on the current active roster. Includes both cancellations and collections — both remove a member from the roster. Short-term student PIF expirations excluded as they are natural, not lost.',
       };
     }
 
@@ -4349,6 +6785,276 @@ function renderMonthlyCharts(d) {
   document.getElementById('chat-input').addEventListener('input', (e) => {
     e.target.style.height = 'auto';
     e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
+  });
+
+  /* ════════════════════════════════════════════════════════════
+     Mobile Text Report — monospace, copy-friendly, phone-shaped.
+     Generates a plain-text report from the currently loaded stats.
+     ════════════════════════════════════════════════════════════ */
+
+  /* Helper — pads a label with dotted leaders out to a target column,
+     then appends a value. Used for "Walk-In.......41%" style lines. */
+  function padDotted(label, value, width) {
+    width = width || 24;
+    const v = value.toString();
+    const dotCount = Math.max(3, width - label.length - v.length);
+    return label + '.'.repeat(dotCount) + v;
+  }
+
+  /* Builds the full report text and returns it as a string. */
+  function buildMobileReport(d, periodLabel, ctx) {
+    const lines = [];
+    const DIVIDER = '━'.repeat(32);
+    const DIVIDER_THIN = '─'.repeat(32);
+
+    // ═══════ HEADER ═══════
+    lines.push(DIVIDER);
+    lines.push('POWERHOUSE GYM NYC');
+    lines.push(periodLabel);
+    lines.push(DIVIDER);
+    lines.push('');
+
+    // ═══════ HEADLINE ═══════
+    lines.push('THE HEADLINE');
+    lines.push('');
+    lines.push(`- ${d.totalActiveMembers.toLocaleString()} total active members`);
+
+    if (d.salesReportLoaded) {
+      const stillActive = d.newInPeriodStillActive || 0;
+      const walked = Math.max(0, d.newInPeriod - stillActive);
+      lines.push(`- ${d.newInPeriod.toLocaleString()} new in period (${stillActive.toLocaleString()} still active, ${walked.toLocaleString()} walked)`);
+    } else {
+      lines.push(`- ${d.newInPeriod.toLocaleString()} new in period`);
+    }
+
+    if (d.salesReportLoaded && d.stickRateByOrigin && d.stickRateByOrigin.overall) {
+      const ov = d.stickRateByOrigin.overall;
+      if (ov.stickRate != null) {
+        lines.push(`- ${ov.stickRate}% overall stick rate`);
+      }
+    }
+
+    if (d.reportCard) {
+      lines.push(`- Grade: ${d.reportCard.letter} (${d.reportCard.score}/100)`);
+    }
+    lines.push('');
+
+    // ═══════ WHAT TO KNOW ═══════
+    const takeaways = [];
+
+    const walkinStatus = d.walkin.rate >= 40 ? 'above' : (d.walkin.rate >= 36 ? 'near' : 'below');
+    takeaways.push(`→ Walk-in close rate ${walkinStatus} target (${d.walkin.rate}% vs 40%)`);
+
+    const webStatus = d.web.rate >= 10 ? 'above' : (d.web.rate >= 9 ? 'near' : 'below');
+    takeaways.push(`→ Web close rate ${webStatus} target (${d.web.rate}% vs 10%)`);
+
+    if (d.salesReportLoaded && d.cohortRetention && d.cohortRetention.length) {
+      const flagged = d.cohortRetention.filter(c =>
+        ((c.ageMonths < 2 && c.retention < 95) ||
+         (c.ageMonths < 4 && c.retention < 90) ||
+         (c.ageMonths < 6 && c.retention < 82) ||
+         (c.ageMonths < 10 && c.retention < 75) ||
+         (c.ageMonths >= 10 && c.retention < 70))
+      );
+      if (flagged.length > 0) {
+        const f = flagged[0];
+        const kind = f.isPromo ? 'promo' : 'baseline';
+        takeaways.push(`→ ${f.monthLabel || f.label} ${kind} cohort underperforming (${f.retention}%)`);
+      }
+    }
+
+    if (d.openPipeline) {
+      const warmCount = (d.openPipeline.walkIn || 0) + (d.openPipeline.web || 0);
+      if (warmCount > 100) {
+        takeaways.push(`→ ${warmCount.toLocaleString()} reachable leads in warm pipeline`);
+      }
+    }
+
+    if (takeaways.length > 0) {
+      lines.push('WHAT TO KNOW');
+      lines.push('');
+      takeaways.forEach(t => lines.push(t));
+      lines.push('');
+    }
+
+    // ═══════ THE NUMBERS ═══════
+    lines.push(DIVIDER);
+    lines.push('THE NUMBERS');
+    lines.push(DIVIDER);
+    lines.push('');
+
+    // ── CLOSE RATES ──
+    lines.push('CLOSE RATES');
+    lines.push('');
+    const walkinCheck = d.walkin.rate >= 44 ? ' ✓' : (d.walkin.rate >= 36 ? ' ~' : ' ✗');
+    const webCheck    = d.web.rate    >= 11 ? ' ✓' : (d.web.rate    >= 9  ? ' ~' : ' ✗');
+    lines.push(padDotted('Walk-In', `${d.walkin.rate}% (target 40%)${walkinCheck}`, 32));
+    lines.push(padDotted('Web',     `${d.web.rate}% (target 10%)${webCheck}`, 32));
+    lines.push(padDotted('Guest Visit', `${d.guest.rate}% (not graded)`, 32));
+    lines.push('');
+
+    // ── STICK RATES ──
+    if (d.salesReportLoaded && d.stickRateByOrigin) {
+      lines.push('STICK RATES (in-period)');
+      lines.push('');
+      const wr = d.stickRateByOrigin['Walk In'];
+      const webr = d.stickRateByOrigin['Web'];
+      const gvr = d.stickRateByOrigin['Guest Visit'];
+      if (wr && wr.stickRate != null)    lines.push(padDotted('Walk-In', `${wr.stickRate}%`, 24));
+      if (webr && webr.stickRate != null) lines.push(padDotted('Web', `${webr.stickRate}%`, 24));
+      if (gvr && gvr.stickRate != null)  lines.push(padDotted('Guest Visit', `${gvr.stickRate}%`, 24));
+      lines.push('');
+    }
+
+    // ── SIGNUPS BY ORIGIN ──
+    const totalNewLocal = d.newInPeriodStillActive || d.newInPeriod || 0;
+    if (totalNewLocal > 0) {
+      lines.push('SIGNUPS BY ORIGIN');
+      lines.push('');
+      const wiPct = totalNewLocal ? Math.round((d.walkin.members / totalNewLocal) * 100) : 0;
+      const wePct = totalNewLocal ? Math.round((d.web.members / totalNewLocal) * 100) : 0;
+      const gvPct = totalNewLocal ? Math.round((d.guest.members / totalNewLocal) * 100) : 0;
+      lines.push(padDotted('Walk-In', `${d.walkin.members} (${wiPct}%)`, 24));
+      lines.push(padDotted('Web', `${d.web.members} (${wePct}%)`, 24));
+      lines.push(padDotted('Guest Visit', `${d.guest.members} (${gvPct}%)`, 24));
+      lines.push('');
+    }
+
+    // ── SPEED TO CLOSE ──
+    if (d.speedToClose) {
+      lines.push('SPEED TO CLOSE');
+      lines.push('');
+      lines.push(padDotted('By Day 1', `${d.speedToClose.byDay1}%`, 24));
+      lines.push(padDotted('By Day 7', `${d.speedToClose.byDay7}%`, 24));
+      lines.push(padDotted('By Day 30', `${d.speedToClose.byDay30}%`, 24));
+      lines.push('');
+    }
+
+    // ── COHORT RETENTION ──
+    if (d.salesReportLoaded && d.cohortRetention && d.cohortRetention.length) {
+      lines.push('COHORT RETENTION');
+      lines.push('');
+      const byMonth = {};
+      d.cohortRetention.forEach(c => {
+        const mk = c.monthKey || c.key;
+        if (!byMonth[mk]) byMonth[mk] = { label: c.monthLabel || c.label, rows: [], ageMonths: c.ageMonths };
+        byMonth[mk].rows.push(c);
+      });
+      const sortedMonths = Object.keys(byMonth).sort();
+      sortedMonths.forEach((mk, idx) => {
+        const g = byMonth[mk];
+        const mTotal = g.rows.reduce((a, c) => a + c.total, 0);
+        const mActive = g.rows.reduce((a, c) => a + c.active, 0);
+        const mPct = mTotal > 0 ? Math.round((mActive / mTotal) * 100) : 0;
+        const statusShort = g.ageMonths >= 3.5 ? 'realized' :
+                            g.ageMonths >= 2.0 ? 'pending' : 'too new';
+        lines.push(`${g.label} [${statusShort}]`);
+        lines.push(padDotted(`  Combined`, `${mPct}% (${mActive}/${mTotal})`, 30));
+        g.rows.forEach(c => {
+          const typeLabel = c.isPromo ? '  Promo' : '  Baseline';
+          lines.push(padDotted(typeLabel, `${c.retention}% (${c.active}/${c.total})`, 30));
+        });
+        if (idx < sortedMonths.length - 1) lines.push('');
+      });
+      lines.push('');
+    }
+
+    // ── PIPELINE HEALTH ──
+    if (d.openPipeline) {
+      lines.push('PIPELINE');
+      lines.push('');
+      const warm = (d.openPipeline.walkIn || 0) + (d.openPipeline.web || 0);
+      const graveyard = d.openPipeline.graveyard || 0;
+      lines.push(padDotted('Warm (reachable)', warm.toLocaleString(), 24));
+      if (d.openPipeline.walkIn != null) {
+        lines.push(padDotted('  Walk-in waivers', d.openPipeline.walkIn.toLocaleString(), 24));
+      }
+      if (d.openPipeline.web != null) {
+        lines.push(padDotted('  Web (no-visit)', d.openPipeline.web.toLocaleString(), 24));
+      }
+      lines.push(padDotted('Graveyard', graveyard.toLocaleString(), 24));
+      lines.push('');
+    }
+
+    // ── CHURN ──
+    if (ctx && ctx.derivedCancelsPeriod != null) {
+      lines.push('CHURN (PERIOD)');
+      lines.push('');
+      lines.push(padDotted('Cancels + Collections', ctx.derivedCancelsPeriod.toString(), 30));
+      if (ctx.pendingCancelCount != null) {
+        lines.push(padDotted('Pending cancels', ctx.pendingCancelCount.toString(), 30));
+      }
+      lines.push('');
+    }
+
+    // ═══════ FOOTER ═══════
+    lines.push(DIVIDER_THIN);
+    const now = new Date();
+    const dateStr = `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+    lines.push(`Generated ${dateStr}`);
+    lines.push(DIVIDER_THIN);
+
+    return lines.join('\n');
+  }
+
+  /* Shows the mobile report modal with the generated text. */
+  function openMobileReport() {
+    const period = getActivePeriod();
+    if (!period || !leadsRaw || !membersRaw) {
+      alert('Run analysis first.');
+      return;
+    }
+    const d = computeStats(leadsRaw, membersRaw, salesRaw, period.periodStart, period.periodEnd);
+    const ctx = {
+      pendingCancelCount:    computePendingCancels(membersRaw),
+      derivedCancelsPeriod:  d.cancellationsInPeriodSignups,
+    };
+    const text = buildMobileReport(d, period.periodLabel, ctx);
+    document.getElementById('mobile-report-text').textContent = text;
+    document.getElementById('mobile-report-modal').style.display = 'flex';
+  }
+
+  function closeMobileReport() {
+    document.getElementById('mobile-report-modal').style.display = 'none';
+  }
+
+  async function copyMobileReport() {
+    const text = document.getElementById('mobile-report-text').textContent;
+    const btn = document.getElementById('mobile-report-copy');
+    try {
+      await navigator.clipboard.writeText(text);
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.classList.add('mobile-report-copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('mobile-report-copied');
+      }, 1500);
+    } catch (err) {
+      const pre = document.getElementById('mobile-report-text');
+      const range = document.createRange();
+      range.selectNodeContents(pre);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      alert('Text selected. Press Cmd/Ctrl+C to copy.');
+    }
+  }
+
+  document.getElementById('print-btn').addEventListener('click', () => {
+    window.print();
+  });
+  document.getElementById('mobile-report-btn').addEventListener('click', openMobileReport);
+  document.getElementById('mobile-report-close').addEventListener('click', closeMobileReport);
+  document.getElementById('mobile-report-copy').addEventListener('click', copyMobileReport);
+  document.getElementById('mobile-report-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'mobile-report-modal') closeMobileReport();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('mobile-report-modal');
+      if (modal && modal.style.display !== 'none') closeMobileReport();
+    }
   });
   </script>
 </body>
