@@ -25,6 +25,33 @@ The gym classifies every member and lead into one of three origins, based on the
 
 **Reachability / Growth Opportunity.** Every origin bucket tracks \`reachable\` and \`opted_out\` counts. **Both are NON-CONVERTED only** — members who already closed are excluded. So \`reachable\` is the remaining pipeline that can still be worked through automated outreach; \`opted_out\` is the remaining pipeline that can't. When the user asks about opportunity or pipeline size, these counts ARE the pipeline — no further subtraction needed. Within Web, the \`came_in_split\` further divides that unconverted pipeline into people who walked in vs. never walked in.
 
+## Day-level lead & sign-up data
+
+The stats object includes \`daily_by_origin\` — one entry per day in the reporting period that had at least one lead or member event. Days with zero activity are omitted. Each entry has:
+
+- \`date\` — \`YYYY-MM-DD\`
+- \`leads_walk_in\`, \`leads_web\`, \`leads_guest\` — leads that entered the funnel that day (earliest created_at in the unique-contact group lands on this day)
+- \`leads_web_came_in\`, \`leads_web_never_came_in\` — subset of \`leads_web\` split by whether the person physically walked into the gym (waiver signed on their earliest web record). These two sum to \`leads_web\`.
+- \`members_walk_in\`, \`members_web\`, \`members_guest_visit\`, \`members_total\` — new members with a Begin Date on this day, split by origin
+- \`members_web_came_in\`, \`members_web_never_came_in\` — subset of \`members_web\` using the same came-in test. These two sum to \`members_web\`. "Never came in" web members are typically Online Join completions.
+- \`leads_web_subtypes\` and \`members_web_subtypes\` — per-day breakdown of Web into \`website_form\` (Try Us / general website forms), \`online_join\` (completed online join flow), \`unfinished\` (started online join, didn't finish), \`other\`. Each subtype object sums to \`leads_web\` / \`members_web\` respectively. Use when the user asks "which web source is driving leads this week" or "how many Try Us form fills did we get April 10–20."
+
+When the user asks for day-by-day, week-by-week, or a specific date range within the period, roll up \`daily_by_origin\` yourself. Examples: "week by week web leads for March and April" = sum \`leads_web\` per ISO week; "what happened April 10" = pull the row where \`date === "2026-04-10"\`; "of the free trial leads Mar 11–22, how many came in" = sum \`leads_web_came_in\` over that date range. Do not claim the data is monthly-only — it's daily, and weekly/custom ranges are just a sum. Missing dates in a range mean that day had zero activity (treat as 0, not as missing data). Do not compute conversion rates from daily rows alone (leads and members on the same date almost never belong to the same person — close rates only make sense in aggregate across the full period).
+
+## Pipeline age distribution
+
+\`pipeline.age_distribution\` splits each pipeline bucket (warm, cold, graveyard) into age buckets measured in days since the earliest lead created_at, relative to the period end date. Buckets: \`d0_7\`, \`d8_30\`, \`d31_60\`, \`d61_90\`, \`d91_180\`, \`d181_365\`, \`d365_plus\`. Warm and Cold are bounded by the 90-day graveyard threshold, so their \`d91_180\`/\`d181_365\`/\`d365_plus\` buckets will always be 0. Graveyard spans all ages (it contains both >90-day-old leads and any-age opted-out leads).
+
+Use this when the user asks about lead freshness, "which graveyard leads are still worth calling," or "how old is our warm pile." Don't quote the \`d91_180\` / \`d181_365\` figures for warm or cold — they're structurally zero and it's meaningless.
+
+## Raw source breakdown
+
+\`source_breakdown.rows\` lists every distinct raw \`source\` value from in-period leads with lead-level counts split by origin classification (web / walk_in / guest_visit / other) plus \`members_closed\` (leads from that source that matched a member on the roster). Use this when the user asks which specific source (Website, Facebook, Instagram, Online Join, Member Referral, etc.) is driving leads or closes, or when comparing source quality. Counts are at the LEAD level (not unique people) — a person with two leads under the same source is counted twice. If asked about close rate by source, you can divide \`members_closed / total_leads\` per row but caveat that same-person-multiple-leads can inflate the denominator.
+
+## Plan mix by month
+
+\`plan_mix_by_month.months\` (present only if Sales Report uploaded) — every agreement signed within the analysis window, bucketed by signing month and plan type: \`twelve_month\`, \`mtm\`, \`pif_inclub\`, \`student_1mo\`, \`student_2mo\`, \`student_3mo\`, and \`total\`. Includes natural expirations (student PIFs) as real sales in their own buckets. Use when the user asks about the plan composition over time, "are we signing more MTM lately," "how many student signups did we get in March," etc. Monthly granularity only (not daily).
+
 ## What gets excluded
 
 - Members with "Pending Cancel" status

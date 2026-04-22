@@ -3014,6 +3014,60 @@
     addLeadMonth(guestGroups, 'guestLeads');
     const monthly = Object.keys(byMonth).sort().map(k => ({ key: k, label: formatMonth(k), ...byMonth[k] }));
 
+    /* Daily aggregation — parallel to byMonth, used by the chat bot so the
+       GM can ask day-level questions ("what did web leads look like
+       April 10–15?"). Members bucket by Begin Date; leads bucket by the
+       group's earliest created_at. Days with zero activity are omitted. */
+    const dayKeyLocal = (d) => d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0');
+    const dayFactory = () => ({
+      members_total: 0, members_walkin: 0, members_web: 0, members_guestvisit: 0,
+      members_web_came_in: 0, members_web_never_came_in: 0,
+      members_web_subtypes: { website_form: 0, online_join: 0, unfinished: 0, other: 0 },
+      leads_walkin: 0, leads_web: 0, leads_guest: 0,
+      leads_web_came_in: 0, leads_web_never_came_in: 0,
+      leads_web_subtypes: { website_form: 0, online_join: 0, unfinished: 0, other: 0 },
+    });
+    const byDay = {};
+    newInPeriod.forEach(m => {
+      if (!m._beginDate) return;
+      const k = dayKeyLocal(m._beginDate);
+      if (!byDay[k]) byDay[k] = dayFactory();
+      byDay[k].members_total++;
+      if (m._origin === 'Walk In')          byDay[k].members_walkin++;
+      else if (m._origin === 'Web') {
+        byDay[k].members_web++;
+        const earliestWeb = earliestWebForPerson(m._email, m._phone);
+        if (earliestWeb && earliestWeb._waiverSigned) byDay[k].members_web_came_in++;
+        else byDay[k].members_web_never_came_in++;
+        byDay[k].members_web_subtypes[m._webSubtype || 'other']++;
+      }
+      else if (m._origin === 'Guest Visit') byDay[k].members_guestvisit++;
+    });
+    const addLeadDay = (groups, field) => {
+      groups.forEach(g => {
+        const d = groupEarliestDate(g);
+        if (!d) return;
+        const k = dayKeyLocal(d);
+        if (!byDay[k]) byDay[k] = dayFactory();
+        byDay[k][field]++;
+      });
+    };
+    addLeadDay(walkInGroups,        'leads_walkin');
+    addLeadDay(webGroups,           'leads_web');
+    addLeadDay(webCameInGroups,     'leads_web_came_in');
+    addLeadDay(webNeverCameInGroups, 'leads_web_never_came_in');
+    addLeadDay(guestGroups,         'leads_guest');
+    webGroups.forEach(g => {
+      const d = groupEarliestDate(g);
+      if (!d) return;
+      const k = dayKeyLocal(d);
+      if (!byDay[k]) byDay[k] = dayFactory();
+      byDay[k].leads_web_subtypes[g.webSubtype || 'other']++;
+    });
+    const daily = Object.keys(byDay).sort().map(k => ({ date: k, ...byDay[k] }));
+
 
     /* ══════════════════════════════════════════════════════════
        PIPELINE (verbatim behavior from prior app, rebuilt against
@@ -3080,6 +3134,41 @@
     const graveyardTotal = graveyardGroups.length;
     const graveyardOptedOut = graveyardTotal - graveyardReachable;
 
+    /* Pipeline age distribution — bucket each pipeline's entries by days
+       since earliest lead created_at, relative to the period end (endD).
+       Warm counts at the lead level (mirrors warmPipeline.length). Cold
+       and Graveyard count at the group level (unique people). Warm/Cold
+       are bounded by the 90-day graveyard threshold so buckets beyond
+       90 will be 0 for those two. */
+    const ageBucket = (days) => {
+      if (days <= 7)    return 'd0_7';
+      if (days <= 30)   return 'd8_30';
+      if (days <= 60)   return 'd31_60';
+      if (days <= 90)   return 'd61_90';
+      if (days <= 180)  return 'd91_180';
+      if (days <= 365)  return 'd181_365';
+      return 'd365_plus';
+    };
+    const emptyAgeDist = () => ({
+      d0_7: 0, d8_30: 0, d31_60: 0, d61_90: 0, d91_180: 0, d181_365: 0, d365_plus: 0,
+    });
+    const daysOldRel = (dt) => dt ? Math.floor((endD - dt) / 86400000) : null;
+    const warmAgeDist = emptyAgeDist();
+    warmPipeline.forEach(l => {
+      const dv = daysOldRel(l._createdAt);
+      if (dv != null && dv >= 0) warmAgeDist[ageBucket(dv)]++;
+    });
+    const coldAgeDist = emptyAgeDist();
+    coldGroups.forEach(g => {
+      const dv = daysOldRel(groupEarliestDate(g));
+      if (dv != null && dv >= 0) coldAgeDist[ageBucket(dv)]++;
+    });
+    const graveyardAgeDist = emptyAgeDist();
+    graveyardGroups.forEach(g => {
+      const dv = daysOldRel(groupEarliestDate(g));
+      if (dv != null && dv >= 0) graveyardAgeDist[ageBucket(dv)]++;
+    });
+
     /* ══════════════════════════════════════════════════════════
        VELOCITY (verbatim; phantom members — those without a real
        matching lead — excluded since they have no created_at).
@@ -3142,6 +3231,34 @@
     });
     const unrecognizedSources = Array.from(unrecogMap.values()).sort((a, b) => b.leads - a.leads);
 
+    /* Full source breakdown — every distinct l.source value in the period,
+       with lead counts split by which origin classification each lead fell
+       into. Lets the bot answer "which source is generating Web leads"
+       without having to infer from subtypes. Counts leads (not unique
+       people), matching how the Unrecognized Sources panel counts. */
+    const sourceAllMap = new Map();
+    periodLeads.forEach(l => {
+      const src = (l.source || '').toString().trim();
+      const key = src.toLowerCase() || '(empty)';
+      if (!sourceAllMap.has(key)) {
+        sourceAllMap.set(key, {
+          source: src || '(empty)',
+          total_leads: 0,
+          web: 0, walk_in: 0, guest_visit: 0, other: 0,
+          members_closed: 0,
+        });
+      }
+      const row = sourceAllMap.get(key);
+      row.total_leads++;
+      if (l._isWeb)            row.web++;
+      else if (l._isWalkInIpad) row.walk_in++;
+      else if (l._isGuestVisit) row.guest_visit++;
+      else if (l._isIpad)      row.walk_in++;  // other-iPad folds into Walk In (matches classifier)
+      else                      row.other++;
+      if (hasMatchingMember(l)) row.members_closed++;
+    });
+    const sourceBreakdown = Array.from(sourceAllMap.values()).sort((a, b) => b.total_leads - a.total_leads);
+
     /* Repeat Guest Entries — unique people with >1 Guest Visit iPad record in period. */
     let repeatGuests = 0;
     guestGroups.forEach(g => {
@@ -3172,6 +3289,7 @@
     let cohortRetention = null;
     let stickRateByOrigin = null;
     let dailySales = null;
+    let planMixByMonth = null;
 
     if (salesRows && salesRows.length) {
       // Build a set of agreement #s currently on the active roster
@@ -3478,12 +3596,40 @@
       }
       dailySales = dailySalesArr;
 
+      /* PLAN MIX BY MONTH — every agreement signed within the analysis
+         window, classified into the same buckets the revenue snapshot
+         uses (twelve_month / mtm / pif_inclub / student_1mo / student_2mo
+         / student_3mo). Includes natural expirations as their own student
+         buckets so the user can see the full sales composition — student
+         PIFs are real sales even if short-term. */
+      const planMixMap = {};
+      salesEnriched.forEach(s => {
+        if (!s._queueDt) return;
+        if (s._queueDt < startD || s._queueDt > endD) return;
+        const mk = monthKey(s._queueDt);
+        if (!planMixMap[mk]) {
+          planMixMap[mk] = {
+            month: mk,
+            label: formatMonth(mk),
+            twelve_month: 0, mtm: 0, pif_inclub: 0,
+            student_1mo: 0, student_2mo: 0, student_3mo: 0,
+            total: 0,
+          };
+        }
+        const cat = categorizePlanForRevenue(s.payment_plan);
+        if (planMixMap[mk][cat] != null) planMixMap[mk][cat]++;
+        else planMixMap[mk].twelve_month++;  // fallback mirrors categorizePlanForRevenue
+        planMixMap[mk].total++;
+      });
+      planMixByMonth = Object.keys(planMixMap).sort().map(k => planMixMap[k]);
+
       console.log(`[Leads Analyzer] Sales Report cross-reference:`);
       console.log(`  Total sales records: ${salesRows.length}`);
       console.log(`  Sales in period (excl. short-term): ${salesInPeriod}`);
       console.log(`  All-time cancellations: ${cancellationsTotal}`);
       console.log(`  In-period signup cancellations: ${cancellationsInPeriodSignups}`);
       console.log(`  Daily sales buckets: ${dailySalesArr.length} days`);
+      console.log(`  Plan mix months: ${planMixByMonth.length}`);
       console.log(`  Cohort retention (${cohortRetention.length} month/type rows):`);
       cohortRetention.forEach(c => {
         console.log(`    ${c.monthLabel} ${c.type} (age ${c.ageMonths} mo): ${c.active}/${c.total} = ${c.retention}% retained, ${c.cancelled} cancelled`);
@@ -3544,6 +3690,7 @@
       totalFunnel: { leads: totalLeads,      members: totalMembers,      rate: totalFunnelRate },
 
       monthly,
+      daily,
 
       warmPipeline: warmPipeline.length,
       warmReachable, warmOptedOut,
@@ -3551,6 +3698,7 @@
       coldReachable, coldOptedOut,
       openPipelineTotal: warmPipeline.length + coldPipelineCount,
       graveyardTotal, graveyardReachable, graveyardOptedOut,
+      warmAgeDist, coldAgeDist, graveyardAgeDist,
 
       velocitySameDayPct:  pct(sameDayCount,  velocityDays.length),
       velocityWithin7Pct:  pct(within7Count,  velocityDays.length),
@@ -3558,6 +3706,7 @@
       velocityOver30Pct:   pct(over30Count,   velocityDays.length),
 
       unrecognizedSources,
+      sourceBreakdown,
       repeatGuests,
       phantomWalkInLeadsAdded: phantomCount,
 
@@ -3569,6 +3718,7 @@
       stickRateByOrigin,
       cohortRetention,
       dailySales,
+      planMixByMonth,
     };
   }
 
@@ -6330,6 +6480,12 @@ function renderMonthlyCharts(d) {
         graveyard_reachable: d.graveyardReachable,
         graveyard_opted_out: d.graveyardOptedOut,
         graveyard_note: 'Unconverted leads that are either older than 90 days OR opted out of SMS/email. Either condition means they cannot be worked via automated outreach. warm_total and cold_total are now reachable-only; opted-out fresh leads moved into the graveyard.',
+        age_distribution: {
+          note: 'Days since earliest lead created_at, measured against the period end date. Warm and Cold are bounded by the 90-day threshold so d91_180/d181_365/d365_plus will be 0 for them. Graveyard spans all ages (contains both >90-day leads and any-age opted-out leads).',
+          warm: d.warmAgeDist,
+          cold: d.coldAgeDist,
+          graveyard: d.graveyardAgeDist,
+        },
       },
       velocity: {
         same_or_next_day_pct: d.velocitySameDayPct,
@@ -6347,11 +6503,39 @@ function renderMonthlyCharts(d) {
         repeat_guest_entries: d.repeatGuests,
         phantom_walk_in_leads_added: d.phantomWalkInLeadsAdded || 0,
       },
+      source_breakdown: {
+        note: 'Raw l.source values from in-period leads with their origin-classification counts. Lead-level counts (not unique people). members_closed = leads from that source whose email or phone matched a member on the roster. Use this when the user asks which specific source (Website, Facebook, Online Join, etc.) is driving leads or closes.',
+        rows: (d.sourceBreakdown || []).map(s => ({
+          source: s.source,
+          total_leads: s.total_leads,
+          web: s.web,
+          walk_in: s.walk_in,
+          guest_visit: s.guest_visit,
+          other: s.other,
+          members_closed: s.members_closed,
+        })),
+      },
       monthly_sales_by_origin: d.monthly.map(m => ({
         month: m.key,
         walk_in: m.walkin || 0,
         web: m.web || 0,
         guest_visit: m.guestvisit || 0,
+      })),
+      daily_by_origin: (d.daily || []).map(x => ({
+        date: x.date,
+        leads_walk_in: x.leads_walkin || 0,
+        leads_web: x.leads_web || 0,
+        leads_web_came_in: x.leads_web_came_in || 0,
+        leads_web_never_came_in: x.leads_web_never_came_in || 0,
+        leads_web_subtypes: x.leads_web_subtypes || { website_form: 0, online_join: 0, unfinished: 0, other: 0 },
+        leads_guest: x.leads_guest || 0,
+        members_walk_in: x.members_walkin || 0,
+        members_web: x.members_web || 0,
+        members_web_came_in: x.members_web_came_in || 0,
+        members_web_never_came_in: x.members_web_never_came_in || 0,
+        members_web_subtypes: x.members_web_subtypes || { website_form: 0, online_join: 0, unfinished: 0, other: 0 },
+        members_guest_visit: x.members_guestvisit || 0,
+        members_total: x.members_total || 0,
       })),
       promo_performance: (d.salesReportLoaded && d.dailySales && d.dailySales.length) ? (() => {
         const days = d.dailySales;
@@ -6398,6 +6582,20 @@ function renderMonthlyCharts(d) {
           guest_visit: d.stickRateByOrigin['Guest Visit'],
         },
         overall: d.stickRateByOrigin.overall,
+      } : null,
+      plan_mix_by_month: (d.salesReportLoaded && d.planMixByMonth) ? {
+        note: 'Every agreement signed within the analysis window, classified into the same buckets the revenue snapshot uses. Student PIF buckets (1/2/3 month) are included as real sales even though they naturally expire. Month = signing month (queue_date).',
+        months: d.planMixByMonth.map(m => ({
+          month: m.month,
+          label: m.label,
+          twelve_month: m.twelve_month,
+          mtm: m.mtm,
+          pif_inclub: m.pif_inclub,
+          student_1mo: m.student_1mo,
+          student_2mo: m.student_2mo,
+          student_3mo: m.student_3mo,
+          total: m.total,
+        })),
       } : null,
       cohort_retention: (d.salesReportLoaded && d.cohortRetention) ? {
         note: 'Each row is one (month, day_type) pair within the reporting period. day_type is "promo" for signups that occurred on named promo days, else "baseline". Long-term agreements only. Promos are $1-down first-month-free, so RFCs do not fully surface until ~105 days after signing. Thresholds and realization_status are tuned for that delay.',
