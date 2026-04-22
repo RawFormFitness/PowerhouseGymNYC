@@ -3189,6 +3189,16 @@
       }
     });
     const velocityDays = [];
+    /* signToLead — parallel per-member records preserving sign date,
+       origin, lead created date, and lead age. Lets the bot answer
+       "of the people who signed during Easter, how many had leads
+       ≥60 days old" or similar cross-tabs without losing granularity
+       to the aggregate velocity buckets. Phantom members (no matched
+       lead) are excluded from both structures. No PII. */
+    const signToLead = [];
+    const ymd = (d) => d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0');
     newInPeriod.forEach(m => {
       if (!m._beginDate) return;
       let earliest = null;
@@ -3199,7 +3209,15 @@
       }
       if (!earliest) return;  // phantom — no real matched lead
       const days = Math.round((m._beginDate - earliest._createdAt) / 86400000);
-      if (days >= 0) velocityDays.push(days);
+      if (days < 0) return;
+      velocityDays.push(days);
+      signToLead.push({
+        sign_date: ymd(m._beginDate),
+        lead_created_date: ymd(earliest._createdAt),
+        lead_age_days: days,
+        origin: m._origin || 'Unknown',
+        web_subtype: m._origin === 'Web' ? (m._webSubtype || 'other') : null,
+      });
     });
     const sameDayCount  = velocityDays.filter(d => d <= 1).length;
     const within7Count  = velocityDays.filter(d => d <= 7).length;
@@ -3707,6 +3725,7 @@
 
       unrecognizedSources,
       sourceBreakdown,
+      signToLead,
       repeatGuests,
       phantomWalkInLeadsAdded: phantomCount,
 
@@ -6492,6 +6511,10 @@ function renderMonthlyCharts(d) {
         within_7_days_pct: d.velocityWithin7Pct,
         within_30_days_pct: d.velocityWithin30Pct,
         over_30_days_pct: d.velocityOver30Pct,
+      },
+      sign_to_lead: {
+        note: 'One entry per in-period member who had a matched real lead (phantom walk-ins excluded). sign_date = member Begin Date. lead_created_date = earliest created_at across all their matched leads (email or phone). lead_age_days = days between the two. origin = the member origin classification (Web / Walk In / Guest Visit). web_subtype set only when origin is Web. Use this to answer cross-tabs like "of signups during [window], how many were from leads ≥N days old" or "during Easter, how many old Web leads converted vs fresh ones."',
+        records: d.signToLead || [],
       },
       data_quality: {
         unrecognized_sources: d.unrecognizedSources.map(s => ({

@@ -52,6 +52,26 @@ Use this when the user asks about lead freshness, "which graveyard leads are sti
 
 \`plan_mix_by_month.months\` (present only if Sales Report uploaded) — every agreement signed within the analysis window, bucketed by signing month and plan type: \`twelve_month\`, \`mtm\`, \`pif_inclub\`, \`student_1mo\`, \`student_2mo\`, \`student_3mo\`, and \`total\`. Includes natural expirations (student PIFs) as real sales in their own buckets. Use when the user asks about the plan composition over time, "are we signing more MTM lately," "how many student signups did we get in March," etc. Monthly granularity only (not daily).
 
+## Sign-to-lead records (per-member cross-tab data)
+
+\`sign_to_lead.records\` — one entry per in-period member who had a matched real lead (phantom walk-ins are excluded since they have no lead). Fields:
+
+- \`sign_date\` — member Begin Date (\`YYYY-MM-DD\`)
+- \`lead_created_date\` — earliest \`created_at\` across the member's matched leads (\`YYYY-MM-DD\`)
+- \`lead_age_days\` — days between lead creation and signup (non-negative integer)
+- \`origin\` — \`"Web"\`, \`"Walk In"\`, or \`"Guest Visit"\` (member's origin classification)
+- \`web_subtype\` — set only when \`origin === "Web"\`; otherwise \`null\`
+
+Use this to answer cross-tabs the aggregate velocity buckets can't resolve. Examples:
+- "During Easter, how many old web leads did we snap up?" → filter \`sign_date\` to the Easter window, then count where \`origin === "Web"\` and \`lead_age_days >= 30\` (or whatever threshold the user names).
+- "Of April signups, how many came from leads created before March?" → filter \`sign_date\` to April, then count where \`lead_created_date < "2026-03-01"\`.
+- "Which promo pulled the most reactivated leads?" → for each promo window, count \`lead_age_days >= 60\` vs \`< 60\` to compare reactivation share.
+
+Important caveats to apply when using this dataset:
+- Phantom walk-ins (members with no matching lead record) are NOT in \`records\`. If you cite a total, state it as "of the matched-lead signups" and note the phantom count (\`data_quality.phantom_walk_in_leads_added\`) if relevant.
+- Same-day / next-day matches (\`lead_age_days <= 1\`) are usually walk-ins or guest visits — the person showed up, filled a lead record and signed the same day. Don't read those as "fresh web lead converted fast."
+- Don't invent a fresh-vs-old threshold. Pick one the user names, or if no threshold is given, use 30 days as a reasonable default and say so explicitly.
+
 ## What gets excluded
 
 - Members with "Pending Cancel" status
